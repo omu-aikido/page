@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from "vue";
+import { ref, onMounted, onUnmounted, computed, watch } from "vue";
 import type { Event } from "./types";
 import CalendarList from "./calendarList.vue";
 import CalendarGrid from "./calendarGrid.vue";
@@ -25,7 +25,17 @@ async function fetchEvents() {
   error.value = null;
 
   try {
-    const res = await fetch(props.endpoint, { signal: controller.signal });
+    const url = new URL(props.endpoint);
+
+    if (viewMode.value === "list") {
+      const now = new Date();
+      const end = new Date(now);
+      end.setMonth(end.getMonth() + 1);
+      url.searchParams.set("start", now.toISOString());
+      url.searchParams.set("end", end.toISOString());
+    }
+
+    const res = await fetch(url.toString(), { signal: controller.signal });
     if (!res.ok) {
       throw new Error(`Failed to fetch events: ${res.status} ${res.statusText}`);
     }
@@ -47,16 +57,14 @@ async function fetchEvents() {
   }
 }
 
-// Filter events for current month only
 const currentMonthEvents = computed(() => {
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth();
+  return events.value;
+});
 
-  return events.value.filter((event) => {
-    const eventDate = new Date(event.start);
-    return eventDate.getFullYear() === currentYear && eventDate.getMonth() === currentMonth;
-  });
+watch(viewMode, () => {
+  controller.abort();
+  controller = new AbortController();
+  fetchEvents();
 });
 
 onMounted(() => {
