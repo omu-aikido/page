@@ -1,13 +1,12 @@
 ## 概要
 
-- Framework: Astro
-- UI: Astro, Vue（@astrojs/vue）
-- Styling: Tailwind CSS
-- Deployment: Cloudflare Pages（wrangler）
+- SSG: Astro
+- JS Framework: Astro, Vue.js
+- UI Framework: UnoCSS, Headless UI,
+- Deployment: Cloudflare Workers（wrangler）
 
 ## 前提
 
-- Node.js
 - bun
 
 ## クイックスタート
@@ -18,36 +17,41 @@ bun install
 bun dev              # 開発サーバを起動（通常 http://localhost:4321）
 ```
 
-## package.json の主要スクリプト
-
-（プロジェクトの `package.json` を反映）
+## scripts
 
 - `bun dev`
-  `astro dev`：ローカル開発サーバを起動
+  concurrently "astro dev" "wrangler dev --port=8788" — ローカル開発サーバを起動（ポート 4321 と 8788）
 
 - `bun build`
-  `astro build`：本番用にビルド（出力先は Astro の設定に準拠。通常は `dist` または `build`）
+  astro build
 
 - `bun preview`
-  `astro build && wrangler pages dev`：ビルド後に wrangler のローカル Pages エミュレーションを起動
+  astro build && wrangler pages dev — ローカルエミュレーションを起動
 
 - `bun deploy`
-  `astro build && wrangler pages deploy dist --project-name=omu-aikido-page --branch=preview`：ビルドして Cloudflare Pages にデプロイ（project-name / branch は package.json にハードコード）
+  astro build && wrangler versions upload --preview-alias preview — Cloudflare Workers にデプロイ
 
 - `bun cf-typegen`
-  `wrangler types`：Wrangler 用の型生成（必要に応じて）
+  wrangler types — Wrangler 用の型生成
 
 - `bun format`
-  `prettier --write .`：コード整形
+  bunx oxfmt . — コード整形
+
+- `bun prebuild`
+  bun run cf-typegen — ビルド前に型生成
 
 ## ディレクトリ構成
 
-- `src/pages/` — ルーティングされるページ（`.astro`, `.mdx`, `.md` など）
-  - `index.astro` → `/`
-- `src/components/` — 再利用コンポーネント（.astro / React コンポーネント）
-- `public/` — 静的アセット（そのまま配信、例: `/images/logo.png`）
+- `src/pages/` — ルーティングされるページ（`.astro`, `.mdx`, `.md`）
+- `src/components/` — コンポーネント（`root/`, `ui/`, `component/` サブディレクトリ）
+- `src/layouts/` — レイアウトコンポーネント
+- `src/styles/` — グローバルスタイル
+- `src/assets/` — 画像アセット
+- `lib/` — ユーティリティライブラリ（Hono クライアントなど）
+- `worker/` — Cloudflare Workers（Hono を使用）
+- `public/` — 静的アセット
 - `package.json`, `README.md` 等プロジェクトルートに配置
 
-## デプロイ（Cloudflare Pages）
+## デプロイ（Cloudflare Workers）
 
-[omu-aikido/omu-aikido-page](https://github.com/omu-aikido/omu-aikido-page)へのPRがマージされれば自動的にデプロイされます。
+`main` ブランチに push または PR がマージされると自動的にデプロイされます。
