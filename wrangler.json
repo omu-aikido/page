@@ -5,10 +5,6 @@
     {
       "pattern": "omu-aikido.com",
       "custom_domain": true
-    },
-    {
-      "pattern": "www.omu-aikido.com",
-      "custom_domain": true
     }
   ],
   "compatibility_date": "2025-10-29",
