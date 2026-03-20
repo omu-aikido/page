@@ -8,7 +8,6 @@
 ## 前提
 
 - bun
-- Node.js
 
 ## クイックスタート
 
@@ -18,15 +17,13 @@ bun install
 bun dev              # 開発サーバを起動（通常 http://localhost:4321）
 ```
 
-## package.json の主要スクリプト
-
-（プロジェクトの `package.json` を反映）
+## scripts
 
 - `bun dev`
   concurrently "astro dev" "wrangler dev --port=8788" — ローカル開発サーバを起動（ポート 4321 と 8788）
 
 - `bun build`
-  astro build — 手動で `bun run prebuild && bun run build` を実行する必要がある
+  astro build
 
 - `bun preview`
   astro build && wrangler pages dev — ローカルエミュレーションを起動
