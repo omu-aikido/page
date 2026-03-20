@@ -1,6 +1,16 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "omu-aikido-page",
+  "name": "page",
+  "routes": [
+    {
+      "pattern": "omu-aikido.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.omu-aikido.com",
+      "custom_domain": true
+    }
+  ],
   "compatibility_date": "2025-10-29",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "main": "./worker/index.ts",
