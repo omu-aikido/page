@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Dialog, DialogPanel } from "@headlessui/vue";
-import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { ref, onMounted, onUnmounted } from "vue";
 
 const open = ref(false);

@@ -1,8 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 
-import cloudflare from "@astrojs/cloudflare";
-
 import vue from "@astrojs/vue";
 import UnoCSS from "unocss/astro";
 
@@ -13,24 +11,9 @@ import astroLLMsGenerator from "astro-llms-generate";
 
 // https://astro.build/config
 export default defineConfig({
-  adapter: cloudflare({
-    platformProxy: {
-      enabled: true,
-    },
-
-    imageService: "passthrough",
-  }),
-
   site: "https://omu-aikido.com",
-
   output: "static",
-
-  prefetch: {
-    defaultStrategy: "hover",
-  },
-
   trailingSlash: "ignore",
-
   integrations: [
     vue(),
     mdx(),
@@ -42,4 +25,11 @@ export default defineConfig({
     }),
     UnoCSS({ injectReset: true }),
   ],
+  vite: {
+    server: {
+      proxy: {
+        "/api": "http://localhost:8788",
+      },
+    },
+  },
 });

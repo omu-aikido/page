@@ -1,14 +1,11 @@
-/**
- * For more details on how to configure Wrangler, refer to:
- * https://developers.cloudflare.com/workers/wrangler/configuration/
- */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "omu-aikido-page",
   "compatibility_date": "2025-10-29",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
-  "pages_build_output_dir": "./dist",
+  "main": "./worker/index.ts",
+  "assets": { "directory": "./dist" },
   "observability": {
-    "enabled": true,
-  },
+    "enabled": true
+  }
 }

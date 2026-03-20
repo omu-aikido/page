@@ -87,6 +87,7 @@
 </template>
 
 <script setup lang="ts">
+import { client } from "lib/client";
 import { ref, onMounted } from "vue";
 
 const limit = 3;
@@ -113,7 +114,7 @@ const getPreview = (content: string) => {
 onMounted(async () => {
   isLoading.value = true;
   try {
-    const res = await fetch(url);
+    const res = await client.news.$get();
     if (!res.ok) {
       fetchError.value = `ニュースの取得に失敗しました（HTTP ${res.status}）`;
       data.value = [];

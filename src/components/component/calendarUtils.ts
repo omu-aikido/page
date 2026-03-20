@@ -15,16 +15,8 @@ export function getEventDateRange(event: Event) {
 
     // Treat UTC date parts as Local date parts
     // This effectively ignores the timezone shift for All Day events
-    const startDate = new Date(
-      start.getUTCFullYear(),
-      start.getUTCMonth(),
-      start.getUTCDate()
-    );
-    const endDate = new Date(
-      end.getUTCFullYear(),
-      end.getUTCMonth(),
-      end.getUTCDate()
-    );
+    const startDate = new Date(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate());
+    const endDate = new Date(end.getUTCFullYear(), end.getUTCMonth(), end.getUTCDate());
 
     // Subtract 1 minute
     endDate.setMinutes(endDate.getMinutes() - 1);
@@ -68,7 +60,7 @@ export function isAllDayEvent(event: Event): boolean {
 
 export function isMultiDayEvent(event: Event): boolean {
   const { startDate, endDate } = getEventDateRange(event);
-  
+
   return (
     startDate.getFullYear() !== endDate.getFullYear() ||
     startDate.getMonth() !== endDate.getMonth() ||
