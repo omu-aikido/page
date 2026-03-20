@@ -3,14 +3,7 @@ import { ref, onMounted, onUnmounted, computed, watch } from "vue";
 import type { Event } from "./types";
 import CalendarList from "./calendarList.vue";
 import CalendarGrid from "./calendarGrid.vue";
-
-interface CalendarViewProps {
-  endpoint?: string;
-}
-
-const props = withDefaults(defineProps<CalendarViewProps>(), {
-  endpoint: "https://api.omu-aikido.com/calendar/json",
-});
+import { client } from "lib/client";
 
 const events = ref<Event[]>([]);
 const loading = ref(true);
@@ -25,17 +18,17 @@ async function fetchEvents() {
   error.value = null;
 
   try {
-    const url = new URL(props.endpoint);
-
+    let res;
     if (viewMode.value === "list") {
       const now = new Date();
       const end = new Date(now);
       end.setMonth(end.getMonth() + 1);
-      url.searchParams.set("start", now.toISOString());
-      url.searchParams.set("end", end.toISOString());
+      res = await client.calendar.json.$get({
+        query: { start: now.toISOString(), end: end.toISOString() },
+      });
+    } else {
+      res = await client.calendar.json.$get();
     }
-
-    const res = await fetch(url.toString(), { signal: controller.signal });
     if (!res.ok) {
       throw new Error(`Failed to fetch events: ${res.status} ${res.statusText}`);
     }

@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import type { Event } from "./types";
-import {
-  getEventDateRange,
-  isMultiDayEvent,
-  formatEventTime,
-} from "./calendarUtils";
+import { getEventDateRange, isMultiDayEvent, formatEventTime } from "./calendarUtils";
 
 interface CalendarGridProps {
   events: Event[];
@@ -135,7 +131,10 @@ function isStartDay(event: Event, date: Date): boolean {
           <div
             v-for="day in ['日', '月', '火', '水', '木', '金', '土']"
             :key="day"
-            :class="['text-center font-medium py-2 text-[min(0.875rem,2.5cqw)]', getWeekdayClass(day)]"
+            :class="[
+              'text-center font-medium py-2 text-[min(0.875rem,2.5cqw)]',
+              getWeekdayClass(day),
+            ]"
           >
             {{ day }}
           </div>
@@ -162,7 +161,10 @@ function isStartDay(event: Event, date: Date): boolean {
                 <div
                   v-for="event in getEventsForDate(date)"
                   :key="event.id"
-                  :class="['px-[0.5cqw] py-[0.25cqw] rounded border', getEventColorClass(event.title)]"
+                  :class="[
+                    'px-[0.5cqw] py-[0.25cqw] rounded border',
+                    getEventColorClass(event.title),
+                  ]"
                   :title="`${event.title} ${formatEventTime(event.start)}${event.end ? ' - ' + formatEventTime(event.end) : ''}`"
                 >
                   <div class="font-medium truncate text-[min(0.75rem,2cqw)]">{{ event.title }}</div>

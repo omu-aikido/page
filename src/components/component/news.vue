@@ -88,6 +88,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { client } from "lib/client";
 
 type NewsItem = {
   id: string;
@@ -99,7 +100,6 @@ type NewsItem = {
 const data = ref<NewsItem[]>([]);
 const fetchError = ref<string | null>(null);
 const isLoading = ref(true);
-const url = "https://api.omu-aikido.com/news";
 
 const NEWS_READ_MORE_THRESHOLD = 40;
 
@@ -130,7 +130,7 @@ const fetchNews = async () => {
   fetchError.value = null;
 
   try {
-    const res = await fetch(url);
+    const res = await client.news.$get();
     if (!res.ok) {
       fetchError.value = `ニュースの取得に失敗しました（HTTP ${res.status}）`;
       data.value = [];
