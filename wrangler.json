@@ -13,5 +13,8 @@
   "assets": { "directory": "./dist" },
   "observability": {
     "enabled": true
+  },
+  "secrets": {
+    "required": ["CF_TURNSTILE_SECRETKEY", "DISCORD_WEBHOOK_URL"]
   }
 }

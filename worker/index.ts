@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { cache } from "hono/cache";
 
 import calendar from "./hono/calendar";
+import contact from "./hono/contact";
 import news from "./hono/news";
 
 const hono = new Hono()
@@ -15,7 +16,10 @@ const hono = new Hono()
     }),
   );
 
-const app = hono.route("/calendar", calendar).route("/news", news);
+const app = hono //
+  .route("/calendar", calendar)
+  .route("/contact", contact)
+  .route("/news", news);
 
 export type Function = typeof app;
 export default app;

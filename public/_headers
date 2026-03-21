@@ -1,0 +1,2 @@
+/*
+  Content-Security-Policy: script-src 'self' 'unsafe-eval' 'nonce-*' https://challenges.cloudflare.com https://*.cloudflare.com; connect-src https://challenges.cloudflare.com https://*.cloudflare.com; frame-src https://challenges.cloudflare.com https://*.cloudflare.com;
