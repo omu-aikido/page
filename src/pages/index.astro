@@ -1,7 +1,6 @@
 ---
 import aikidoImage from "@/assets/84DABC3E-78F6-4FAC-B2EB-F98F5DDDFC15.webp"
 import NavCard from "@/components/ui/navcard.astro"
-import NewsFeed from "@/components/component/newsFeed.vue"
 import Layout from "@/layouts/Layout.astro"
 import { Image } from "astro:assets"
 ---
@@ -17,7 +16,7 @@ import { Image } from "astro:assets"
       <p
         class="mx-auto mb-8 max-w-3xl text-lg text-neutral-700 md:text-xl dark:text-neutral-300"
       >
-        大阪公立大学合気道部は、大阪公立大学中百舌鳥キャンパス、杉本キャンパスで活動する、体育会所属の合気道団体です。
+        大阪公立大学合氣道部は、大阪公立大学中百舌鳥キャンパス、杉本キャンパスで活動する、体育会所属の合気道団体です。
       </p>
       <a
         href="/about"
@@ -36,10 +35,6 @@ import { Image } from "astro:assets"
       >
       </div>
     </div>
-  </section>
-
-  <section class="min-h-48 px-6 flex flex-col rounded-lg">
-    <NewsFeed client:load/>
   </section>
 
   <section class="my-16 px-6">
@@ -123,20 +118,17 @@ import { Image } from "astro:assets"
       />
     </div>
 
-    {
-      /*
-
-    <section class="my-16 px-6">
+    <section class="my-16">
       <div
-        class="rounded-lg bg-linear-to-r from-cyan-50 to-cyan-100 p-8 text-center dark:from-cyan-900/20 dark:to-cyan-800/20"
+        class="rounded-lg bg-linear-to-r from-cyan-50/50 to-cyan-100/50 p-8 text-center"
       >
         <h2
-          class="mb-4 text-3xl font-bold text-neutral-900 dark:text-neutral-100"
+          class="mb-4 text-3xl font-bold text-neutral-900"
         >
           お気軽にお問い合わせください
         </h2>
         <p
-          class="mx-auto mb-8 max-w-2xl text-lg text-neutral-700 dark:text-neutral-300"
+          class="mx-auto mb-8 max-w-2xl text-lg text-neutral-700"
         >
           見学・体験・入部に関するご質問など、お待ちしています
         </p>
@@ -148,7 +140,6 @@ import { Image } from "astro:assets"
         </a>
       </div>
     </section>
-    */
-    }
+
   </section>
 </Layout>
