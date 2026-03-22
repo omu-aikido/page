@@ -108,10 +108,22 @@ async function handleSubmit() {
       Object.assign(form, { name: "", email: "", subject: "", body: "" });
     } else {
       status.value = "error";
-      errorMessage.value =
-        res.status === 403
-          ? "チャレンジの検証に失敗しました。再度お試しください。"
-          : "送信に失敗しました。しばらく経ってから再度お試しください。";
+
+      try {
+        const data = await res.json();
+        errorMessage.value =
+          data.error ?? "送信に失敗しました。しばらく経ってから再度お試しください。";
+      } catch {
+        errorMessage.value =
+          res.status === 403
+            ? "チャレンジの検証に失敗しました。再度お試しください。"
+            : "送信に失敗しました。しばらく経ってから再度お試しください。";
+      }
+
+      if (turnstile) {
+        turnstile.token = "";
+        turnstile.status = "error";
+      }
     }
   } catch {
     status.value = "error";
@@ -121,7 +133,6 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <!-- 送信成功 -->
   <div
     v-if="status === 'success'"
     role="alert"
@@ -131,7 +142,6 @@ async function handleSubmit() {
   </div>
 
   <form v-else novalidate @submit.prevent="handleSubmit">
-    <!-- エラー通知 -->
     <div
       v-if="status === 'error' && errorMessage"
       role="alert"
