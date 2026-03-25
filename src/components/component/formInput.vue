@@ -30,12 +30,9 @@ function handleInput(event: Event) {
 </script>
 
 <template>
-  <label
-    :for="id"
-    class="mt-4 mb-1 block text-sm font-medium text-neutral-900 dark:text-neutral-100"
-  >
+  <label :for="id" class="label-base">
     {{ label }}
-    <span v-if="required" aria-hidden="true" class="text-red-500">*</span>
+    <span v-if="required" aria-hidden="true" class="required-mark">*</span>
   </label>
   <input
     v-if="rows === 1"
@@ -46,10 +43,7 @@ function handleInput(event: Event) {
     :disabled="disabled"
     :autocomplete="autocomplete"
     @input="handleInput"
-    :class="[
-      'w-full rounded-lg border bg-white px-3 py-2 text-neutral-900 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-cyan-500 disabled:opacity-50 disabled:cursor-not-allowed dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100',
-      error ? 'border-red-500' : 'border-neutral-300',
-    ]"
+    :class="['input-base', error ? 'input-error' : 'input-valid']"
   />
   <textarea
     v-else
@@ -60,12 +54,7 @@ function handleInput(event: Event) {
     :rows="rows"
     :autocomplete="autocomplete"
     @input="handleInput"
-    :class="[
-      'w-full rounded-lg border bg-white px-3 py-2 text-neutral-900 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-cyan-500 disabled:opacity-50 disabled:cursor-not-allowed dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100',
-      error ? 'border-red-500' : 'border-neutral-300',
-    ]"
+    :class="['input-base', error ? 'input-error' : 'input-valid']"
   />
-  <p v-if="error" class="mt-1 text-sm text-red-600 dark:text-red-400">
-    {{ error }}
-  </p>
+  <p v-if="error" class="error-text">{{ error }}</p>
 </template>
