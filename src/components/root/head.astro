@@ -1,4 +1,6 @@
 ---
+import { ClientRouter } from "astro:transitions";
+
 interface Props {
   title: string
   description: string
@@ -24,4 +26,5 @@ interface Props {
   </title>
   <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>
   <link rel="preconnect" href="https://challenges.cloudflare.com">
+  <ClientRouter />
 </head>

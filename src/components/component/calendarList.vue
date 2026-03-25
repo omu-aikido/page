@@ -28,7 +28,12 @@ function getTitleClass(title: string) {
 
 <template>
   <div class="mb-8 space-y-4 max-w-180 mx-auto">
-    <div v-for="event in events" :key="event.id" class="card-event">
+    <div
+      v-for="(event, index) in events"
+      :key="event.id"
+      class="card-event stagger-item"
+      :style="{ animationDelay: `${index * 60}ms` }"
+    >
       <div class="flex items-start justify-between">
         <div class="flex-1">
           <h3 :class="getTitleClass(event.title)">
@@ -59,3 +64,20 @@ function getTitleClass(title: string) {
     </div>
   </div>
 </template>
+
+<style scoped>
+.stagger-item {
+  animation: fadeSlideIn 0.4s ease both;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>

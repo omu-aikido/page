@@ -133,11 +133,15 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div v-if="status === 'success'" role="alert" class="alert-success">
-    お問い合わせを受け付けました。ありがとうございます。
-  </div>
+  <Transition name="bounce">
+    <div v-if="status === 'success'" role="alert" class="alert-success text-center py-8">
+      <div class="text-5xl mb-4">🎉</div>
+      <p class="text-lg font-bold">お問い合わせを受け付けました。</p>
+      <p class="text-muted mt-1">ありがとうございます。</p>
+    </div>
+  </Transition>
 
-  <form v-else novalidate @submit.prevent="handleSubmit">
+  <form v-if="status !== 'success'" novalidate @submit.prevent="handleSubmit">
     <div v-if="status === 'error' && errorMessage" role="alert" class="alert-error">
       {{ errorMessage }}
     </div>
@@ -193,3 +197,27 @@ async function handleSubmit() {
     </button>
   </form>
 </template>
+
+<style scoped>
+.bounce-enter-active {
+  animation: bounceIn 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+</style>
