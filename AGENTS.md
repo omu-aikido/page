@@ -54,7 +54,7 @@ bun format     # uses oxfmt
 async function fetchData(): Promise<Data | null> {
   try {
     const res = await fetch(url);
-    return await res.json() as Data;
+    return (await res.json()) as Data;
   } catch (err: unknown) {
     if (err instanceof Error) {
       console.error(err.message);
@@ -125,7 +125,7 @@ public/           # Static assets
 
 1. Vue/React imports
 2. External library imports
-3. Internal imports (lib/, @/*)
+3. Internal imports (lib/, @/\*)
 4. Type imports
 5. Relative imports
 

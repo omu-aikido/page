@@ -15,36 +15,30 @@ defineProps<CalendarListProps>();
 
 function getTitleClass(title: string) {
   if (title.includes("中百舌鳥")) {
-    return "mb-2 text-lg font-semibold text-cyan-600 dark:text-cyan-300";
+    return "event-title-nakamo";
   } else if (title.includes("杉本")) {
-    return "mb-2 text-lg font-semibold text-green-700 dark:text-green-300";
+    return "event-title-sugimoto";
   } else if (title.includes("会")) {
-    return "mb-2 text-lg font-semibold text-orange-700 dark:text-orange-300";
+    return "event-title-kai";
   } else {
-    return "mb-2 text-lg font-semibold text-neutral-900 dark:text-neutral-100";
+    return "event-title-default";
   }
 }
 </script>
 
 <template>
   <div class="mb-8 space-y-4 max-w-180 mx-auto">
-    <div
-      v-for="event in events"
-      :key="event.id"
-      class="rounded-lg border border-neutral-200 bg-white p-6 transition-shadow duration-200 hover:shadow-md dark:border-neutral-600 dark:bg-neutral-700"
-    >
+    <div v-for="event in events" :key="event.id" class="card-event">
       <div class="flex items-start justify-between">
         <div class="flex-1">
           <h3 :class="getTitleClass(event.title)">
             {{ event.title }}
           </h3>
-          <div
-            class="text-md grid grid-cols-1 items-center text-neutral-500 sm:grid-cols-2 dark:text-neutral-400"
-          >
+          <div class="text-md grid grid-cols-1 items-center text-muted sm:grid-cols-2">
             <div class="flex items-center">
-              <div class="i-heroicons:calendar-20-solid" />
+              <div class="z-0 i-heroicons:calendar-20-solid" />
               &nbsp;
-              <span class="mr-4 text-neutral-700 dark:text-neutral-300">
+              <span class="mr-4 text-body">
                 {{ formatEventDateRange(event) }}
               </span>
             </div>
@@ -52,9 +46,9 @@ function getTitleClass(title: string) {
               v-if="!isAllDayEvent(event) && event.start !== event.end && !isMultiDayEvent(event)"
               class="flex items-center"
             >
-              <div class="i-heroicons:clock-16-solid" />
+              <div class="z-0 i-heroicons:clock-16-solid" />
               &nbsp;
-              <span class="mr-4 text-neutral-700 dark:text-neutral-300">
+              <span class="mr-4 text-body">
                 {{ formatEventTime(event.start) }}
                 <span v-if="event.end"> - {{ formatEventTime(event.end) }}</span>
               </span>

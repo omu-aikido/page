@@ -1,9 +1,9 @@
 ---
-import { Image } from "astro:assets"
-import Sidebar from "@/components/component/sidebar.vue"
+import { Image } from "astro:assets";
+import Sidebar from "@/components/component/sidebar.vue";
 ---
 
-<header class="sticky top-0 backdrop-blur-3xl">
+<header class="sticky top-0 backdrop-blur-3xl z-2000000000">
   <div
     aria-label="Global"
     class="mx-auto flex max-w-7xl items-center justify-between p-5 lg:px-8"
@@ -28,7 +28,7 @@ import Sidebar from "@/components/component/sidebar.vue"
         type="button"
         aria-controls="mobile-menu-root"
         aria-expanded="false"
-        class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-neutral-700 hover:cursor-pointer dark:text-neutral-400"
+        class="mobile-menu-btn"
         onclick="window.dispatchEvent(new CustomEvent('sidebar:open'))"
       >
         <span class="sr-only">リンクメニューを開く</span>
@@ -36,18 +36,18 @@ import Sidebar from "@/components/component/sidebar.vue"
       </button>
     </div>
     <nav
-      class="[&_a]:text-md hidden lg:flex lg:gap-x-12 [&_a]:rounded-md [&_a]:p-3 [&_a]:font-semibold [&_a]:text-neutral-900 [&_a]:dark:text-neutral-100"
+      class="hidden lg:flex lg:gap-x-12 [&_a]:text-md"
     >
-      <a href="/" class="hover:bg-neutral-500/20">ホーム</a>
-      <a href="/about"  class="hover:bg-neutral-500/20">合氣道部について</a>
-      <a href="/calendar"  class="hover:bg-neutral-500/20">稽古予定</a>
-      <a href="/access"  class="hover:bg-neutral-500/20">アクセス</a>
+      <a href="/" class="nav-link">ホーム</a>
+      <a href="/about" class="nav-link">合氣道部について</a>
+      <a href="/calendar" class="nav-link">稽古予定</a>
+      <a href="/access" class="nav-link">アクセス</a>
     </nav>
 
     <nav class="hidden lg:flex lg:flex-1 lg:justify-end">
       <a
         href="/support"
-        class="rounded-md p-3 font-semibold text-neutral-900 hover:bg-neutral-500/20 dark:text-neutral-100"
+        class="nav-link-cta"
       >
         応援する<span aria-hidden="true">&rarr;</span>
       </a>

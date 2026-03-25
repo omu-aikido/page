@@ -30,12 +30,12 @@ export function useTurnstile(siteKey: string) {
         console.warn("Turnstile siteKey is missing");
         return;
       }
-      
+
       if (!widgetRef.value) {
         timerId = setTimeout(tryRender, 100);
         return;
       }
-      
+
       if (window.turnstile) {
         widgetId = window.turnstile.render(widgetRef.value, {
           sitekey: siteKey,
@@ -60,7 +60,7 @@ export function useTurnstile(siteKey: string) {
         timerId = setTimeout(tryRender, 100);
       }
     };
-    
+
     requestAnimationFrame(async () => {
       await nextTick();
       tryRender();

@@ -9,37 +9,18 @@ type Props = MarkdownLayoutProps<{
 
 const { frontmatter } = Astro.props
 
-const styles = () => ["px-6 sm:px-8 mx-auto pb-6 bg-neutral-100 dark:bg-neutral-900/80 rounded-lg",
-    "md:min-w-0 mt-4",
-    "max-w-3xl md:max-w-2xl lg:max-w-none mx-auto",
-    "w-full",
-    "text-neutral-700 dark:text-neutral-300",
-    "[&_h1]:hidden",
-    "[&_h2]:text-2xl [&_h2]:pt-4 [&_h2]:pb-2 [&_h2]:font-bold",
-    "[&_h3]:text-lg [&_h3]:pt-3 [&_h3]:pb-1 [&_h3]:font-semibold",
-    "[&_h4]:text-base [&_h4]:pt-2 [&_h4]:pb-1",
-    "[&_p]:text-base [&_p]:pt-2 [&_p]:pb-1 [&_p]:px-2",
-    "[&_a]:text-cyan-700 [&_a]:dark:text-cyan-400 [&_a]:underline [&_a]:hover:text-blue-500 [&_a]:px-2",
-    "[&_ul]:list-disc [&_ul]:pl-4 [&_ul]:pb-2 [&_ul]:px-2",
-    "[&_li]:pb-2, [&_li]:px-2",
-    "[&_blockquote]:border-l-2 [&_blockquote]:border-neutral-300 [&_blockquote]:dark:border-neutral-600 [&_blockquote]:pl-4",
-    "[&_img]:mb-4 [&_img]:px-2 [&_img]:h-auto",
-    ].join(" ")
 
-
-const articleLayoutClass = ["w-full", "lg:col-span-9"].join(" ")
+const articleLayoutClass = "w-full lg:col-span-9"
 ---
 
 <Layout title={frontmatter.title} description={frontmatter.description ?? ""}>
-  <div class="mx-auto items-start max-w-5xl min-w-64">
-    <h1
-      class={`${articleLayoutClass} text-3xl font-semibold px-5 text-neutral-700 dark:text-neutral-300`}
-    >
+  <div class="container-article">
+    <h1 class={`${articleLayoutClass} text-page-title`}>
       {frontmatter.title}
     </h1>
 
     <article
-      class={`${articleLayoutClass} ${styles()}`}
+      class="prose prose-base w-full lg:col-span-9"
       aria-label="Article content"
     >
       <slot />

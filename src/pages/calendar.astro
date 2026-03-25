@@ -4,31 +4,28 @@ import Layout from "@/layouts/Layout.astro"
 ---
 
 <Layout title="稽古予定" description="今後の稽古予定">
-  <div class="mx-auto px-6 py-8 sm:max-w-3xl lg:max-w-6xl">
-    {/* Header Section */}
-    <div class="mb-8">
-      <h1
-        class="mb-4 text-3xl font-bold text-neutral-900 dark:text-neutral-100"
-      >
-        稽古予定
-      </h1>
-    </div>
-    <CalendarView client:load />
+  {/* Header Section */}
+  <div class="mb-8">
+    <h1 class="mb-4 text-3xl font-bold text-heading">
+      稽古予定
+    </h1>
+  </div>
+  <CalendarView client:load />
 
-    <div
-      id="google-calendar-navigation"
-      class="flex-inline items-center mt-4"
-    >
-      <div class="i-heroicons:information-circle-20-solid w-8" />
-      <p class="text-neutral-600 dark:text-neutral-300">
-        <a
-          href="https://calendar.google.com/calendar/embed?src=new.ocuaikido%40gmail.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-cyan-600 underline dark:text-cyan-400"
-        >
-          Googleカレンダー</a>では過去の稽古や１ヶ月以上先の稽古予定も確認できます。
-        <span/>
-    </div>
+  <div
+    id="google-calendar-navigation"
+    class="flex-inline items-center mt-4"
+  >
+    <div class="i-heroicons:information-circle-20-solid w-8" />
+    <p class="text-body">
+      <a
+        href="https://calendar.google.com/calendar/embed?src=new.ocuaikido%40gmail.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-brand"
+      >
+        Googleカレンダー</a>では過去の稽古や１ヶ月以上先の稽古予定も確認できます。
+      <span/>
+    </p>
   </div>
 </Layout>

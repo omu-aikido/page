@@ -133,20 +133,12 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div
-    v-if="status === 'success'"
-    role="alert"
-    class="my-3 rounded-lg border border-green-200 bg-green-50 p-4 text-green-700 dark:border-green-800 dark:bg-green-900/20 dark:text-green-200"
-  >
+  <div v-if="status === 'success'" role="alert" class="alert-success">
     お問い合わせを受け付けました。ありがとうございます。
   </div>
 
   <form v-else novalidate @submit.prevent="handleSubmit">
-    <div
-      v-if="status === 'error' && errorMessage"
-      role="alert"
-      class="my-3 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-200"
-    >
+    <div v-if="status === 'error' && errorMessage" role="alert" class="alert-error">
       {{ errorMessage }}
     </div>
 
@@ -195,7 +187,7 @@ async function handleSubmit() {
     <button
       type="submit"
       :disabled="status === 'submitting' || !isReadyToSubmit"
-      class="w-full rounded-lg bg-cyan-600 px-4 py-2 font-medium text-white transition-colors duration-200 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed dark:focus:ring-offset-neutral-900"
+      class="btn-primary"
     >
       {{ status === "submitting" ? "送信中..." : "送信する" }}
     </button>
