@@ -1,0 +1,43 @@
+---
+import { ClientRouter } from "astro:transitions";
+
+interface Props {
+  title: string;
+  description: string;
+}
+---
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="generator" content={Astro.generator} />
+  <meta name="description" content={Astro.props.description} />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="canonical" href="https://omu-aikido.com" />
+  <link rel="icon" type="image/svg" href="/favicon.svg" />
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    href="/apple-touch-icon-180x180.png"
+  />
+  <link rel="icon" type="image/png" href="/icon-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <title>
+    {Astro.props.title} | 大阪公立大学合氣道部
+  </title>
+  <script
+    is:inline
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    defer></script>
+  <link rel="preconnect" href="https://challenges.cloudflare.com" />
+  <ClientRouter />
+</head>

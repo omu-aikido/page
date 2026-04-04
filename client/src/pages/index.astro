@@ -1,17 +1,62 @@
 ---
+import { Image } from "astro:assets";
+import { getFlatNavLinks } from "@/lib/navigation";
+import SiteGuideBento from "@/components/SiteGuideBento.astro";
 
+import Layout from "@/layouts/Layout.astro";
+
+import aikidoImage from "@/assets/84DABC3E-78F6-4FAC-B2EB-F98F5DDDFC15.webp";
+
+const siteGuideLinks = getFlatNavLinks().filter((link) => link.path !== "/");
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
-  </head>
-  <body>
-    <h1>Astro</h1>
-  </body>
-</html>
+<Layout title="トップ" description="大阪公立大学合氣道部の公式ホームページです">
+  <section class="hero-section" transition:name="home-hero">
+    <div class="hero-content">
+      <div class="hero-main">
+        <h1 class="hero-title">大阪公立大学<br class="sm:hidden" />合氣道部</h1>
+        <p class="hero-description">
+          大阪公立大学合氣道部は、森之宮キャンパス・中百舌鳥キャンパス・杉本キャンパスで活動する、体育会所属の合気道団体です。
+        </p>
+        <a href="/about" class="btn-primary hero-cta">もっと知る</a>
+      </div>
+      <div class="hero-accent-bg" aria-hidden="true"></div>
+    </div>
+  </section>
+  <section class="container-page pt-0">
+    <div class="mb-4">
+      <a href="/about/aikido" class="inline-flex">
+        <h2 class="text-heading text-2xl font-bold">合気道を知る</h2>
+      </a>
+    </div>
+    <div class="section-soft">
+      <div class="flex">
+        <div>
+          <h3 class="text-heading text-xl font-semibold">合気道とは</h3>
+          <p class="text-body mt-3 leading-relaxed">
+            合気道は、開祖・植芝盛平翁が創始した現代武道です。<br
+            />相手と強弱を競わず、入身と転換の体捌きと呼吸力から生まれる技によって心身の錬成図ります。
+          </p>
+          <p class="text-body mt-3 leading-relaxed">
+            試合や競技は行わず、お互いに切磋琢磨し合って稽古を積み重ねることを目的としています。
+          </p>
+          <a
+            title="合気道についてもっと詳しく知る"
+            href="/about/aikido"
+            class="btn-secondary mt-4">もっと詳しく</a
+          >
+        </div>
+        <Image
+          src={aikidoImage}
+          alt="座技呼吸法を指導する様子"
+          loading="lazy"
+          class="w-48 h-48 rounded-full object-cover m-2"
+        />
+      </div>
+    </div>
+  </section>
+  <section class="container-page pt-0">
+    <h2 class="text-heading text-2xl font-bold mb-6">探索する</h2>
+    <SiteGuideBento />
+  </section>
+</Layout>

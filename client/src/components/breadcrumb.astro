@@ -1,0 +1,32 @@
+---
+import { generateBreadcrumbs } from "@/lib/navigation";
+
+interface Props {
+  pathname: string;
+}
+
+const { pathname } = Astro.props;
+const breadcrumbs = generateBreadcrumbs(pathname);
+---
+
+<nav
+  aria-label="パンくずリスト"
+  class="mx-auto w-full max-w-5xl px-4 pt-6 md:px-6"
+>
+  <ol class="flex items-center gap-2 text-sm text-body">
+    {
+      breadcrumbs.map((item, index) => (
+        <li class="flex items-center gap-2">
+          {index > 0 && <span class="text-muted">/</span>}
+          {item.isCurrent ? (
+            <span class="font-semibold text-heading">{item.title}</span>
+          ) : (
+            <a href={item.path} class="link hover:text-brand-600 transition">
+              {item.title}
+            </a>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>

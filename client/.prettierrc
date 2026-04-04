@@ -1,5 +1,5 @@
 {
-  "plugins": ["prettier-plugin-astro", "prettier-plugin-tailwindcss", "prettier-plugin-vue"],
+  "plugins": ["prettier-plugin-astro", "prettier-plugin-vue"],
   "overrides": [
     {
       "files": "*.astro",
@@ -9,7 +9,7 @@
     },
     {
       "files": "*.vue",
-      "options":{
+      "options": {
         "parser": "vue"
       }
     }

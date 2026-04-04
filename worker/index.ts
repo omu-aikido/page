@@ -9,5 +9,5 @@ const app = hono //
   .route("/calendar", calendar)
   .route("/contact", contact);
 
-export type Function = typeof app;
+export type App = typeof app;
 export default app;

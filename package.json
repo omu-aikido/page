@@ -7,7 +7,8 @@
   "scripts": {
     "build": "bunx turbo build",
     "dev": "bunx turbo dev",
-    "format": "bunx turbo format"
+    "format": "bunx turbo format",
+    "lint": "bunx turbo lint"
   },
   "devDependencies": {
     "oxfmt": "latest",

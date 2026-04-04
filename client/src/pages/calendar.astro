@@ -1,0 +1,36 @@
+---
+import CalendarView from "@/components/calendarView.vue";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="稽古予定" description="今後の稽古予定">
+  <section class="container-page">
+    <div class="section-soft mb-6" transition:name="calendar-head">
+      <h1 class="text-heading mb-2 text-3xl font-bold">稽古予定</h1>
+      <p class="text-body">直近の稽古予定を一覧・カレンダーで確認できます。</p>
+    </div>
+
+    <CalendarView client:load />
+
+    <div
+      id="google-calendar-navigation"
+      class="card-base mt-4 flex items-start gap-3"
+    >
+      <div
+        class="i-heroicons:information-circle-20-solid mt-0.5 h-5 w-5 text-brand-600"
+      >
+      </div>
+      <p class="text-body">
+        <a
+          href="https://calendar.google.com/calendar/embed?src=new.ocuaikido%40gmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-brand"
+        >
+          Googleカレンダー
+        </a>
+        では過去の稽古や1ヶ月以上先の稽古予定も確認できます。
+      </p>
+    </div>
+  </section>
+</Layout>

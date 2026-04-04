@@ -11,248 +11,112 @@ import {
 export default defineConfig({
   presets: [
     presetWind4({
-      preflights: {
-        theme: {
-          mode: "on-demand",
-        },
-      },
+      dark: "media",
     }),
-    presetAttributify({
-      prefix: "un-",
-      prefixedOnly: true,
-    }),
+    presetAttributify(),
     presetIcons(),
     presetTypography({
       cssExtend: {
-        h2: {
-          "--at-apply": "text-2xl pt-4 pb-2 font-bold",
+        p: {
+          margin: 0,
         },
-        h3: {
-          "--at-apply": "text-lg pt-3 pb-1 font-semibold",
-        },
-        h4: {
-          "--at-apply": "text-base pt-2 pb-1",
-        },
-        a: {},
       },
     }),
+  ],
+  transformers: [
+    transformerDirectives(), // @apply, @screen
+    transformerVariantGroup(), // hover:(text-red bg-blue) 記法
   ],
   theme: {
     colors: {
       brand: {
-        primary: "#0891b2", // cyan-600
-        primaryHover: "#0e7490", // cyan-700
-        primaryLight: "#22d3ee", // cyan-400
-        primaryLightBg: "#ecfeff", // cyan-100
-      },
-      surface: {
-        primary: "#ffffff",
-        secondary: "#f5f5f5", // neutral-100
-        tertiary: "#e5e5e5", // neutral-200
-        inverse: "#171717", // neutral-800
-      },
-      text: {
-        primary: "#171717", // neutral-900
-        secondary: "#525252", // neutral-600
-        muted: "#a3a3a3", // neutral-400
-        inverse: "#fafafa", // neutral-100
-        inverseSecondary: "#d4d4d4", // neutral-300
-      },
-      border: {
-        primary: "#e5e5e5", // neutral-300
-        secondary: "#d4d4d4", // neutral-400
-        inverse: "#404040", // neutral-600
-      },
-      status: {
-        success: "#15803d", // green-700
-        successBg: "#dcfce7", // green-100
-        error: "#dc2626", // red-600
-        errorBg: "#fee2e2", // red-100
-        warning: "#d97706", // amber-600
-        warningBg: "#fef3c7", // amber-100
-      },
-      event: {
-        nakamo: "#0891b2", // cyan-600
-        nakamoBg: "#ecfeff", // cyan-100
-        sugimoto: "#15803d", // green-700
-        sugimotoBg: "#dcfce7", // green-100
-        kai: "#c2410c", // orange-700
-        kaiBg: "#ffedd5", // orange-100
+        50: "#eef6ff",
+        100: "#dbeaff",
+        500: "#2563eb",
+        600: "#1d4ed8",
+        700: "#1e40af",
       },
     },
+    fontFamily: {
+      sans: [
+        "IBM Plex Sans",
+        "Noto Sans JP",
+        "system-ui",
+        "sans-serif",
+      ],
+      mono: [
+        '"IBM Plex Mono"',
+        "monospace",
+      ],
+    },
   },
-  shortcuts: {
-    // ============ Layout ============
-    "container-main": "mx-auto min-h-[75dvh] sm:max-w-3xl lg:max-w-6xl max-w-2xl px-4 md:px-12",
-    "container-content": "max-w-content mx-auto",
-    "container-article": "mx-auto items-start max-w-5xl min-w-64",
-    "container-page": "mx-auto px-6 py-8",
-    "page-bg": "bg-surface-secondary dark:bg-surface-inverse",
-    "page-bg-light": "bg-neutral-50 dark:bg-neutral-900/50",
-    "page-bg-inverse":
-      "bg-linear-to-b from-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800",
-
-    // ============ Hero Section ============
-    "hero-section": "my-8 px-6 py-16",
-    "hero-title": "mb-6 text-4xl font-bold text-text-primary md:text-6xl dark:text-text-inverse",
-    "hero-subtitle":
-      "mx-auto mb-8 max-w-3xl text-lg text-text-secondary md:text-xl dark:text-text-inverseSecondary",
-    "hero-bg": "pointer-events-none absolute inset-0 -z-10 overflow-hidden",
-    "hero-bg-gradient":
-      "absolute inset-0 rounded-lg bg-linear-to-b from-brand-primaryLight/60 to-transparent dark:from-brand-primary/30",
-
-    // ============ Card ============
-    "card-base":
-      "rounded-lg border border-border-primary bg-surface-primary dark:border-border-inverse dark:bg-neutral-700",
-    "card-hover": "card-base transition-shadow duration-200 hover:shadow-md",
-    "card-event": "card-base p-6",
-    "card-nav": "card-base p-6 text-center shadow-md hover:shadow-lg",
-    "card-feature": "rounded-lg bg-white/20 p-8 shadow-md dark:bg-neutral-700/20",
-    "card-cta":
-      "rounded-lg bg-linear-to-r from-brand-primaryLight/50 to-brand-primaryLightBg p-8 text-center",
-    "card-cta-dark":
-      "rounded-lg bg-linear-to-b from-surface-secondary to-surface-secondary px-6 py-16 text-center dark:from-surface-inverse dark:to-surface-inverse",
-    "card-cta-subtle":
-      "rounded-lg bg-linear-to-r from-brand-primaryLightBg to-brand-primaryLight p-8 text-center dark:from-brand-primary/20 dark:to-brand-primary/20",
-    "card-glass":
-      "bg-surface-secondary/80 p-5 backdrop-blur-lg sm:ring-1 dark:bg-surface-inverse/80 dark:sm:ring-white/10",
-
-    // ============ Button ============
-    "btn-primary":
-      "w-full rounded-lg bg-brand-primary px-4 py-2 font-medium text-white transition-colors duration-200 hover:bg-brand-primaryHover focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed dark:focus:ring-offset-neutral-900",
-    "btn-primary-inline":
-      "inline-block rounded-lg bg-brand-primary px-8 py-3 font-semibold text-white transition-colors duration-200 hover:bg-brand-primaryHover",
-    "btn-secondary":
-      "inline-block rounded-lg border-2 border-brand-primary px-6 py-2 font-semibold text-brand-primary transition-colors duration-200 hover:bg-brand-primary hover:text-white dark:border-brand-primaryLight dark:text-brand-primaryLight dark:hover:bg-brand-primaryLight dark:hover:text-neutral-900",
-
-    // ============ Form Input ============
-    "input-base":
-      "w-full rounded-lg border bg-surface-primary px-3 py-2 text-text-primary focus:border-transparent focus:outline-none focus:ring-2 focus:ring-brand-primary disabled:opacity-50 disabled:cursor-not-allowed dark:border-border-inverse dark:bg-neutral-800 dark:text-text-inverse",
-    "input-error": "border-status-error",
-    "input-valid": "border-border-primary",
-    "label-base": "mt-4 mb-1 block text-sm font-medium text-text-primary dark:text-text-inverse",
-    "error-text": "mt-1 text-sm text-status-error dark:text-red-400",
-    "required-mark": "text-status-error",
-
-    // ============ Alert ============
-    "alert-success":
-      "my-3 rounded-lg border border-status-successBg bg-status-successBg p-4 text-status-success dark:border-green-800 dark:bg-green-900/20 dark:text-green-200",
-    "alert-error":
-      "my-3 rounded-lg border border-status-errorBg bg-status-errorBg p-4 text-sm text-status-error dark:border-red-800 dark:bg-red-900/20 dark:text-red-200",
-    "alert-amber": "text-status-warning dark:text-amber-200",
-    "alert-icon": "h-5 w-5 text-status-error",
-
-    // ============ View Toggle ============
-    "view-toggle-container":
-      "flex items-center justify-end gap-2 rounded-lg bg-surface-secondary p-1 dark:bg-neutral-800",
-    "view-toggle-btn-inactive":
-      "flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-all duration-200 text-text-secondary hover:bg-white/50 dark:text-text-muted dark:hover:bg-neutral-700/50",
-    "view-toggle-btn-active":
-      "flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-all duration-200 bg-surface-primary text-text-primary shadow-sm ring-1 ring-border-primary dark:bg-neutral-700 dark:text-text-inverse dark:ring-border-inverse",
-
-    // ============ Loading ============
-    spinner:
-      "inline-block h-8 w-8 animate-spin rounded-full border-b-2 border-text-primary dark:border-text-inverse",
-    "loading-overlay":
-      "pointer-events-none absolute inset-0 flex items-center justify-center rounded-lg bg-neutral-500/10",
-    "loading-spin": "animate-spin",
-    "loading-icon": "text-text-secondary/30 dark:text-text-inverseSecondary/30",
-
-    // ============ Text ============
-    "text-muted": "text-text-muted dark:text-text-muted",
-    "text-body": "text-text-secondary dark:text-text-inverseSecondary",
-    "text-heading": "text-text-primary dark:text-text-inverse",
-    "text-title": "text-xl font-bold text-text-primary dark:text-text-inverse",
-    "text-page-title":
-      "text-3xl font-semibold px-5 text-text-secondary dark:text-text-inverseSecondary",
-    "text-section-title":
-      "mb-8 text-center text-3xl font-bold text-text-primary dark:text-text-inverse",
-    "text-inverse": "text-neutral-800 dark:text-neutral-200",
-    "text-lg": "text-lg text-text-secondary dark:text-text-inverseSecondary",
-    "text-lg-inverse": "text-text-secondary dark:text-text-inverseSecondary",
-
-    // ============ Event Colors - Title ============
-    "event-title-base": "mb-2 text-lg font-semibold",
-    "event-title-default": "event-title-base text-text-primary dark:text-text-inverse",
-    "event-title-nakamo": "event-title-base text-event-nakamo dark:text-cyan-300",
-    "event-title-sugimoto": "event-title-base text-event-sugimoto dark:text-green-300",
-    "event-title-kai": "event-title-base text-event-kai dark:text-orange-300",
-
-    // ============ Event Colors - Badge ============
-    "event-badge-default":
-      "bg-neutral-100 text-neutral-800 border-neutral-200 dark:bg-neutral-700 dark:text-neutral-200 dark:border-neutral-600",
-    "event-badge-nakamo":
-      "bg-event-nakamoBg text-event-nakamo border-event-nakamo dark:bg-cyan-900 dark:text-cyan-200 dark:border-cyan-700",
-    "event-badge-sugimoto":
-      "bg-event-sugimotoBg text-event-sugimoto border-event-sugimoto dark:bg-green-900 dark:text-green-200 dark:border-green-700",
-    "event-badge-kai":
-      "bg-event-kaiBg text-event-kai border-event-kai dark:bg-orange-900 dark:text-orange-200 dark:border-orange-700",
-
-    // ============ Calendar ============
-    "calendar-header": "px-6 py-4 dark:border-border-inverse dark:bg-surface-inverse",
-    "weekday-sunday": "text-red-600 dark:text-red-400",
-    "weekday-saturday": "text-blue-600 dark:text-blue-400",
-    "weekday-weekday": "text-text-secondary dark:text-text-inverseSecondary",
-    "calendar-today": "border-2 border-brand-primary",
-    "calendar-day-default": "border-border-primary dark:border-border-inverse",
-    "calendar-cell-today": "border-2 border-brand-primary",
-    "calendar-cell-empty": "bg-neutral-50 dark:bg-neutral-900/50",
-    "calendar-cell-filled": "bg-surface-primary dark:bg-surface-inverse",
-    "calendar-cell":
-      "relative min-h-[14cqw] rounded-sm border p-[min(0.5rem,1.5cqw)] transition-shadow dark:bg-surface-inverse",
-
-    // ============ Link ============
-    "link-brand": "text-brand-primary hover:underline dark:text-brand-primaryLight",
-    "link-nav":
-      "text-base/7 font-semibold text-text-primary hover:bg-neutral-500/20 dark:text-text-inverse",
-    "link-card":
-      "font-semibold text-brand-primary hover:text-brand-primaryHover dark:text-brand-primaryLight dark:hover:text-cyan-300",
-    "link-section":
-      "font-semibold text-cyan-800 hover:text-brand-primaryHover dark:text-brand-primaryLight dark:hover:text-cyan-300",
-    "link-social": "text-neutral-800 hover:text-brand-primary dark:text-neutral-200",
-    "link-retry":
-      "text-sm font-medium text-status-error hover:text-status-error dark:text-red-400 dark:hover:text-red-300",
-
-    // ============ Nav ============
-    "nav-link":
-      "rounded-md px-3 py-2 font-semibold text-text-primary hover:bg-neutral-500/20 dark:text-text-inverse",
-    "nav-link-cta":
-      "rounded-md p-3 font-semibold text-text-primary hover:bg-neutral-500/20 dark:text-text-inverse",
-    "mobile-menu-btn":
-      "-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-text-secondary hover:cursor-pointer dark:text-text-muted",
-
-    // ============ Frame (iframe) ============
-    "iframe-base": "h-100 w-full rounded-lg border-0 dark:contrast-90 dark:invert",
-    "iframe-wrapper": "relative",
-
-    // ============ Markdown ============
-    "prose-base":
-      "px-6 sm:px-8 mx-auto pb-6 bg-surface-secondary dark:bg-neutral-900/80 rounded-lg md:min-w-0 mt-4 max-w-3xl md:max-w-2xl lg:max-w-none mx-auto w-full text-text-secondary dark:text-text-inverseSecondary",
-
-    // ============ Status Icons ============
-    "status-success": "text-status-success dark:text-green-200",
-    "status-error": "text-status-error dark:text-red-200",
-    "status-pending": "text-status-warning dark:text-amber-200",
-
-    // ============ 404 Page ============
-    "error-icon":
-      "mx-auto flex h-32 w-32 items-center justify-center rounded-full bg-brand-primaryLightBg dark:bg-brand-primary/30",
-    "error-code":
-      "mt-8 mb-4 text-6xl font-bold text-text-primary md:text-8xl dark:text-text-inverse",
-    "error-title": "mb-4 text-2xl font-semibold text-neutral-800 md:text-3xl dark:text-neutral-200",
-    "error-icon-small": "text-brand-primary dark:text-brand-primaryLight",
-
-    // ============ Footer ============
-    "footer-bg": "my-12 bg-surface-secondary sm:mx-18 lg:mx-24 dark:bg-surface-inverse",
-    "footer-text": "text-neutral-800 dark:text-neutral-200",
-
-    // ============ Misc ============
-    "section-spacing": "my-16 px-6",
-    "feature-icon": "text-brand-primary dark:text-brand-primaryLight",
-    "nav-card-icon": "text-brand-primary dark:text-brand-primaryLight",
-  },
-  transformers: [
-    transformerDirectives(), // @apply, @screen
-    transformerVariantGroup(), // hover:(text-red bg-blue) 記法
+  shortcuts: [
+    {
+      "text-heading": "font-sans font-bold text-zinc-900 dark:text-zinc-100",
+      "text-body": "font-sans text-zinc-700 dark:text-zinc-300",
+      "text-muted": "font-sans text-zinc-500 dark:text-zinc-400",
+      "container-page": "mx-auto w-full max-w-5xl px-4 pb-6 md:px-6",
+      "page-aikido-bg":
+        "bg-[radial-gradient(circle_at_15%_0%,rgba(29,78,216,0.12),transparent_34%),radial-gradient(circle_at_85%_12%,rgba(6,95,70,0.14),transparent_38%)]",
+      "card-base":
+        "rounded-xl border border-zinc-200/70 bg-white/90 p-4 shadow-sm dark:(border-zinc-700/70 bg-zinc-900/70)",
+      "card-kasumi":
+        "rounded-xl border border-zinc-300/70 bg-gradient-to-br from-white via-zinc-50 to-brand-50/70 p-5 shadow-[0_1px_0_rgba(255,255,255,0.8),0_16px_40px_-24px_rgba(30,64,175,0.55)] dark:(border-zinc-700/80 from-zinc-900 via-zinc-900 to-zinc-800)",
+      "section-soft":
+        "rounded-lg border-y border-zinc-200/80 py-5 dark:border-zinc-700/70",
+      "row-soft": "border-b border-zinc-200/70 py-3 dark:border-zinc-700/70",
+      "heading-kicker":
+        "mb-2 inline-flex rounded-full border border-brand-500/40 bg-brand-500/10 px-2.5 py-0.5 text-xs tracking-[0.2em] text-brand-700 dark:(text-brand-100 border-brand-500/40 bg-brand-500/15)",
+      "btn-base":
+        "inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-semibold transition duration-200 ease-out active:translate-y-0.5 disabled:(cursor-not-allowed opacity-60)",
+      "btn-primary":
+        "btn-base bg-brand-600 text-white hover:(bg-brand-700 -translate-y-0.5 shadow-[0_12px_22px_-16px_rgba(30,64,175,0.75)]) active:(translate-y-0 shadow-none) focus-visible:(outline-none ring-2 ring-brand-500/50)",
+      "btn-secondary":
+        "btn-base border border-zinc-300 bg-white text-zinc-800 hover:(bg-zinc-100 -translate-y-0.5 shadow-[0_10px_20px_-18px_rgba(15,23,42,0.35)]) active:(translate-y-0 shadow-none) dark:(border-zinc-700 bg-zinc-800 text-zinc-200 hover:bg-zinc-700)",
+      "btn-toggle":
+        "btn-base border border-zinc-300 bg-white/80 text-zinc-700 dark:(border-zinc-700 bg-zinc-900 text-zinc-200)",
+      "btn-toggle-active":
+        "bg-brand-600 text-white border-brand-600 shadow-[0_6px_16px_-10px_rgba(37,99,235,0.8)] dark:(bg-brand-600 text-white border-brand-600)",
+      "form-field": "mb-4 flex flex-col gap-1.5",
+      "form-label": "text-sm font-semibold text-zinc-700 dark:text-zinc-300",
+      "form-input":
+        "w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-zinc-900 shadow-sm transition focus:(outline-none ring-2 ring-brand-500/40 border-brand-500) disabled:(cursor-not-allowed bg-zinc-100 text-zinc-500) dark:(border-zinc-700 bg-zinc-900 text-zinc-100 disabled:(bg-zinc-800 text-zinc-500))",
+      "form-error": "text-sm text-red-600 dark:text-red-400",
+      "status-pending": "text-amber-600 dark:text-amber-400",
+      "status-success": "text-emerald-600 dark:text-emerald-400",
+      "status-error": "text-red-600 dark:text-red-400",
+      link: "text-brand-600 visited:text-emerald-600 hover:underline dark:(text-brand-500 visited:text-emerald-500)",
+      "link-brand":
+        "font-semibold text-brand-600 hover:underline dark:text-brand-500",
+      "link-retry":
+        "ml-2 inline-flex text-sm font-semibold text-brand-600 hover:underline dark:text-brand-500",
+      "event-title-default": "text-zinc-900 dark:text-zinc-100",
+      "event-title-nakamo": "text-sky-700 dark:text-sky-300",
+      "event-title-sugimoto": "text-violet-700 dark:text-violet-300",
+      "event-title-kai": "text-emerald-700 dark:text-emerald-300",
+      "event-badge-default":
+        "bg-zinc-100 text-zinc-700 dark:(bg-zinc-800 text-zinc-200)",
+      "event-badge-nakamo":
+        "bg-sky-100 text-sky-800 dark:(bg-sky-900/40 text-sky-200)",
+      "event-badge-sugimoto":
+        "bg-violet-100 text-violet-800 dark:(bg-violet-900/40 text-violet-200)",
+      "event-badge-kai":
+        "bg-emerald-100 text-emerald-800 dark:(bg-emerald-900/40 text-emerald-200)",
+      "weekday-sunday": "text-red-600 dark:text-red-400",
+      "weekday-saturday": "text-blue-600 dark:text-blue-400",
+      "weekday-weekday": "text-zinc-600 dark:text-zinc-300",
+      /* Typography Presets */
+      "prose-base": "font-sans text-base leading-relaxed text-zinc-700 dark:text-zinc-300",
+      "prose-h1": "font-sans text-2xl font-bold leading-tight text-zinc-900 dark:text-zinc-100",
+      "prose-h2": "font-sans text-xl font-bold leading-snug text-zinc-900 dark:text-zinc-100",
+      "prose-h3": "font-sans text-lg font-bold text-zinc-900 dark:text-zinc-100",
+      "prose-strong": "font-bold text-zinc-900 dark:text-zinc-100",
+      "prose-a": "text-brand-600 underline decoration-1.5 underline-offset-3 transition hover:(text-brand-700 dark:text-brand-400)",
+      "prose-blockquote": "border-l-3 border-brand-600 pl-4 italic font-medium text-zinc-700 dark:text-zinc-300",
+      "prose-code": "font-mono text-sm bg-brand-600/10 px-1 py-0.5 rounded text-brand-700 dark:(bg-brand-600/20 text-brand-300)",
+      "prose-pre": "bg-zinc-900 text-zinc-100 p-6 rounded-lg overflow-auto text-sm leading-relaxed",
+      "prose-list": "space-y-2 ml-4",
+      "prose-li": "font-normal text-zinc-700 dark:text-zinc-300",
+    },
   ],
 });
