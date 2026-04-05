@@ -133,7 +133,7 @@ const app = new Hono<{ Bindings: Env }>().post(
       return c.json({ error: "メッセージを入力してください" }, 400);
     }
 
-    const uid = crypto.randomUUID().split("-")[0];
+    const uid = crypto.randomUUID().split("-")[0]!;
     const gmailUrl = createGmailUrl(uid);
 
     // 1. Turnstile検証

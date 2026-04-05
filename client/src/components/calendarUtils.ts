@@ -20,11 +20,11 @@ export function getEventDateRange(event: Event) {
     // Parse start date
     const [startYear, startMonth, startDay] = event.start
       .split("-")
-      .map(Number);
+      .map(Number) as [number, number, number];
     const startDate = new Date(startYear, startMonth - 1, startDay);
 
     // Parse end date and subtract 1 day (since end date is exclusive in iCal)
-    const [endYear, endMonth, endDay] = event.end.split("-").map(Number);
+    const [endYear, endMonth, endDay] = event.end.split("-").map(Number) as [number, number, number];
     const endDate = new Date(endYear, endMonth - 1, endDay);
     endDate.setDate(endDate.getDate() - 1);
 
