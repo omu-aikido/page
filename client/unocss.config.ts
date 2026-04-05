@@ -58,7 +58,7 @@ export default defineConfig({
       "heading-kicker":
         "mb-2 inline-flex rounded-full border border-brand-500/40 bg-brand-500/10 px-2.5 py-0.5 text-xs tracking-[0.2em] text-brand-700 dark:(text-brand-100 border-brand-500/40 bg-brand-500/15)",
       "btn-base":
-        "inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-semibold transition duration-200 ease-out active:translate-y-0.5 disabled:(cursor-not-allowed opacity-60)",
+        "inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-semibold transition duration-200 ease-out active:translate-y-0.5 disabled:(cursor-not-allowed opacity-60) hover:(bg-brand-500/10 shadow-[0_12px_22px_-16px_rgba(30,64,175,0.75)] cursor-pointer)",
       "btn-primary":
         "btn-base bg-brand-600 text-white hover:(bg-brand-700 -translate-y-0.5 shadow-[0_12px_22px_-16px_rgba(30,64,175,0.75)]) active:(translate-y-0 shadow-none) focus-visible:(outline-none ring-2 ring-brand-500/50)",
       "btn-secondary":

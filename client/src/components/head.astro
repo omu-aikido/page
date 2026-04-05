@@ -5,6 +5,8 @@ interface Props {
   title: string;
   description: string;
 }
+
+const isDev = import.meta.env.DEV;
 ---
 
 <head>
@@ -12,6 +14,14 @@ interface Props {
   <meta name="viewport" content="width=device-width" />
   <meta name="generator" content={Astro.generator} />
   <meta name="description" content={Astro.props.description} />
+  {
+    isDev && (
+      <meta
+        http-equiv="Content-Security-Policy"
+        content="script-src 'self' 'unsafe-eval' 'unsafe-inline' https://challenges.cloudflare.com https://*.cloudflare.com https://static.cloudflareinsights.com; connect-src 'self' http://localhost:* https://localhost:* https://challenges.cloudflare.com https://*.cloudflare.com https://static.cloudflareinsights.com; frame-src https://challenges.cloudflare.com https://*.cloudflare.com; worker-src https://static.cloudflareinsights.com;"
+      />
+    )
+  }
   <link rel="sitemap" href="/sitemap-index.xml" />
   <link rel="canonical" href="https://omu-aikido.com" />
   <link rel="icon" type="image/svg" href="/favicon.svg" />
