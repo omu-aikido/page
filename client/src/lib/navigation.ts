@@ -35,20 +35,6 @@ export interface BreadcrumbItem extends NavLink {
   isCurrent?: boolean;
 }
 
-function findNavInTree(
-  pathname: string,
-  items: NavLink[] = navlinks,
-): NavLink | null {
-  for (const item of items) {
-    if (item.path === pathname) return item;
-    if (item.children) {
-      const found = findNavInTree(pathname, item.children);
-      if (found) return found;
-    }
-  }
-  return null;
-}
-
 function getPathToNode(
   pathname: string,
   items: NavLink[] = navlinks,
@@ -66,11 +52,14 @@ function getPathToNode(
 }
 
 export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
-  if (pathname === "/") {
+  // Normalize pathname: remove trailing slash (except for root)
+  const normalized = pathname === "/" ? "/" : pathname.replace(/\/$/, "");
+
+  if (normalized === "/") {
     return [{ title: "ホーム", path: "/", isCurrent: true }];
   }
 
-  const path = getPathToNode(pathname);
+  const path = getPathToNode(normalized);
   return path.map((item, index) => ({
     ...item,
     isCurrent: index === path.length - 1,

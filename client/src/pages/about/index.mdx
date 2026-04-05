@@ -4,6 +4,9 @@ title: About Us
 description: 大阪公立大学合氣道部について
 ---
 
+import HistoryTimeline from "../../components/HistoryTimeline.astro";
+import InfoList from "../../components/InfoList.astro";
+
 **2022年の春より、大阪市立大学合気道サークルと大阪府立大学合氣道部が統合し、大阪公立大学合氣道部として活動しています！**
 
 大阪公立大学で唯一、中百舌鳥キャンパスと杉本キャンパスの両方で活動する体育会所属の合気道部です。
@@ -12,21 +15,22 @@ description: 大阪公立大学合氣道部について
 
 ## 歴史
 
-<dl>
-  <dt class="text-sm font-semibold text-muted">1964年</dt>
-  <dd class="text-body m-0">大阪府立大学合氣道部が発足</dd>
-  <dt class="text-sm font-semibold text-muted">2018年10月</dt>
-  <dd class="text-body m-0">大阪市立大学合気道サークルが発足</dd>
-  <dt class="text-sm font-semibold text-muted">2022年4月</dt>
-  <dd class="text-body m-0">
-    大阪市立大学・大阪府立大学の大学統合に伴い両大学の合氣道部が統合し、大阪公立大学合氣道部が発足
-  </dd>
-  <dt class="text-sm font-semibold text-muted">
-    ~{new Date().getFullYear()}年
-  </dt>
-  <dd class="text-body m-0">現在に至る</dd>
-</dl>
-<br />
+<HistoryTimeline
+  items={[
+    { year: "1964年", description: "大阪府立大学合氣道部が発足" },
+    { year: "2018年10月", description: "大阪市立大学合気道サークルが発足" },
+    {
+      year: "2022年4月",
+      description:
+        "大阪市立大学・大阪府立大学の大学統合に伴い両大学の合氣道部が統合し、大阪公立大学合氣道部が発足",
+    },
+    {
+      year: `~${new Date().getFullYear()}年`,
+      description: "現在に至る",
+    },
+  ]}
+/>
+
 また、1968年から2018年4月まで、天之武産合氣塾道場門下の大阪市立大学体育会合氣道部が活動していました。別団体ではありますが、旧三商大合同稽古などのイベントを受け継いでいます。
 
 ---
@@ -91,41 +95,39 @@ description: 大阪公立大学合氣道部について
 
 ### 団体等基本情報
 
-<dl>
-  <dt class="text-sm font-semibold text-muted">団体名称</dt>
-  <dd class="text-body m-0 row-soft">大阪公立大学合氣道部</dd>
-  <dt class="text-sm font-semibold text-muted">団体種別</dt>
-  <dd class="text-body m-0 row-soft">公認団体</dd>
-  <dt class="text-sm font-semibold text-muted">活動分類</dt>
-  <dd class="text-body m-0 row-soft">武道／スポーツ</dd>
-  <dt class="text-sm font-semibold text-muted">構成員数</dt>
-  <dd class="text-body m-0 row-soft">
-    31名（１年生：12名、２年生：9名、３年生：5名、４年生：0名、大学院生：5名）
-    <small class="text-muted">※2025年6月現在</small>
-  </dd>
-  <dt class="text-sm font-semibold text-muted">引退時期</dt>
-  <dd class="text-body m-0 row-soft">
-    特別の定めなし
-    <small class="text-muted">※幹部交代後も部活参加可能</small>
-  </dd>
-  <dt class="text-sm font-semibold text-muted">部費</dt>
-  <dd class="text-body m-0 row-soft">5千円/6ヶ月</dd>
-  <dt class="text-sm font-semibold text-muted">部費以外の負担</dt>
-  <dd class="text-body m-0 row-soft">
-    合宿費（部会計、OB会、体育会等からの補助に応じて減免あり）遠征費（交通費、イベント参加費（1500円〜）など）
-  </dd>
-  <dt class="text-sm font-semibold text-muted">２年生以上の受入</dt>
-  <dd class="text-body m-0 row-soft">歓迎</dd>
-  <dt class="text-sm font-semibold text-muted">兼部・兼サー</dt>
-  <dd class="text-body m-0 row-soft">
-    可能です。白鷺祭実行委員会、中百舌鳥新歓実行委員会などに参加している部員もいます。兼部・兼サーをして、予定が合わない場合は無理に合氣道の稽古に参加しなくても構いません。
-  </dd>
-  <dt class="text-sm font-semibold text-muted">バイトとの両立</dt>
-  <dd class="text-body m-0 row-soft">可能</dd>
-  <dt class="text-sm font-semibold text-muted">入部可能時期</dt>
-  <dd class="text-body m-0 row-soft">通年可能</dd>
-  <dt class="text-sm font-semibold text-muted">入部方法</dt>
-  <dd class="text-body m-0 row-soft">
-    SNSのDM／飛び込み参加などにて、見学・体験を受け付けております。
-  </dd>
-</dl>
+<InfoList
+  items={[
+    { label: "団体名称", value: "大阪公立大学合氣道部" },
+    { label: "団体種別", value: "公認団体" },
+    { label: "活動分類", value: "武道／スポーツ" },
+    {
+      label: "構成員数",
+      value: [
+        "31名（１年生：12名、２年生：9名、３年生：5名、４年生：0名、大学院生：5名）",
+        "※2025年6月現在",
+      ],
+    },
+    {
+      label: "引退時期",
+      value: ["特別の定めなし", "※幹部交代後も部活参加可能"],
+    },
+    { label: "部費", value: "5千円/6ヶ月" },
+    {
+      label: "部費以外の負担",
+      value:
+        "合宿費（部会計、OB会、体育会等からの補助に応じて減免あり）遠征費（交通費、イベント参加費（1500円〜）など）",
+    },
+    { label: "２年生以上の受入", value: "歓迎" },
+    {
+      label: "兼部・兼サー",
+      value:
+        "可能です。白鷺祭実行委員会、中百舌鳥新歓実行委員会などに参加している部員もいます。兼部・兼サーをして、予定が合わない場合は無理に合氣道の稽古に参加しなくても構いません。",
+    },
+    { label: "バイトとの両立", value: "可能" },
+    { label: "入部可能時期", value: "通年可能" },
+    {
+      label: "入部方法",
+      value: "SNSのDM／飛び込み参加などにて、見学・体験を受け付けております。",
+    },
+  ]}
+/>

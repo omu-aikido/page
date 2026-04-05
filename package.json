@@ -7,6 +7,7 @@
   "scripts": {
     "build": "bunx turbo build",
     "dev": "bunx turbo dev",
+    "preview": "bunx turbo preview",
     "format": "bunx turbo format",
     "lint": "bunx turbo lint",
     "outdated": "bunx turbo outdated"

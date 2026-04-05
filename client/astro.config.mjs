@@ -14,7 +14,7 @@ import rehypeExternalLinks from "rehype-external-links";
 export default defineConfig({
   site: "https://omu-aikido.com",
   output: "static",
-  trailingSlash: "ignore",
+  trailingSlash: "never",
   markdown: {
     rehypePlugins: [
       [

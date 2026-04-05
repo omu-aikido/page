@@ -12,6 +12,8 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+
+const path = Astro.url.pathname;
 ---
 
 <html lang="ja">
@@ -25,11 +27,7 @@ const { title, description } = Astro.props;
       transition:name="main"
       transition:animate="fade"
     >
-      {
-        Astro.url.pathname !== "/" && (
-          <Breadcrumb pathname={Astro.url.pathname} />
-        )
-      }
+      {path !== "/" && <Breadcrumb pathname={path} />}
       <slot />
     </main>
     <Footer />

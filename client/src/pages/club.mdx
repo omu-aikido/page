@@ -3,6 +3,8 @@ layout: ../layouts/Markdown.astro
 title: 稽古について
 ---
 
+import ScheduleList from "../components/ScheduleList.astro";
+
 ## 活動場所
 
 大阪公立大学の以下施設にて活動しています。
@@ -15,28 +17,15 @@ title: 稽古について
 
 ## 活動日
 
-<dl>
-  <div class="row-soft">
-    <dt class="font-semibold text-heading">月曜日</dt>
-    <dd class="text-body m-0">中百舌鳥キャンパス</dd>
-    <dd class="text-sm text-muted m-0">18:30〜20:00</dd>
-  </div>
-  <div class="row-soft">
-    <dt class="font-semibold text-heading">火曜日</dt>
-    <dd class="text-body m-0">杉本キャンパス</dd>
-    <dd class="text-sm text-muted m-0">19:30〜21:00</dd>
-  </div>
-  <div class="row-soft">
-    <dt class="font-semibold text-heading">金曜日</dt>
-    <dd class="text-body m-0">杉本キャンパス</dd>
-    <dd class="text-sm text-muted m-0">19:30〜21:00</dd>
-  </div>
-  <div class="row-soft">
-    <dt class="font-semibold text-heading">土曜日</dt>
-    <dd class="text-body m-0">中百舌鳥キャンパス</dd>
-    <dd class="text-sm text-muted m-0">18:00〜20:00</dd>
-  </div>
-</dl>
+<ScheduleList
+  items={[
+    { day: "月曜日", location: "中百舌鳥キャンパス", time: "18:00〜20:00" },
+    { day: "火曜日", location: "杉本キャンパス", time: "18:00〜20:00" },
+    { day: "木曜日", location: "森之宮キャンパス", time: "19:00〜20:00" },
+    { day: "金曜日", location: "杉本キャンパス", time: "18:00〜20:00" },
+    { day: "土曜日", location: "中百舌鳥キャンパス", time: "18:00〜20:00" },
+  ]}
+/>
 
 詳しい予定は[予定表](/calendar)をご確認ください。
 
