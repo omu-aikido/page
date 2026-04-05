@@ -22,13 +22,18 @@ async function fetchEvents() {
   try {
     let res;
     if (viewMode.value === "list") {
+      // List: Fetch next 30 days starting from today
       const now = new Date();
+      now.setHours(0, 0, 0, 0);
       const end = new Date(now);
-      end.setMonth(end.getMonth() + 1);
+      end.setDate(end.getDate() + 30);
+      end.setHours(23, 59, 59, 999);
+
       res = await client.calendar.json.$get({
         query: { start: now.toISOString(), end: end.toISOString() },
       });
     } else {
+      // Calendar: Use API default (current month)
       res = await client.calendar.json.$get();
     }
     if (!res.ok) {
