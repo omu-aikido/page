@@ -1,13 +1,7 @@
 ---
-import { Image } from "astro:assets";
-import { getFlatNavLinks } from "@/lib/navigation";
 import SiteGuideBento from "@/components/SiteGuideBento.astro";
 
 import Layout from "@/layouts/Layout.astro";
-
-import aikidoImage from "@/assets/84DABC3E-78F6-4FAC-B2EB-F98F5DDDFC15.webp";
-
-const siteGuideLinks = getFlatNavLinks().filter((link) => link.path !== "/");
 ---
 
 <Layout title="トップ" description="大阪公立大学合氣道部の公式ホームページです">
@@ -46,12 +40,6 @@ const siteGuideLinks = getFlatNavLinks().filter((link) => link.path !== "/");
             class="btn-secondary mt-4">もっと詳しく</a
           >
         </div>
-        <Image
-          src={aikidoImage}
-          alt="座技呼吸法を指導する様子"
-          loading="lazy"
-          class="w-48 h-48 rounded-full object-cover m-2"
-        />
       </div>
     </div>
   </section>
