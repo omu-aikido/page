@@ -6,7 +6,8 @@
     "deploy": "wrangler deploy --minify",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "format": "oxfmt --write .",
-    "lint": "oxlint ."
+    "lint": "oxlint .",
+    "outdated": "bun outdated"
   },
   "dependencies": {
     "@hono/zod-validator": "0.7.6",

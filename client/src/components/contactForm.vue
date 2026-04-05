@@ -207,7 +207,14 @@ async function handleSubmit() {
     <TurnstileStatus ref="turnstileRef" :siteKey="siteKey" />
 
     <p class="text-sm">
-      このフォームを送信することで、<a href="/terms-of-service" target="_blank" class="link">利用規約</a>及び<a href="/privacy-policy" target="_blank" class="link">プライバシーポリシー</a>に同意したものとなります
+      このフォームを送信することで、<a
+        href="/terms-of-service"
+        target="_blank"
+        class="link"
+        >利用規約</a
+      >及び<a href="/privacy-policy" target="_blank" class="link"
+        >プライバシーポリシー</a
+      >に同意したものとなります
     </p>
     <button
       type="submit"

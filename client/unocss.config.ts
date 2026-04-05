@@ -38,16 +38,8 @@ export default defineConfig({
       },
     },
     fontFamily: {
-      sans: [
-        "IBM Plex Sans",
-        "Noto Sans JP",
-        "system-ui",
-        "sans-serif",
-      ],
-      mono: [
-        '"IBM Plex Mono"',
-        "monospace",
-      ],
+      sans: ["IBM Plex Sans", "Noto Sans JP", "system-ui", "sans-serif"],
+      mono: ['"IBM Plex Mono"', "monospace"],
     },
   },
   shortcuts: [
@@ -106,15 +98,23 @@ export default defineConfig({
       "weekday-saturday": "text-blue-600 dark:text-blue-400",
       "weekday-weekday": "text-zinc-600 dark:text-zinc-300",
       /* Typography Presets */
-      "prose-base": "font-sans text-base leading-relaxed text-zinc-700 dark:text-zinc-300",
-      "prose-h1": "font-sans text-2xl font-bold leading-tight text-zinc-900 dark:text-zinc-100",
-      "prose-h2": "font-sans text-xl font-bold leading-snug text-zinc-900 dark:text-zinc-100",
-      "prose-h3": "font-sans text-lg font-bold text-zinc-900 dark:text-zinc-100",
+      "prose-base":
+        "font-sans text-base leading-relaxed text-zinc-700 dark:text-zinc-300",
+      "prose-h1":
+        "font-sans text-2xl font-bold leading-tight text-zinc-900 dark:text-zinc-100",
+      "prose-h2":
+        "font-sans text-xl font-bold leading-snug text-zinc-900 dark:text-zinc-100",
+      "prose-h3":
+        "font-sans text-lg font-bold text-zinc-900 dark:text-zinc-100",
       "prose-strong": "font-bold text-zinc-900 dark:text-zinc-100",
-      "prose-a": "text-brand-600 underline decoration-1.5 underline-offset-3 transition hover:(text-brand-700 dark:text-brand-400)",
-      "prose-blockquote": "border-l-3 border-brand-600 pl-4 italic font-medium text-zinc-700 dark:text-zinc-300",
-      "prose-code": "font-mono text-sm bg-brand-600/10 px-1 py-0.5 rounded text-brand-700 dark:(bg-brand-600/20 text-brand-300)",
-      "prose-pre": "bg-zinc-900 text-zinc-100 p-6 rounded-lg overflow-auto text-sm leading-relaxed",
+      "prose-a":
+        "text-brand-600 underline decoration-1.5 underline-offset-3 transition hover:(text-brand-700 dark:text-brand-400)",
+      "prose-blockquote":
+        "border-l-3 border-brand-600 pl-4 italic font-medium text-zinc-700 dark:text-zinc-300",
+      "prose-code":
+        "font-mono text-sm bg-brand-600/10 px-1 py-0.5 rounded text-brand-700 dark:(bg-brand-600/20 text-brand-300)",
+      "prose-pre":
+        "bg-zinc-900 text-zinc-100 p-6 rounded-lg overflow-auto text-sm leading-relaxed",
       "prose-list": "space-y-2 ml-4",
       "prose-li": "font-normal text-zinc-700 dark:text-zinc-300",
     },

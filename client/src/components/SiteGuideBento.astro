@@ -10,7 +10,9 @@ const mainNav = navlinks[0]?.children || [];
       <div>
         <a href={parent.path} class="guide-card-header guide-card-link">
           <span class="guide-card-title">{parent.title}</span>
-          <span class="guide-card-arrow" aria-hidden="true">→</span>
+          <span class="guide-card-arrow" aria-hidden="true">
+            →
+          </span>
         </a>
         {parent.children && parent.children.length > 0 && (
           <ul class="guide-card-links">

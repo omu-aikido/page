@@ -20,7 +20,11 @@ const { title, description } = Astro.props;
     class="page-aikido-bg bg-zinc-50 text-zinc-800 dark:(bg-zinc-900 text-zinc-200)"
   >
     <Header />
-    <main class="mx-4 min-h-90dvh" transition:name="main" transition:animate="fade">
+    <main
+      class="mx-4 min-h-90dvh"
+      transition:name="main"
+      transition:animate="fade"
+    >
       {
         Astro.url.pathname !== "/" && (
           <Breadcrumb pathname={Astro.url.pathname} />
