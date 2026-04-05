@@ -3,6 +3,8 @@ import { ref, onMounted, onUnmounted, computed, watch } from "vue";
 import type { Event } from "./calendarUtils";
 import CalendarList from "./calendarList.vue";
 import CalendarGrid from "./calendarGrid.vue";
+import CalendarListSkeleton from "./CalendarListSkeleton.vue";
+import CalendarGridSkeleton from "./CalendarGridSkeleton.vue";
 import { client } from "@/lib/client";
 
 const events = ref<Event[]>([]);
@@ -73,11 +75,12 @@ onUnmounted(() => {
 
 <template>
   <!-- View Mode Toggle -->
-  <div v-if="!loading && !error" class="mb-4 flex items-center gap-2">
+  <div v-if="!error" class="mb-4 flex items-center justify-end gap-2">
     <button
       type="button"
-      class="btn-toggle"
+      class="btn-toggle cursor-pointer"
       :class="{ 'btn-toggle-active': viewMode === 'list' }"
+      :disabled="loading"
       @click="viewMode = 'list'"
     >
       <span class="i-ri:list-check text-base" />
@@ -85,8 +88,9 @@ onUnmounted(() => {
     </button>
     <button
       type="button"
-      class="btn-toggle"
+      class="btn-toggle cursor-pointer"
       :class="{ 'btn-toggle-active': viewMode === 'calendar' }"
+      :disabled="loading"
       @click="viewMode = 'calendar'"
     >
       <span class="i-ri:calendar-fill text-base" />
@@ -94,14 +98,12 @@ onUnmounted(() => {
     </button>
   </div>
 
-  <!-- Loading State -->
-  <div v-if="loading" class="section-soft flex items-center gap-2 px-3">
-    <div class="i-heroicons:arrow-path h-5 w-5 animate-spin status-pending" />
-    <p class="text-body">Loading...</p>
-  </div>
+  <!-- Loading State - Skeleton -->
+  <CalendarListSkeleton v-if="loading && viewMode === 'list'" />
+  <CalendarGridSkeleton v-if="loading && viewMode === 'calendar'" />
 
   <!-- Error State -->
-  <div v-if="error" class="section-soft px-3">
+  <div v-if="error" class="px-3">
     <div class="flex items-start gap-3">
       <div class="status-icon-error">
         <div class="i-heroicons:exclamation-triangle h-5 w-5" />
@@ -116,7 +118,7 @@ onUnmounted(() => {
   <!-- Empty State -->
   <div
     v-if="!loading && !error && currentMonthEvents.length === 0"
-    class="section-soft px-3"
+    class="px-3"
   >
     <div class="i-heroicons:calendar h-6 w-6 text-muted" />
     <p class="text-body mt-2">今月予定されている稽古はありません</p>

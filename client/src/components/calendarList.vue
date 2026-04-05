@@ -27,7 +27,7 @@ function getTitleClass(title: string) {
 </script>
 
 <template>
-  <div class="section-soft divide-y divide-zinc-200/70 dark:divide-zinc-700/70">
+  <div class="divide-y divide-zinc-200/70 dark:divide-zinc-700/70">
     <div
       v-for="(event, index) in events"
       :key="event.id"

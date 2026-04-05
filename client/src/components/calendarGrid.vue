@@ -108,7 +108,7 @@ function isStartDay(event: Event, date: Date): boolean {
 </script>
 
 <template>
-  <div class="section-soft calendar-container overflow-hidden px-2">
+  <div class="calendar-container overflow-hidden px-2">
     <div class="space-y-3">
       <div>
         <h2 class="text-heading text-xl font-bold">{{ monthName }}</h2>
