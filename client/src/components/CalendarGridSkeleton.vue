@@ -68,7 +68,7 @@ const weekDays = ["日", "月", "火", "水", "木", "金", "土"];
               <div v-if="day !== 0" class="min-h-24">
                 <!-- Day number skeleton -->
                 <div
-                  class="mb-2 h-5 w-6 rounded bg-zinc-200 dark:bg-zinc-700"
+                  class="skeleton-item mb-2 h-5 w-6 rounded bg-zinc-200 dark:bg-zinc-700"
                 />
 
                 <!-- Event placeholders -->
@@ -76,7 +76,7 @@ const weekDays = ["日", "月", "火", "水", "木", "金", "土"];
                   <div
                     v-for="i in 2"
                     :key="i"
-                    class="h-3 w-full rounded bg-zinc-100 dark:bg-zinc-700/50"
+                    class="skeleton-item h-3 w-full rounded bg-zinc-100 dark:bg-zinc-700/50"
                   />
                 </div>
               </div>
@@ -99,7 +99,7 @@ const weekDays = ["日", "月", "火", "水", "木", "金", "土"];
   }
 }
 
-div {
+.skeleton-item {
   background-image: linear-gradient(
     90deg,
     transparent,

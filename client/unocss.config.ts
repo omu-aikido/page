@@ -54,7 +54,6 @@ export default defineConfig({
         "rounded-xl border border-zinc-200/70 bg-white/90 p-4 shadow-sm dark:(border-zinc-700/70 bg-zinc-900/70)",
       "card-kasumi":
         "rounded-xl border border-zinc-300/70 bg-gradient-to-br from-white via-zinc-50 to-brand-50/70 p-5 shadow-[0_1px_0_rgba(255,255,255,0.8),0_16px_40px_-24px_rgba(30,64,175,0.55)] dark:(border-zinc-700/80 from-zinc-900 via-zinc-900 to-zinc-800)",
-      "": "rounded-lg border-y border-zinc-200/80 py-5 dark:border-zinc-700/70",
       "row-soft": "border-b border-zinc-200/70 py-3 dark:border-zinc-700/70",
       "heading-kicker":
         "mb-2 inline-flex rounded-full border border-brand-500/40 bg-brand-500/10 px-2.5 py-0.5 text-xs tracking-[0.2em] text-brand-700 dark:(text-brand-100 border-brand-500/40 bg-brand-500/15)",

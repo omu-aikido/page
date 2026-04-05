@@ -9,24 +9,34 @@ const skeletonItems = Array.from({ length: 4 }, (_, i) => i);
       <div class="flex items-start gap-3">
         <!-- Color dot skeleton -->
         <div
-          class="mt-1 h-2.5 w-2.5 rounded-full bg-zinc-200 dark:bg-zinc-700"
+          class="skeleton-item mt-1 h-2.5 w-2.5 rounded-full bg-zinc-200 dark:bg-zinc-700"
         />
         <div class="min-w-0 flex-1">
           <!-- Title skeleton -->
-          <div class="h-6 w-40 rounded bg-zinc-200 dark:bg-zinc-700" />
+          <div
+            class="skeleton-item h-6 w-40 rounded bg-zinc-200 dark:bg-zinc-700"
+          />
 
           <!-- Details skeleton -->
           <div class="mt-2 space-y-2">
             <!-- Date line -->
             <div class="flex items-center gap-2">
-              <div class="h-4 w-4 rounded bg-zinc-200 dark:bg-zinc-700" />
-              <div class="h-4 w-48 rounded bg-zinc-200 dark:bg-zinc-700" />
+              <div
+                class="skeleton-item h-4 w-4 rounded bg-zinc-200 dark:bg-zinc-700"
+              />
+              <div
+                class="skeleton-item h-4 w-48 rounded bg-zinc-200 dark:bg-zinc-700"
+              />
             </div>
 
             <!-- Time line (sometimes shown) -->
             <div v-if="index % 3 !== 0" class="flex items-center gap-2">
-              <div class="h-4 w-4 rounded bg-zinc-200 dark:bg-zinc-700" />
-              <div class="h-4 w-40 rounded bg-zinc-200 dark:bg-zinc-700" />
+              <div
+                class="skeleton-item h-4 w-4 rounded bg-zinc-200 dark:bg-zinc-700"
+              />
+              <div
+                class="skeleton-item h-4 w-40 rounded bg-zinc-200 dark:bg-zinc-700"
+              />
             </div>
           </div>
         </div>
@@ -46,7 +56,7 @@ const skeletonItems = Array.from({ length: 4 }, (_, i) => i);
   }
 }
 
-div {
+.skeleton-item {
   background-image: linear-gradient(
     90deg,
     transparent,
