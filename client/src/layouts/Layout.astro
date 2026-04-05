@@ -1,0 +1,35 @@
+---
+import Footer from "@/components/footer.astro";
+import Head from "@/components/head.astro";
+import Header from "@/components/header.astro";
+import Breadcrumb from "@/components/breadcrumb.astro";
+
+import "@/styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+
+const path = Astro.url.pathname;
+---
+
+<html lang="ja">
+  <Head title={title} description={description} />
+  <body
+    class="page-aikido-bg bg-zinc-50 text-zinc-800 dark:(bg-zinc-900 text-zinc-200)"
+  >
+    <Header />
+    <main
+      class="mx-4 min-h-90dvh"
+      transition:name="main"
+      transition:animate="fade"
+    >
+      {path !== "/" && <Breadcrumb pathname={path} />}
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,18 @@
+---
+const {
+  src,
+  class: iframeClass = "iframe-base",
+  loading = "lazy",
+  allowFullScreen = true,
+  title = "Embedded content",
+} = Astro.props as any;
+---
+
+<div class="iframe-wrapper">
+  <iframe
+    src={src}
+    title={title}
+    loading={loading}
+    class={`relative z-10 ${iframeClass}`}
+    {...allowFullScreen ? { allowfullscreen: true } : {}}></iframe>
+</div>

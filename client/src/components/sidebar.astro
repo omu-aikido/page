@@ -1,0 +1,191 @@
+---
+import { navlinks } from "@/lib/navigation";
+
+const currentPath = Astro.url.pathname;
+---
+
+<button
+  id="open-sidebar"
+  class="i-ri:menu-line text-2xl transition hover:(cursor-pointer i-ri:menu-unfold-4-line text-brand-600)"
+>
+</button>
+
+<dialog
+  id="sidebar"
+  class="w-80 max-w-full rounded-none border-0 bg-zinc-50 text-zinc-800 dark:(bg-zinc-900 text-zinc-100)"
+>
+  <div class="min-h-100dvh m-4 flex flex-col">
+    <button
+      id="close-sidebar"
+      class="i-ri:close-line mb-2 text-3xl transition hover:(i-ri:close-circle-line text-brand-600 cursor-pointer)"
+      ml-auto></button>
+
+    <nav class="mx-2 flex-1 space-y-1">
+      {
+        navlinks.map((parent) => {
+          const isActiveParent = currentPath === parent.path;
+          const isHome = parent.path === "/";
+          const hasChildren = parent.children && parent.children.length > 0;
+
+          return (
+            <div class="nav-group">
+              <a
+                href={parent.path}
+                transition:name={`nav-${parent.path.replaceAll("/", "-") || "home"}`}
+                class={`nav-link nav-link--parent ${isActiveParent ? "nav-link--active" : ""}`}
+              >
+                {parent.title}
+              </a>
+
+              {hasChildren && (
+                <div
+                  class={`nav-children ${isHome ? "" : "nav-children--indent"}`}
+                >
+                  {parent.children!.map((child) => {
+                    const isActiveChild = currentPath === child.path;
+                    const hasGrandchildren =
+                      child.children && child.children.length > 0;
+
+                    return (
+                      <div class="nav-group">
+                        <a
+                          href={child.path}
+                          transition:name={`nav-${child.path.replaceAll("/", "-")}`}
+                          class={`nav-link nav-link--child ${isActiveChild ? "nav-link--active" : ""}`}
+                        >
+                          {child.title}
+                        </a>
+
+                        {hasGrandchildren && (
+                          <div class="nav-grandchildren">
+                            {child.children!.map((grandchild) => {
+                              const isActiveGrandchild =
+                                currentPath === grandchild.path;
+                              return (
+                                <a
+                                  href={grandchild.path}
+                                  transition:name={`nav-${grandchild.path.replaceAll("/", "-")}`}
+                                  class={`nav-link nav-link--grandchild ${isActiveGrandchild ? "nav-link--active" : ""}`}
+                                >
+                                  {grandchild.title}
+                                </a>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })
+      }
+    </nav>
+  </div>
+</dialog>
+
+<style>
+  dialog#sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    min-height: 100dvh;
+  }
+
+  dialog#sidebar::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.2s ease;
+    @apply backdrop-blur-xs;
+  }
+
+  dialog#sidebar[open] {
+    animation: slide-in 0.2s ease-out;
+  }
+
+  @keyframes slide-in {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .nav-link {
+    @apply block w-full px-4 py-2 my-1.5 rounded-sm transition;
+  }
+
+  .nav-link--parent {
+    @apply text-base font-bold hover:(bg-zinc-200 dark:bg-zinc-700);
+  }
+
+  .nav-link--child {
+    @apply text-sm font-semibold hover:(bg-zinc-200 dark:bg-zinc-700);
+  }
+
+  .nav-link--grandchild {
+    @apply text-sm font-medium hover:(bg-zinc-200 dark:bg-zinc-700);
+  }
+
+  .nav-link--active {
+    @apply bg-brand-600 text-white font-semibold;
+  }
+
+  .nav-children {
+    @apply space-y-1 mt-1;
+  }
+
+  .nav-children--indent {
+    @apply ml-4;
+  }
+
+  .nav-grandchildren {
+    @apply space-y-1 mt-1 ml-4;
+  }
+</style>
+
+<script>
+  function initSidebar() {
+    const dialog = document.getElementById("sidebar") as HTMLDialogElement;
+    const openBtn = document.getElementById("open-sidebar");
+    const closeBtn = document.getElementById("close-sidebar");
+
+    if (dialog?.open) {
+      dialog.close();
+    }
+
+    openBtn?.addEventListener("click", () => {
+      dialog?.showModal();
+    });
+
+    closeBtn?.addEventListener("click", () => {
+      dialog?.close();
+    });
+
+    dialog?.addEventListener("click", (event) => {
+      if (event.target === dialog) {
+        dialog.close();
+      }
+    });
+  }
+
+  document.addEventListener("astro:page-load", initSidebar);
+
+  document.addEventListener("keydown", (event) => {
+    const dialog = document.getElementById("sidebar") as HTMLDialogElement;
+    if (event.key === "Escape" && dialog?.open) {
+      dialog.close();
+    }
+  });
+
+  document.addEventListener("astro:after-swap", () => {
+    const dialog = document.getElementById("sidebar") as HTMLDialogElement;
+    if (dialog?.open) {
+      dialog.close();
+    }
+  });
+</script>

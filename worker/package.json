@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "preview": "wrangler dev",
+    "deploy": "wrangler deploy --minify",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "format": "oxfmt --write .",
+    "lint": "oxlint .",
+    "outdated": "bun outdated"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "0.7.6",
+    "hono": "4.12.10",
+    "mimetext": "3.0.28",
+    "ts-ics": "2.4.3",
+    "zod": "4.3.6"
+  },
+  "devDependencies": {}
+}

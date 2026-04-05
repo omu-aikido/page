@@ -1,0 +1,162 @@
+---
+import { navlinks } from "@/lib/navigation";
+
+const mainNav = navlinks[0]?.children || [];
+---
+
+<nav class="site-guide">
+  {
+    mainNav.map((parent) => (
+      <div>
+        <a href={parent.path} class="guide-card-header guide-card-link">
+          <span class="guide-card-title">{parent.title}</span>
+          <span class="guide-card-arrow" aria-hidden="true">
+            →
+          </span>
+        </a>
+        {parent.children && parent.children.length > 0 && (
+          <ul class="guide-card-links">
+            {parent.children.map((child) => (
+              <li class="pl-4">
+                <a href={child.path} class="guide-card-link">
+                  {child.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    ))
+  }
+</nav>
+
+<style>
+  .site-guide {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 0;
+  }
+
+  .guide-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
+
+  .guide-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    text-decoration: none;
+    padding: 0;
+  }
+
+  .guide-card-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: rgb(24, 24, 27);
+    transition: color 0.15s ease;
+  }
+
+  .guide-card:hover .guide-card-title {
+    color: rgb(37, 99, 235);
+  }
+
+  .guide-card-arrow {
+    font-size: 1.25rem;
+    color: rgb(37, 99, 235);
+    opacity: 0.5;
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .guide-card:hover .guide-card-arrow {
+    opacity: 1;
+  }
+
+  .guide-card-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .guide-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgb(63, 63, 70);
+    text-decoration: none;
+    padding: 0.25rem 0;
+    transition: color 0.15s ease;
+    position: relative;
+  }
+
+  .guide-card-link:hover {
+    color: rgb(37, 99, 235);
+  }
+
+  .guide-card-link::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: rgb(37, 99, 235);
+    transition: width 0.15s ease;
+  }
+
+  .guide-card-link:hover::after {
+    width: 100%;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .guide-card-title {
+      color: rgb(244, 244, 245);
+    }
+
+    .guide-card:hover .guide-card-title {
+      color: rgb(147, 197, 253);
+    }
+
+    .guide-card-link {
+      color: rgb(212, 212, 216);
+    }
+
+    .guide-card-link:hover {
+      color: rgb(147, 197, 253);
+    }
+
+    .guide-card-link::after {
+      background: rgb(147, 197, 253);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .guide-card-arrow,
+    .guide-card-link {
+      transition: none;
+    }
+
+    .guide-card-link::after {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .site-guide {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

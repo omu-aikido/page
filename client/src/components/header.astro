@@ -1,0 +1,28 @@
+---
+import Sidebar from "./sidebar.astro";
+import favicon from "../../public/favicon.svg";
+import { Image } from "astro:assets";
+---
+
+<header class="backdrop-blur-3xl w-full sticky top-0 z-100">
+  <div
+    class="max-w-5xl mx-auto pb-6 pt-4 px-4 flex flex-row items-center justify-between pb-2"
+  >
+    <nav un-text-2xl un-font-bold>
+      <a
+        href="/"
+        aria-label="トップへ"
+        transition:name="site-logo"
+        transition:persist
+      >
+        <Image
+          src={favicon}
+          class="h-10 w-auto rounded-full p-1 transition"
+          loading="eager"
+          alt=""
+        />
+      </a>
+    </nav>
+    <Sidebar />
+  </div>
+</header>

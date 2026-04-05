@@ -1,0 +1,38 @@
+---
+interface Item {
+  label: string;
+  value: string | string[];
+}
+
+interface Props {
+  items: Item[];
+}
+
+const { items } = Astro.props;
+---
+
+<dl class="space-y-0">
+  {
+    items.map((item) => (
+      <div class="row-soft">
+        <dt class="text-sm font-semibold text-zinc-500 dark:text-zinc-400">
+          {item.label}
+        </dt>
+        <dd class="text-base text-zinc-700 dark:text-zinc-300 m-0">
+          {typeof item.value === "string" ? (
+            item.value
+          ) : (
+            <>
+              {item.value.map((line, i) => (
+                <>
+                  {i > 0 && <br />}
+                  {line}
+                </>
+              ))}
+            </>
+          )}
+        </dd>
+      </div>
+    ))
+  }
+</dl>

@@ -1,0 +1,19 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [
+    ".astro/types.d.ts",
+    "./worker-configuration.d.ts",
+    "./src/**/*",
+    "./src/**/*.vue"
+  ],
+  "exclude": ["dist"],
+  "compilerOptions": {
+    "types": ["./worker-configuration.d.ts"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "jsx": "preserve",
+    "jsxImportSource": "astro"
+  }
+}
