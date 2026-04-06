@@ -1,5 +1,5 @@
 ---
-import CalendarView from "@/components/calendarView.vue";
+import CalendarList from "@/components/CalendarList.vue";
 import Layout from "@/layouts/Layout.astro";
 ---
 
@@ -10,7 +10,7 @@ import Layout from "@/layouts/Layout.astro";
       <p class="text-body">直近の稽古予定を一覧・カレンダーで確認できます。</p>
     </div>
 
-    <CalendarView client:load />
+    <CalendarList client:load />
 
     <div
       id="google-calendar-navigation"

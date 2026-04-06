@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import {
-  type Event,
+  type CalendarEvent,
   getEventDateRange,
   isMultiDayEvent,
   formatEventTime,
-} from "./calendarUtils";
+} from "@/composables/useCalendar";
 
 interface CalendarGridProps {
-  events: Event[];
+  events: CalendarEvent[];
 }
 
 const props = defineProps<CalendarGridProps>();
@@ -39,7 +39,7 @@ const calendarDays = computed(() => {
 });
 
 const eventsByDate = computed(() => {
-  const result = new Map<string, Event[]>();
+  const result = new Map<string, CalendarEvent[]>();
   props.events.forEach((event) => {
     const { startDate, endDate } = getEventDateRange(event);
     const current = new Date(
@@ -62,7 +62,7 @@ const eventsByDate = computed(() => {
   return result;
 });
 
-function getEventsForDate(date: Date): Event[] {
+function getEventsForDate(date: Date): CalendarEvent[] {
   const dateKey = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
   return eventsByDate.value.get(dateKey) || [];
 }
@@ -97,7 +97,7 @@ function getWeekdayClass(weekday: string): string {
   return "weekday-weekday";
 }
 
-function isStartDay(event: Event, date: Date): boolean {
+function isStartDay(event: CalendarEvent, date: Date): boolean {
   const startDate = new Date(event.start);
   return (
     startDate.getFullYear() === date.getFullYear() &&

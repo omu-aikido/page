@@ -1,4 +1,34 @@
-export type Event = {
+import { client } from "@/lib/client";
+import { ref } from "vue";
+
+export function useCalendar() {
+  const events = ref<CalendarEvent[]>([]);
+  const loading = ref(false);
+  const error = ref<string | null>(null);
+
+  async function fetchEvents(start: Date, end: Date) {
+    loading.value = true;
+    error.value = null;
+    try {
+      const startStr = start.toISOString().split("T")[0];
+      const endStr = end.toISOString().split("T")[0];
+      const res = await client.calendar.json.$get({
+        query: { start: startStr, end: endStr },
+      });
+      if (res.ok) {
+        events.value = await res.json();
+      }
+    } catch (e) {
+      error.value = String(e);
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  return { events, loading, error, fetchEvents };
+}
+
+export type CalendarEvent = {
   id: string;
   start: string; // ISO 8601 for timed events, yyyy-mm-dd for all-day
   end: string; // ISO 8601 for timed events, yyyy-mm-dd for all-day
@@ -14,7 +44,7 @@ export type Event = {
  * - For timed events (ISO 8601 strings):
  *   Parse as-is and subtract 1 minute to handle exclusive end boundaries.
  */
-export function getEventDateRange(event: Event) {
+export function getEventDateRange(event: CalendarEvent) {
   if (event.isAllDay) {
     // All-day events use yyyy-mm-dd format
     // Parse start date
@@ -24,7 +54,11 @@ export function getEventDateRange(event: Event) {
     const startDate = new Date(startYear, startMonth - 1, startDay);
 
     // Parse end date and subtract 1 day (since end date is exclusive in iCal)
-    const [endYear, endMonth, endDay] = event.end.split("-").map(Number) as [number, number, number];
+    const [endYear, endMonth, endDay] = event.end.split("-").map(Number) as [
+      number,
+      number,
+      number,
+    ];
     const endDate = new Date(endYear, endMonth - 1, endDay);
     endDate.setDate(endDate.getDate() - 1);
 
@@ -45,11 +79,11 @@ export function getEventDateRange(event: Event) {
  * Determines if an event is an "All Day" event.
  * Uses the isAllDay flag from the API response.
  */
-export function isAllDayEvent(event: Event): boolean {
+export function isAllDayEvent(event: CalendarEvent): boolean {
   return event.isAllDay;
 }
 
-export function isMultiDayEvent(event: Event): boolean {
+export function isMultiDayEvent(event: CalendarEvent): boolean {
   const { startDate, endDate } = getEventDateRange(event);
 
   return (
@@ -63,7 +97,7 @@ export function isMultiDayEvent(event: Event): boolean {
  * Formats the date range string.
  * e.g., "2月1日", "2月23日 - 2月27日"
  */
-export function formatEventDateRange(event: Event): string {
+export function formatEventDateRange(event: CalendarEvent): string {
   const { startDate, endDate } = getEventDateRange(event);
 
   const format = (d: Date) =>

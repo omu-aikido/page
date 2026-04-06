@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, reactive } from "vue";
-import FormInput from "./formInput.vue";
-import TurnstileStatus from "./turnstileStatus.vue";
+import FormInput from "./FormInput.vue";
+import TurnstileStatus from "./TurnstileStatus.vue";
 import { client } from "@/lib/client";
 
 const form = reactive({

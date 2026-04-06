@@ -1,22 +1,20 @@
 <script setup lang="ts">
 // Show 3-4 skeleton items by default
-const skeletonItems = Array.from({ length: 4 }, (_, i) => i);
+const skeletonItems = Array.from({ length: 8 }, (_, i) => i);
 </script>
 
 <template>
   <div class="divide-y divide-zinc-200/70 dark:divide-zinc-700/70">
-    <div v-for="index in skeletonItems" :key="index" class="py-3">
+    <div v-for="index in skeletonItems" :key="index" class="px-4 py-5 min-w-0 grid grid-flow-col grid-col-2 sm:grid-cols-[1fr_2fr] grid-cols-[1fr-1fr]">
       <div class="flex items-start gap-3">
-        <!-- Color dot skeleton -->
-        <div
-          class="skeleton-item mt-1 h-2.5 w-2.5 rounded-full bg-zinc-200 dark:bg-zinc-700"
-        />
-        <div class="min-w-0 flex-1">
+        <h3
+          class="font-semibold text-lg"
+        >
           <!-- Title skeleton -->
           <div
             class="skeleton-item h-6 w-40 rounded bg-zinc-200 dark:bg-zinc-700"
           />
-
+        </h3>
           <!-- Details skeleton -->
           <div class="mt-2 space-y-2">
             <!-- Date line -->
@@ -42,7 +40,6 @@ const skeletonItems = Array.from({ length: 4 }, (_, i) => i);
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <style scoped>
@@ -64,6 +61,6 @@ const skeletonItems = Array.from({ length: 4 }, (_, i) => i);
     transparent
   );
   background-size: 200px 100%;
-  animation: shimmer 2s infinite;
+  animation: shimmer 4s infinite;
 }
 </style>
