@@ -1,17 +1,22 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import {
   type CalendarEvent,
   getEventDateRange,
   isMultiDayEvent,
   formatEventTime,
+  useCalendar,
 } from "@/composables/useCalendar";
 
-interface CalendarGridProps {
-  events: CalendarEvent[];
-}
+const { events, loading, error, fetchEvents } = useCalendar();
 
-const props = defineProps<CalendarGridProps>();
+const today = new Date();
+const start = new Date(today.getFullYear(), today.getMonth(), 1);
+const end = new Date(today.getFullYear(), today.getMonth() + 1, 2);
+
+onMounted(() => {
+  fetchEvents(start, end).then(() => console.log(events.value));
+});
 
 const currentYear = ref(new Date().getFullYear());
 const currentMonth = ref(new Date().getMonth());
@@ -30,17 +35,27 @@ const monthName = computed(() =>
 );
 
 const calendarDays = computed(() => {
-  const days: Date[] = [];
-  for (let i = 0; i < firstDayOfMonth.value; i++)
-    days.push(null as unknown as Date);
-  for (let day = 1; day <= daysInMonth.value; day++)
+  const days: (Date | null)[] = [];
+
+  for (let i = 0; i < firstDayOfMonth.value; i++) {
+    days.push(null);
+  }
+
+  for (let day = 1; day <= daysInMonth.value; day++) {
     days.push(new Date(currentYear.value, currentMonth.value, day));
+  }
+
+  const remainingCells = (7 - (days.length % 7)) % 7;
+  for (let i = 0; i < remainingCells; i++) {
+    days.push(null);
+  }
+
   return days;
 });
 
 const eventsByDate = computed(() => {
   const result = new Map<string, CalendarEvent[]>();
-  props.events.forEach((event) => {
+  events.value.forEach((event) => {
     const { startDate, endDate } = getEventDateRange(event);
     const current = new Date(
       startDate.getFullYear(),
@@ -68,10 +83,11 @@ function getEventsForDate(date: Date): CalendarEvent[] {
 }
 
 function getEventBadgeClass(title: string): string {
-  if (title.includes("中百舌鳥")) return "event-badge-nakamo";
-  if (title.includes("杉本")) return "event-badge-sugimoto";
-  if (title.includes("会")) return "event-badge-kai";
-  return "event-badge-default";
+  if (title.includes("中百舌鳥")) return "event-nakamozu";
+  if (title.includes("杉本")) return "event-sugimoto";
+  if (title.includes("森之宮")) return "event-morinomiya";
+  if (title.includes("会")) return "event-event";
+  return "event-default";
 }
 
 function isToday(date: Date): boolean {
@@ -81,14 +97,6 @@ function isToday(date: Date): boolean {
     date.getMonth() === today.getMonth() &&
     date.getFullYear() === today.getFullYear()
   );
-}
-
-// 動的クラス生成のため、semantic color shortcuts を使用
-function getDayClass(date: Date): string {
-  const day = date.getDay();
-  if (day === 0) return "text-red-600 dark:text-red-400"; // 日曜日
-  if (day === 6) return "text-blue-600 dark:text-blue-400"; // 土曜日
-  return "text-heading";
 }
 
 function getWeekdayClass(weekday: string): string {
@@ -108,59 +116,80 @@ function isStartDay(event: CalendarEvent, date: Date): boolean {
 </script>
 
 <template>
-  <div class="calendar-container overflow-hidden px-2">
-    <div class="space-y-3">
-      <div>
-        <h2 class="text-heading text-xl font-bold">{{ monthName }}</h2>
+  <div v-if="error" class="text-red-500">エラーが発生しました</div>
+
+  <div
+    id="calendar-grid"
+    class="calendar-container overflow-hidden"
+    role="grid"
+    aria-labelledby="cal-title"
+  >
+    <h2 id="cal-title" class="text-heading text-xl font-bold mb-4">
+      {{ monthName }}
+    </h2>
+
+    <!-- 曜日ヘッダー: role="row" -->
+    <div class="grid grid-cols-7 mb-1" role="row">
+      <div
+        v-for="day in ['日', '月', '火', '水', '木', '金', '土']"
+        :key="day"
+        role="columnheader"
+        class="px-1 py-2 text-sm font-semibold text-center"
+        :class="getWeekdayClass(day)"
+      >
+        {{ day }}
       </div>
-      <div class="space-y-1">
-        <div class="grid grid-cols-7 gap-1">
-          <div
-            v-for="day in ['日', '月', '火', '水', '木', '金', '土']"
-            :key="day"
-            class="px-1 py-2 text-center text-xs font-semibold"
-            :class="getWeekdayClass(day)"
+    </div>
+
+    <!-- 日付グリッド: role="rowgroup" (tbodyに相当) -->
+    <div class="grid grid-cols-7 gap-1" role="rowgroup">
+      <div
+        v-for="(date, index) in calendarDays"
+        :key="index"
+        role="gridcell"
+        class="min-h-24 rounded-sm p-1 border bg-zinc-50 dark:bg-zinc-800/40"
+        :class="[
+          !date && 'opacity-60',
+          date && isToday(date)
+            ? 'border-lime'
+            : 'border-zinc-200/70 dark:border-zinc-700/70',
+        ]"
+      >
+        <template v-if="date">
+          <time
+            class="text-xs font-semibold ml-1"
+            :datetime="`${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`"
           >
-            {{ day }}
-          </div>
-        </div>
-        <div class="grid grid-cols-7 gap-1">
-          <div
-            v-for="(date, index) in calendarDays"
-            :key="index"
-            class="min-h-20 rounded-md border border-zinc-200/70 bg-zinc-50 p-1 dark:(border-zinc-700/70 bg-zinc-800/40)"
+            {{ date.getDate() }}
+          </time>
+
+          <ul
+            class="mt-1 space-y-1"
+            :class="[
+              loading
+                ? 'skeleton-item h-6 w-fit rounded bg-zinc-200 dark:bg-zinc-700'
+                : '',
+            ]"
           >
-            <div v-if="date" class="h-full">
-              <span
-                class="text-xs font-semibold"
-                :class="[
-                  getDayClass(date),
-                  isToday(date)
-                    ? 'rounded bg-brand-100 px-1.5 py-0.5 dark:bg-brand-700/30'
-                    : '',
-                ]"
-                >{{ date.getDate() }}</span
-              >
-              <div class="mt-1 space-y-1">
-                <div
-                  v-for="event in getEventsForDate(date)"
-                  :key="event.id"
-                  class="rounded px-1 py-0.5 text-[11px] leading-tight"
-                  :class="getEventBadgeClass(event.title)"
-                  :title="`${event.title} ${formatEventTime(event.start)}${event.end ? ' - ' + formatEventTime(event.end) : ''}`"
+            <li
+              v-for="event in getEventsForDate(date)"
+              :key="event.id"
+              class="rounded px-1 py-0.5 text-[11px] leading-tight"
+              :class="getEventBadgeClass(event.title)"
+              :title="`${event.title} ${formatEventTime(event.start)}${event.end ? ' - ' + formatEventTime(event.end) : ''}`"
+            >
+              <span class="truncate block">{{ event.title }}</span>
+              <span class="flex-inline truncate">
+                <time
+                  v-if="isStartDay(event, date) && !isMultiDayEvent(event)"
+                  class="block mt-0.5 text-[10px] opacity-80"
                 >
-                  <div class="truncate">{{ event.title }}</div>
-                  <div
-                    v-if="isStartDay(event, date) && !isMultiDayEvent(event)"
-                    class="mt-0.5 text-[10px] opacity-80"
-                  >
-                    {{ formatEventTime(event.start) }}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                  {{ formatEventTime(event.start) }}
+                </time>
+              </span>
+            </li>
+          </ul>
+        </template>
       </div>
     </div>
   </div>

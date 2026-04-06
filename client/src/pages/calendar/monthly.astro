@@ -1,0 +1,36 @@
+---
+import CalendarGrid from "@/components/CalendarGrid.vue";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="稽古予定" description="今後の稽古予定">
+  <section class="sm:container-page min-h-60dvh">
+    <div class="mb-6" transition:name="calendar-head">
+      <h1 class="text-heading text-3xl font-bold">稽古予定</h1>
+    </div>
+
+    <CalendarGrid client:load />
+
+    <p un-text-end un-mt-4>
+      <a href="/calendar" class="text-lg link">今後の予定</a>
+    </p>
+  </section>
+  <section class="container-page">
+    <div
+      id="google-calendar-navigation"
+      class="card-base mt-4 flex items-start gap-3"
+    >
+      <p class="text-body">
+        <a
+          href="https://calendar.google.com/calendar/embed?src=aikido.omu%40gmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link"
+        >
+          Googleカレンダー
+        </a>
+        では過去の稽古や1ヶ月以上先の稽古予定も確認できます。
+      </p>
+    </div>
+  </section>
+</Layout>
