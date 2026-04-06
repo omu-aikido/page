@@ -4,13 +4,16 @@ import Layout from "@/layouts/Layout.astro";
 ---
 
 <Layout title="稽古予定" description="今後の稽古予定">
-  <section class="container-page">
+  <section class="container-page min-h-60dvh">
     <div class="mb-6" transition:name="calendar-head">
       <h1 class="text-heading mb-2 text-3xl font-bold">稽古予定</h1>
       <p class="text-body">直近の稽古予定を一覧・カレンダーで確認できます。</p>
     </div>
 
     <CalendarList client:load />
+
+  </section>
+  <section class="container-page">
 
     <div
       id="google-calendar-navigation"
