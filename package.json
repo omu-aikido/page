@@ -1,9 +1,14 @@
 {
   "name": "page",
-  "workspaces": [
-    "client",
-    "worker"
-  ],
+  "workspaces": {
+    "packages": [
+      "client",
+      "worker"
+    ],
+    "catalog": {
+      "hono": "4.12.10"
+    }
+  },
   "scripts": {
     "build": "bunx turbo build",
     "dev": "bunx turbo dev",
