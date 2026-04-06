@@ -7,7 +7,7 @@ const props = defineProps<{
 
 // 0から7までの配列
 const skeletonItems = Array.from({ length: 8 }, (_, i) => i);
-const exitStates = ref<boolean[]>(new Array(8).fill(false));
+const exitStates = ref<boolean[]>(Array.from({ length: 8 }, () => false));
 const isFullyExited = ref(false);
 
 watch(
