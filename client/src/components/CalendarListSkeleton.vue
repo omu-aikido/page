@@ -1,7 +1,6 @@
 <script setup lang="ts">
 // Show 3-4 skeleton items by default
 const skeletonItems = Array.from({ length: 8 }, (_, i) => i);
-
 </script>
 
 <template>
@@ -14,21 +13,31 @@ const skeletonItems = Array.from({ length: 8 }, (_, i) => i);
     >
       <!-- Title skeleton -->
       <h3 class="font-semibold text-lg">
-        <div class="skeleton-item h-6 w-40 rounded bg-zinc-200 dark:bg-zinc-700" />
+        <div
+          class="skeleton-item h-6 w-40 rounded bg-zinc-200 dark:bg-zinc-700"
+        />
       </h3>
 
       <!-- Details skeleton -->
       <div class="space-y-1 text-sm text-body">
         <!-- Date line -->
         <div class="flex-inline items-center gap-2">
-          <div class="skeleton-item h-4 w-4 rounded bg-zinc-200 dark:bg-zinc-700" />
-          <div class="skeleton-item h-4 w-48 rounded bg-zinc-200 dark:bg-zinc-700" />
+          <div
+            class="skeleton-item h-4 w-4 rounded bg-zinc-200 dark:bg-zinc-700"
+          />
+          <div
+            class="skeleton-item h-4 w-48 rounded bg-zinc-200 dark:bg-zinc-700"
+          />
         </div>
         <br />
         <!-- Time line (sometimes shown) -->
         <div v-if="index % 3 !== 0" class="flex-inline items-center gap-2">
-          <div class="skeleton-item h-4 w-4 rounded bg-zinc-200 dark:bg-zinc-700" />
-          <div class="skeleton-item h-4 w-40 rounded bg-zinc-200 dark:bg-zinc-700" />
+          <div
+            class="skeleton-item h-4 w-4 rounded bg-zinc-200 dark:bg-zinc-700"
+          />
+          <div
+            class="skeleton-item h-4 w-40 rounded bg-zinc-200 dark:bg-zinc-700"
+          />
         </div>
       </div>
     </div>

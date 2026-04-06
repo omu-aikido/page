@@ -63,10 +63,7 @@ function getTitleClass(title: string) {
       :class="getTitleClass(event.title)"
       :style="{ animationDelay: `${index * 60}ms` }"
     >
-      <h3
-        class="font-semibold text-lg"
-        :class="getTitleClass(event.title)"
-      >
+      <h3 class="font-semibold text-lg" :class="getTitleClass(event.title)">
         {{ event.title }}
       </h3>
       <div class="space-y-1 text-sm text-body">

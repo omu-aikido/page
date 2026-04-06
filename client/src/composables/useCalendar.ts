@@ -27,7 +27,7 @@ export function useCalendar() {
 
   onUnmounted(() => {
     loading.value = true;
-  })
+  });
 
   return { events, loading, error, fetchEvents };
 }
