@@ -29,54 +29,60 @@ function getTitleClass(title: string) {
 </script>
 
 <template>
-  <CalendarListSkeleton v-if="loading" />
-
-  <div v-if="error" class="px-3">
-    <div class="flex items-start gap-3">
-      <div class="status-icon-error">
-        <div class="i-ri:error-warning-line h-5 w-5" />
-      </div>
-      <div class="min-w-0">
-        <h3 class="text-heading text-lg font-bold">エラーが発生しました</h3>
-        <p class="status-error mt-1">{{ error }}</p>
+  <div class="relative">
+    <div class="absolute inset-0 z-10 pointer-events-none">
+      <CalendarListSkeleton :loading="loading" />
+    </div>
+    <div v-if="error" class="px-3">
+      <div class="flex items-start gap-3">
+        <div class="status-icon-error">
+          <div class="i-ri:error-warning-line h-5 w-5" />
+        </div>
+        <div class="min-w-0">
+          <h3 class="text-heading text-lg font-bold">エラーが発生しました</h3>
+          <p class="status-error mt-1">{{ error }}</p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div v-if="!loading && !error && events.length === 0" class="px-3">
-    <div class="i-ri:calendar-view h-6 w-6 text-muted" />
-    <p class="text-body mt-2">今月予定されている稽古はありません</p>
-  </div>
+    <div v-if="!loading && !error && events.length === 0" class="px-3">
+      <div class="i-ri:calendar-view h-6 w-6 text-muted" />
+      <p class="text-body mt-2">今月予定されている稽古はありません</p>
+    </div>
 
-  <div class="divide-y divide-zinc-200/70 dark:divide-zinc-700/70">
-    <div
-      v-for="(event, index) in events"
-      :key="event.id"
-      class="stagger-item px-4 py-5 min-w-0 grid grid-flow-col grid-col-2 sm:grid-cols-[1fr_2fr] grid-cols-[1fr-1fr]"
-      :class="getTitleClass(event.title)"
-      :style="{ animationDelay: `${index * 60}ms` }"
-    >
-      <h3 class="font-semibold text-lg w-4em" :class="getTitleClass(event.title)">
-        {{ event.title }}
-      </h3>
-      <div class="text-sm text-body">
-        <div class="flex-inline items-center gap-2">
-          <div class="i-ri:calendar-view h-4 w-4" aria-hidden />
-          {{ formatEventDateRange(event) }}
-        </div>
-        <br />
-        <div
-          v-if="
-            !isAllDayEvent(event) &&
-            event.start !== event.end &&
-            !isMultiDayEvent(event)
-          "
-          class="flex-inline items-center gap-2"
-          aria-hidden
+    <div class="divide-y divide-zinc-200/70 dark:divide-zinc-700/70">
+      <div
+        v-for="(event, index) in events"
+        :key="event.id"
+        class="stagger-item px-4 py-5 min-w-0 grid grid-flow-col grid-col-2 sm:grid-cols-[1fr_2fr] grid-cols-[1fr-1fr]"
+        :class="getTitleClass(event.title)"
+        :style="{ animationDelay: `${index * 60}ms` }"
+      >
+        <h3
+          class="font-semibold text-lg w-4em"
+          :class="getTitleClass(event.title)"
         >
-          <div class="i-ri:time-line h-4 w-4" />
-          {{ formatEventTime(event.start) }}
-          <span v-if="event.end"> - {{ formatEventTime(event.end) }}</span>
+          {{ event.title }}
+        </h3>
+        <div class="text-sm text-body">
+          <div class="flex-inline items-center gap-2">
+            <div class="i-ri:calendar-view h-4 w-4" aria-hidden />
+            {{ formatEventDateRange(event) }}
+          </div>
+          <br />
+          <div
+            v-if="
+              !isAllDayEvent(event) &&
+              event.start !== event.end &&
+              !isMultiDayEvent(event)
+            "
+            class="flex-inline items-center gap-2"
+            aria-hidden
+          >
+            <div class="i-ri:time-line h-4 w-4" />
+            {{ formatEventTime(event.start) }}
+            <span v-if="event.end"> - {{ formatEventTime(event.end) }}</span>
+          </div>
         </div>
       </div>
     </div>

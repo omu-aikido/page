@@ -1,17 +1,49 @@
 <script setup lang="ts">
-// Show 3-4 skeleton items by default
+import { ref, watch } from "vue";
+
+const props = defineProps<{
+  loading: boolean;
+}>();
+
+// 0から7までの配列
 const skeletonItems = Array.from({ length: 8 }, (_, i) => i);
+const exitStates = ref<boolean[]>(new Array(8).fill(false));
+const isFullyExited = ref(false);
+
+watch(
+  () => props.loading,
+  (newVal) => {
+    if (!newVal) {
+      skeletonItems.forEach((_, i) => {
+        setTimeout(() => {
+          exitStates.value[i] = true;
+
+          // 最後のアイテムが消えるタイミングでDOMから消す
+          if (i === skeletonItems.length - 1) {
+            setTimeout(() => {
+              isFullyExited.value = true;
+            });
+          }
+        }, i * 60);
+      });
+    }
+  },
+);
 </script>
 
 <template>
-  <div class="divide-y divide-zinc-200/70 dark:divide-zinc-700/70">
+  <div
+    v-if="!isFullyExited"
+    class="divide-y divide-zinc-200/70 dark:divide-zinc-700/70"
+  >
+    <!-- 修正ポイント: (item, index) として、0から始まるindexを確実に取得する -->
     <div
-      v-for="index in skeletonItems"
-      :key="index"
+      v-for="(item, index) in skeletonItems"
+      :key="item"
       class="stagger-item px-4 py-5 min-w-0 grid grid-flow-col grid-col-2 sm:grid-cols-[1fr_2fr]"
+      :class="{ 'is-exiting': exitStates[index] }"
       :style="{ animationDelay: `${index * 60}ms` }"
     >
-      <!-- Title skeleton -->
       <h3 class="font-semibold text-lg">
         <div
           class="skeleton-item h-1em rounded bg-zinc-200 dark:bg-zinc-700"
@@ -19,9 +51,7 @@ const skeletonItems = Array.from({ length: 8 }, (_, i) => i);
         />
       </h3>
 
-      <!-- Details skeleton -->
       <div class="space-y-1 text-sm text-body">
-        <!-- Date line -->
         <div class="flex-inline items-center gap-2">
           <div
             class="skeleton-item h-4 w-1em rounded bg-zinc-200 dark:bg-zinc-700"
@@ -47,16 +77,18 @@ const skeletonItems = Array.from({ length: 8 }, (_, i) => i);
 <style scoped>
 .stagger-item {
   animation: fadeSlideIn 0.4s ease both;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Subtle shimmer effect for skeleton */
+.is-exiting {
+  opacity: 0 !important;
+  transform: translateY(-4px) !important;
+  pointer-events: none;
+}
+
 @keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
 }
 
 @keyframes fadeSlideIn {

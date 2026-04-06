@@ -10,17 +10,18 @@ import Layout from "@/layouts/Layout.astro";
     </div>
 
     <CalendarGrid client:load />
-
-    <p un-text-end un-mt-4>
-      <a href="/calendar" class="text-lg link">今後の予定</a>
-    </p>
   </section>
   <section class="container-page">
+    <p un-text-end un-mt-4>
+      <a href="/calendar" class="text-lg link">リスト表示</a>
+    </p>
     <div
       id="google-calendar-navigation"
       class="card-base mt-4 flex items-start gap-3"
     >
-      <p class="text-body">
+      <div class="text-body flex-inline items-center gap-2">
+        <div class="i-ri:information-2-line mt-0.5 h-10 w-10s text-brand-600">
+        </div>
         <a
           href="https://calendar.google.com/calendar/embed?src=aikido.omu%40gmail.com"
           target="_blank"
@@ -30,7 +31,7 @@ import Layout from "@/layouts/Layout.astro";
           Googleカレンダー
         </a>
         では過去の稽古や1ヶ月以上先の稽古予定も確認できます。
-      </p>
+      </div>
     </div>
   </section>
 </Layout>
