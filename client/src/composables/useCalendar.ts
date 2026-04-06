@@ -1,9 +1,9 @@
 import { client } from "@/lib/client";
-import { ref } from "vue";
+import { onUnmounted, ref } from "vue";
 
 export function useCalendar() {
   const events = ref<CalendarEvent[]>([]);
-  const loading = ref(false);
+  const loading = ref(true);
   const error = ref<string | null>(null);
 
   async function fetchEvents(start: Date, end: Date) {
@@ -24,6 +24,10 @@ export function useCalendar() {
       loading.value = false;
     }
   }
+
+  onUnmounted(() => {
+    loading.value = true;
+  })
 
   return { events, loading, error, fetchEvents };
 }
