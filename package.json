@@ -11,7 +11,7 @@
     "format": "bunx turbo format",
     "lint": "bunx turbo lint",
     "outdated": "bunx turbo outdated",
-    "cf-typegen":"wrangler types ./client/worker-configuration.d.ts"
+    "cf-typegen": "wrangler types ./client/worker-configuration.d.ts"
   },
   "devDependencies": {
     "oxfmt": "latest",
