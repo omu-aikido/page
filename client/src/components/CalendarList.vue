@@ -41,7 +41,7 @@ function getTitleClass(title: string) {
   <div v-if="error" class="px-3">
     <div class="flex items-start gap-3">
       <div class="status-icon-error">
-        <div class="i-heroicons:exclamation-triangle h-5 w-5" />
+        <div class="i-ri:error-warning-line h-5 w-5" />
       </div>
       <div class="min-w-0">
         <h3 class="text-heading text-lg font-bold">エラーが発生しました</h3>
@@ -51,7 +51,7 @@ function getTitleClass(title: string) {
   </div>
 
   <div v-if="!loading && !error && events.length === 0" class="px-3">
-    <div class="i-heroicons:calendar h-6 w-6 text-muted" />
+    <div class="i-ri:calendar-view h-6 w-6 text-muted" />
     <p class="text-body mt-2">今月予定されている稽古はありません</p>
   </div>
 
