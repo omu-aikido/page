@@ -2,16 +2,6 @@
 // Show 3-4 skeleton items by default
 const skeletonItems = Array.from({ length: 8 }, (_, i) => i);
 
-const skeletonClasses = [
-  "event-title-nakamo",
-  "event-title-sugimoto",
-  "event-title-kai",
-  "event-title-default",
-];
-
-function getSkeletonClass(index: number) {
-  return skeletonClasses[index % skeletonClasses.length];
-}
 </script>
 
 <template>
@@ -20,11 +10,10 @@ function getSkeletonClass(index: number) {
       v-for="index in skeletonItems"
       :key="index"
       class="stagger-item px-4 py-5 min-w-0 grid grid-flow-col grid-col-2 sm:grid-cols-[1fr_2fr]"
-      :class="getSkeletonClass(index)"
       :style="{ animationDelay: `${index * 60}ms` }"
     >
       <!-- Title skeleton -->
-      <h3 class="font-semibold text-lg" :class="getSkeletonClass(index)">
+      <h3 class="font-semibold text-lg">
         <div class="skeleton-item h-6 w-40 rounded bg-zinc-200 dark:bg-zinc-700" />
       </h3>
 
