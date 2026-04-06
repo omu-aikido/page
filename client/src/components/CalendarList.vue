@@ -20,18 +20,11 @@ onMounted(() => {
 });
 
 function getTitleClass(title: string) {
-  switch (true) {
-    case title.includes("中百舌鳥"):
-      return "event-nakamozu";
-    case title.includes("杉本"):
-      return "event-sugimoto";
-    case title.includes("森之宮"):
-      return "event-morinomiya";
-    case title.includes("会"):
-      return "event-event";
-    default:
-      return "event-default";
-  }
+  if (title.includes("中百舌鳥")) return "event-nakamozu";
+  if (title.includes("杉本")) return "event-sugimoto";
+  if (title.includes("森之宮")) return "event-morinomiya";
+  if (title.includes("会")) return "event-event";
+  return "event-default";
 }
 </script>
 
