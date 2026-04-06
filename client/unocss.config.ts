@@ -32,7 +32,7 @@ export default defineConfig({
       brand: {
         50: "#eef6ff",
         100: "#dbeaff",
-        500: "#2563eb",
+        500: "#99b9ff",
         600: "#1d4ed8",
         700: "#1e40af",
       },
