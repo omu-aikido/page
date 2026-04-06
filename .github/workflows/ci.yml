@@ -16,9 +16,7 @@ jobs:
         uses: cachix/install-nix-action@v31
 
       - name: Install dependencies
-        run: |
-          nix-shell -p bun nodejs-24
-          bun install
+        run: nix-shell -p bun --run "bun install"
 
       - name: Lint code
         run: nix-shell -p bun --run "bun run lint"
