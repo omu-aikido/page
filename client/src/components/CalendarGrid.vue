@@ -8,7 +8,7 @@ import {
   useCalendar,
 } from "@/composables/useCalendar";
 
-const { events, loading, error, fetchEvents } = useCalendar();
+const { events, error, fetchEvents } = useCalendar();
 
 const today = new Date();
 const start = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -163,20 +163,14 @@ function isStartDay(event: CalendarEvent, date: Date): boolean {
             {{ date.getDate() }}
           </time>
 
-          <ul
-            class="mt-1 space-y-1"
-            :class="[
-              loading
-                ? 'skeleton-item h-6 w-fit rounded bg-zinc-200 dark:bg-zinc-700'
-                : '',
-            ]"
-          >
+          <ul class="mt-1 space-y-1">
             <li
               v-for="event in getEventsForDate(date)"
               :key="event.id"
-              class="rounded px-1 py-0.5 text-[11px] leading-tight"
+              class="rounded px-1 py-0.5 text-[11px] leading-tight stagger-item"
               :class="getEventBadgeClass(event.title)"
               :title="`${event.title} ${formatEventTime(event.start)}${event.end ? ' - ' + formatEventTime(event.end) : ''}`"
+              :style="{ animationDelay: `${date.getDate() * 30}ms` }"
             >
               <span class="truncate block">{{ event.title }}</span>
               <span class="flex-inline truncate">
@@ -198,5 +192,19 @@ function isStartDay(event: CalendarEvent, date: Date): boolean {
 <style scoped>
 .calendar-container {
   container-type: inline-size;
+}
+
+.stagger-item {
+  animation: fadeSlideIn 0.4s ease both;
+}
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 </style>
