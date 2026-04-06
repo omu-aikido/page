@@ -14,7 +14,8 @@ const skeletonItems = Array.from({ length: 8 }, (_, i) => i);
       <!-- Title skeleton -->
       <h3 class="font-semibold text-lg">
         <div
-          class="skeleton-item h-6 w-40 rounded bg-zinc-200 dark:bg-zinc-700"
+          class="skeleton-item h-1em rounded bg-zinc-200 dark:bg-zinc-700"
+          :class="[index % 3 !== 0 ? 'w-4em' : 'w-3em']"
         />
       </h3>
 
@@ -23,20 +24,19 @@ const skeletonItems = Array.from({ length: 8 }, (_, i) => i);
         <!-- Date line -->
         <div class="flex-inline items-center gap-2">
           <div
-            class="skeleton-item h-4 w-4 rounded bg-zinc-200 dark:bg-zinc-700"
+            class="skeleton-item h-4 w-1em rounded bg-zinc-200 dark:bg-zinc-700"
           />
           <div
-            class="skeleton-item h-4 w-48 rounded bg-zinc-200 dark:bg-zinc-700"
+            class="skeleton-item h-4 w-5em rounded bg-zinc-200 dark:bg-zinc-700"
           />
         </div>
         <br />
-        <!-- Time line (sometimes shown) -->
-        <div v-if="index % 3 !== 0" class="flex-inline items-center gap-2">
+        <div class="flex-inline items-center gap-2">
           <div
-            class="skeleton-item h-4 w-4 rounded bg-zinc-200 dark:bg-zinc-700"
+            class="skeleton-item h-4 w-1em rounded bg-zinc-200 dark:bg-zinc-700"
           />
           <div
-            class="skeleton-item h-4 w-40 rounded bg-zinc-200 dark:bg-zinc-700"
+            class="skeleton-item h-4 w-8em rounded bg-zinc-200 dark:bg-zinc-700"
           />
         </div>
       </div>

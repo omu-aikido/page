@@ -56,10 +56,10 @@ function getTitleClass(title: string) {
       :class="getTitleClass(event.title)"
       :style="{ animationDelay: `${index * 60}ms` }"
     >
-      <h3 class="font-semibold text-lg" :class="getTitleClass(event.title)">
+      <h3 class="font-semibold text-lg w-4em" :class="getTitleClass(event.title)">
         {{ event.title }}
       </h3>
-      <div class="space-y-1 text-sm text-body">
+      <div class="text-sm text-body">
         <div class="flex-inline items-center gap-2">
           <div class="i-ri:calendar-view h-4 w-4" aria-hidden />
           {{ formatEventDateRange(event) }}
