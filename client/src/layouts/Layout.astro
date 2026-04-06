@@ -16,11 +16,12 @@ const { title, description } = Astro.props;
 const path = Astro.url.pathname;
 ---
 
-<html lang="ja">
+<html
+  lang="ja"
+  class="bg-zinc-50 text-zinc-800 dark:(bg-zinc-900 text-zinc-200)"
+>
   <Head title={title} description={description} />
-  <body
-    class="page-aikido-bg bg-zinc-50 text-zinc-800 dark:(bg-zinc-900 text-zinc-200)"
-  >
+  <body class="page-aikido-bg">
     <Header />
     <main
       class="mx-4 min-h-90dvh"
