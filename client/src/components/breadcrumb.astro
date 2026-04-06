@@ -21,7 +21,7 @@ const breadcrumbs = generateBreadcrumbs(pathname);
           {item.isCurrent ? (
             <span class="font-semibold text-heading">{item.title}</span>
           ) : (
-            <a href={item.path} class="link hover:text-brand-600 transition">
+            <a href={item.path} class="link transition">
               {item.title}
             </a>
           )}

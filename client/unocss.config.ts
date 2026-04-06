@@ -32,7 +32,7 @@ export default defineConfig({
       brand: {
         50: "#eef6ff",
         100: "#dbeaff",
-        500: "#2563eb",
+        500: "#99b9ff",
         600: "#1d4ed8",
         700: "#1e40af",
       },
@@ -80,10 +80,11 @@ export default defineConfig({
         "font-semibold text-brand-600 hover:underline dark:text-brand-500",
       "link-retry":
         "ml-2 inline-flex text-sm font-semibold text-brand-600 hover:underline dark:text-brand-500",
-      "event-title-default": "text-zinc-900 dark:text-zinc-100",
-      "event-title-nakamo": "text-sky-700 dark:text-sky-300",
-      "event-title-sugimoto": "text-violet-700 dark:text-violet-300",
-      "event-title-kai": "text-emerald-700 dark:text-emerald-300",
+      "event-default": "text-zinc-900 dark:text-zinc-100",
+      "event-nakamozu": "text-sky-700 dark:text-sky-300",
+      "event-morinomiya": "text-lime-700 dark:text-lime-300",
+      "event-sugimoto": "text-violet-700 dark:text-violet-300",
+      "event-event": "text-teal-700 dark:text-teal-300",
       "event-badge-default":
         "bg-zinc-100 text-zinc-700 dark:(bg-zinc-800 text-zinc-200)",
       "event-badge-nakamo":

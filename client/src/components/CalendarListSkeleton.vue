@@ -1,44 +1,73 @@
 <script setup lang="ts">
-// Show 3-4 skeleton items by default
-const skeletonItems = Array.from({ length: 4 }, (_, i) => i);
+import { ref, watch } from "vue";
+
+const props = defineProps<{
+  loading: boolean;
+}>();
+
+// 0から7までの配列
+const skeletonItems = Array.from({ length: 8 }, (_, i) => i);
+const exitStates = ref<boolean[]>(new Array(8).fill(false));
+const isFullyExited = ref(false);
+
+watch(
+  () => props.loading,
+  (newVal) => {
+    if (!newVal) {
+      skeletonItems.forEach((_, i) => {
+        setTimeout(() => {
+          exitStates.value[i] = true;
+
+          // 最後のアイテムが消えるタイミングでDOMから消す
+          if (i === skeletonItems.length - 1) {
+            setTimeout(() => {
+              isFullyExited.value = true;
+            });
+          }
+        }, i * 60);
+      });
+    }
+  },
+);
 </script>
 
 <template>
-  <div class="divide-y divide-zinc-200/70 dark:divide-zinc-700/70">
-    <div v-for="index in skeletonItems" :key="index" class="py-3">
-      <div class="flex items-start gap-3">
-        <!-- Color dot skeleton -->
+  <div
+    v-if="!isFullyExited"
+    class="divide-y divide-zinc-200/70 dark:divide-zinc-700/70"
+  >
+    <!-- 修正ポイント: (item, index) として、0から始まるindexを確実に取得する -->
+    <div
+      v-for="(item, index) in skeletonItems"
+      :key="item"
+      class="stagger-item px-4 py-5 min-w-0 grid grid-flow-col grid-col-2 sm:grid-cols-[1fr_2fr]"
+      :class="{ 'is-exiting': exitStates[index] }"
+      :style="{ animationDelay: `${index * 60}ms` }"
+    >
+      <h3 class="font-semibold text-lg">
         <div
-          class="skeleton-item mt-1 h-2.5 w-2.5 rounded-full bg-zinc-200 dark:bg-zinc-700"
+          class="skeleton-item h-1em rounded bg-zinc-200 dark:bg-zinc-700"
+          :class="[index % 3 !== 0 ? 'w-4em' : 'w-3em']"
         />
-        <div class="min-w-0 flex-1">
-          <!-- Title skeleton -->
+      </h3>
+
+      <div class="space-y-1 text-sm text-body">
+        <div class="flex-inline items-center gap-2">
           <div
-            class="skeleton-item h-6 w-40 rounded bg-zinc-200 dark:bg-zinc-700"
+            class="skeleton-item h-4 w-1em rounded bg-zinc-200 dark:bg-zinc-700"
           />
-
-          <!-- Details skeleton -->
-          <div class="mt-2 space-y-2">
-            <!-- Date line -->
-            <div class="flex items-center gap-2">
-              <div
-                class="skeleton-item h-4 w-4 rounded bg-zinc-200 dark:bg-zinc-700"
-              />
-              <div
-                class="skeleton-item h-4 w-48 rounded bg-zinc-200 dark:bg-zinc-700"
-              />
-            </div>
-
-            <!-- Time line (sometimes shown) -->
-            <div v-if="index % 3 !== 0" class="flex items-center gap-2">
-              <div
-                class="skeleton-item h-4 w-4 rounded bg-zinc-200 dark:bg-zinc-700"
-              />
-              <div
-                class="skeleton-item h-4 w-40 rounded bg-zinc-200 dark:bg-zinc-700"
-              />
-            </div>
-          </div>
+          <div
+            class="skeleton-item h-4 w-5em rounded bg-zinc-200 dark:bg-zinc-700"
+          />
+        </div>
+        <br />
+        <div class="flex-inline items-center gap-2">
+          <div
+            class="skeleton-item h-4 w-1em rounded bg-zinc-200 dark:bg-zinc-700"
+          />
+          <div
+            class="skeleton-item h-4 w-8em rounded bg-zinc-200 dark:bg-zinc-700"
+          />
         </div>
       </div>
     </div>
@@ -46,13 +75,30 @@ const skeletonItems = Array.from({ length: 4 }, (_, i) => i);
 </template>
 
 <style scoped>
-/* Subtle shimmer effect for skeleton */
+.stagger-item {
+  animation: fadeSlideIn 0.4s ease both;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.is-exiting {
+  opacity: 0 !important;
+  transform: translateY(-4px) !important;
+  pointer-events: none;
+}
+
 @keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
   }
-  100% {
-    background-position: 1000px 0;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -64,6 +110,6 @@ const skeletonItems = Array.from({ length: 4 }, (_, i) => i);
     transparent
   );
   background-size: 200px 100%;
-  animation: shimmer 2s infinite;
+  animation: shimmer 4s infinite;
 }
 </style>

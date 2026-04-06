@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, reactive } from "vue";
-import FormInput from "./formInput.vue";
-import TurnstileStatus from "./turnstileStatus.vue";
+import FormInput from "./FormInput.vue";
+import TurnstileStatus from "./TurnstileStatus.vue";
 import { client } from "@/lib/client";
 
 const form = reactive({
@@ -97,7 +97,7 @@ async function handleSubmit() {
 
   try {
     const res = await client.contact.$post({
-      json: {
+      form: {
         name: form.name,
         email: form.email,
         subject: form.subject,
@@ -113,9 +113,7 @@ async function handleSubmit() {
       status.value = "error";
 
       try {
-        const data = await res.json();
         errorMessage.value =
-          data.error ??
           "送信に失敗しました。しばらく経ってから再度お試しください。";
       } catch {
         errorMessage.value =
@@ -140,7 +138,7 @@ async function handleSubmit() {
   <Transition name="bounce">
     <div v-if="status === 'success'" role="alert" class="card-base text-center">
       <div class="status-icon-success mx-auto mb-3 w-fit">
-        <div class="i-heroicons:check-circle-16-solid h-5 w-5" />
+        <div class="i-ri:checkbox-circle-line h-5 w-5" />
       </div>
       <p class="text-heading text-lg font-bold">
         お問い合わせを受け付けました。
