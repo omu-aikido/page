@@ -97,7 +97,7 @@ async function handleSubmit() {
 
   try {
     const res = await client.contact.$post({
-      json: {
+      form: {
         name: form.name,
         email: form.email,
         subject: form.subject,
@@ -113,9 +113,7 @@ async function handleSubmit() {
       status.value = "error";
 
       try {
-        const data = await res.json();
         errorMessage.value =
-          data.error ??
           "送信に失敗しました。しばらく経ってから再度お試しください。";
       } catch {
         errorMessage.value =

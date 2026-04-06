@@ -1,16 +1,16 @@
 import { Hono } from "hono";
-import { zValidator } from "@hono/zod-validator";
-import { z } from "zod";
+import { vValidator } from "@hono/valibot-validator";
+import * as v from "valibot";
 import { EmailMessage } from "cloudflare:email";
 import { createMimeMessage } from "mimetext";
 import type { Ai_Cf_Qwen_Qwen3_30B_A3B_Fp8_Chat_Completion_Response } from "@cloudflare/workers-types";
 
-const contactSchema = z.object({
-  name: z.string().min(1).max(100),
-  email: z.email().max(254),
-  subject: z.string().min(1).max(200),
-  body: z.string().min(1).max(2000),
-  "cf-turnstile-response": z.string().min(1),
+const contactSchema = v.object({
+  name: v.pipe(v.string(), v.minLength(1), v.maxLength(20)),
+  email: v.pipe(v.string(), v.email()),
+  subject: v.pipe(v.string(), v.trim(), v.minLength(1), v.maxLength(50)),
+  body: v.pipe(v.string(), v.minLength(1), v.maxLength(800)),
+  "cf-turnstile-response": v.pipe(v.string(), v.minLength(1)),
 });
 
 function createGmailUrl(uid: string): string {
@@ -43,7 +43,7 @@ async function postToDiscordForum(input: {
   webhookUrl: string;
   data: { name: string; email: string; subject: string; body: string };
   gmailUrl: string;
-}): Promise<Response> {
+}): Promise<{ ok: boolean }> {
   const { uid, masked, data, gmailUrl } = input;
   const payload = {
     thread_name: data.subject,
@@ -65,12 +65,16 @@ async function postToDiscordForum(input: {
       },
     ],
   };
-
-  return fetch(`${input.webhookUrl}?wait=true`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
+  try {
+    await fetch(`${input.webhookUrl}?wait=true`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    return { ok: true };
+  } catch {
+    return { ok: false };
+  }
 }
 
 async function checkContentSafety(
@@ -122,17 +126,9 @@ async function sendContactEmail(
   }
 }
 
-const app = new Hono<{ Bindings: Env }>().post(
-  "/",
-  zValidator("json", contactSchema),
-  async (c) => {
-    const data = c.req.valid("json");
-
-    // zodで検証済みだが念のため
-    if (!data.body.trim()) {
-      return c.json({ error: "メッセージを入力してください" }, 400);
-    }
-
+const app = new Hono<{ Bindings: Env }>() //
+  .post("/", vValidator("form", contactSchema), async (c) => {
+    const data = c.req.valid("form");
     const uid = crypto.randomUUID().split("-")[0]!;
     const gmailUrl = createGmailUrl(uid);
 
@@ -145,7 +141,7 @@ const app = new Hono<{ Bindings: Env }>().post(
       ip,
     );
     if (!turnstileOk) {
-      return c.json({ error: "Turnstile verification failed" }, 403);
+      return c.json({ ok: false, message: "Turnstile verification failed" }, 403);
     }
 
     // 2. モデレーション
@@ -165,19 +161,11 @@ const app = new Hono<{ Bindings: Env }>().post(
       gmailUrl,
     });
 
-    if (!discordRes.ok) {
-      const errText = await discordRes.text();
-      console.error("Discord webhook error", discordRes.status, errText);
-    }
-
-    // メール・Discord両方失敗なら502
     if (!sendMailRes.ok && !discordRes.ok) {
-      return c.json({ error: "Failed to deliver your message" }, 502);
+      return c.json({ ok: false, message: "Failed to deliver your message" }, 502);
     }
 
-    // unsafeでも送信完了は伝える（内容審査中であることは伝えない）
-    return c.json({ success: true }, 201);
-  },
-);
+    return c.json({ ok: true, message: "posted" }, 200);
+  });
 
 export default app;
