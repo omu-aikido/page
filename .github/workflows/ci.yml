@@ -1,32 +1,33 @@
-name: CI Workflow
-
+name: CI
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   ci:
+    name: CI
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install nix
-        uses: nixbuild/nix-quick-install-action@v30
+      - uses: actions/checkout@v6
+      - uses: nixbuild/nix-quick-install-action@v34
+      - uses: nix-community/cache-nix-action@v7
         with:
-          nix_conf: |
-            keep-env-derivations = true
-            keep-outputs = true
-
+          primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
+          restore-prefixes-first-match: nix-${{ runner.os }}-
+          gc-max-store-size-linux: 1G
+          purge: true
+          purge-prefixes: nix-${{ runner.os }}-
+          purge-created: 0
+          purge-last-accessed: P1DT12H
+          purge-primary-key: never
       - name: Install dependencies
-        run: nix-shell -p bun --run "bun install"
+        run: nix develop -c bun install
 
       - name: Lint code
-        run: nix-shell -p bun --run "bun run lint"
+        run: nix develop -c bun run lint
 
       - name: Format code
-        run: nix-shell -p bun --run "bun run format"
+        run: nix develop -c bun run format
 
       - name: Build project
-        run: nix-shell -p bun --run "bun run build"
+        run: nix develop -c bun run build
