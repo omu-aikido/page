@@ -1,9 +1,14 @@
 {
   "name": "page",
-  "workspaces": [
-    "client",
-    "worker"
-  ],
+  "workspaces": {
+    "packages": [
+      "client",
+      "worker"
+    ],
+    "catalog": {
+      "hono": "4.12.10"
+    }
+  },
   "scripts": {
     "build": "bunx turbo build",
     "dev": "bunx turbo dev",
@@ -11,7 +16,7 @@
     "format": "bunx turbo format",
     "lint": "bunx turbo lint",
     "outdated": "bunx turbo outdated",
-    "cf-typegen":"wrangler types ./client/worker-configuration.d.ts"
+    "cf-typegen": "wrangler types ./client/worker-configuration.d.ts"
   },
   "devDependencies": {
     "oxfmt": "latest",
