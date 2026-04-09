@@ -1,0 +1,21 @@
+telemetry = false
+logLevel = "warn"
+
+[install]
+exact = true
+auto = "auto"
+
+linker = "isolated"
+minimumReleaseAge = 129600
+
+[test]
+coverage = true
+coverageReporter = ["text", "lcov"]
+retry = 1
+randomize = true
+seed = 445984611
+onlyFailures = true
+
+[run]
+bun = false
+silent = true
