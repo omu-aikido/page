@@ -7,6 +7,7 @@ const currentPath = Astro.url.pathname;
 <button
   id="open-sidebar"
   class="i-ri:menu-line text-2xl transition hover:(cursor-pointer i-ri:menu-unfold-4-line text-brand-600)"
+  aria-label="Open Sidebar"
 >
 </button>
 
@@ -17,8 +18,10 @@ const currentPath = Astro.url.pathname;
   <div class="min-h-100dvh m-4 flex flex-col">
     <button
       id="close-sidebar"
-      class="i-ri:close-line mb-2 text-3xl transition hover:(i-ri:close-circle-line text-brand-600 cursor-pointer)"
-      ml-auto></button>
+      class="i-ri:close-line mb-2 ml-auto text-3xl transition hover:(i-ri:close-circle-line text-brand-600 cursor-pointer)"
+      aria-label="Close Sidebar"
+    >
+    </button>
 
     <nav class="mx-2 flex-1 space-y-1">
       {
