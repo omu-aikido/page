@@ -39,7 +39,7 @@ import InfoList from "../../components/InfoList.astro";
 
 ### 年間行事予定
 
-<section class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+<section class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 my-2">
   <article class="rounded-md border border-zinc-200/70 bg-zinc-50 p-4 dark:(border-zinc-700/70 bg-zinc-800/40)">
     <p class="text-sm font-semibold text-muted">４月</p>
     <p class="text-body mt-2">ふたば祭教室企画出店</p>
@@ -101,10 +101,11 @@ import InfoList from "../../components/InfoList.astro";
     { label: "団体種別", value: "公認団体" },
     { label: "活動分類", value: "武道／スポーツ" },
     {
-      label: "構成員数",
+      label: "活動場所",
       value: [
-        "31名（１年生：12名、２年生：9名、３年生：5名、４年生：0名、大学院生：5名）",
-        "※2025年6月現在",
+        "中百舌鳥キャンパス 武道場",
+        "杉本キャンパス 新武道場",
+        "森之宮キャンパス マルチユースルーム",
       ],
     },
     {
@@ -120,8 +121,10 @@ import InfoList from "../../components/InfoList.astro";
     { label: "２年生以上の受入", value: "歓迎" },
     {
       label: "兼部・兼サー",
-      value:
-        "可能です。白鷺祭実行委員会、中百舌鳥新歓実行委員会などに参加している部員もいます。兼部・兼サーをして、予定が合わない場合は無理に合氣道の稽古に参加しなくても構いません。",
+      value: [
+        "可能です。白鷺祭実行委員会、中百舌鳥新歓実行委員会などに参加している部員もいます。",
+        "ただし、昇級・昇段には一定以上の稽古の参加、道場のイベントへの参加を求めます。",
+      ],
     },
     { label: "バイトとの両立", value: "可能" },
     { label: "入部可能時期", value: "通年可能" },
