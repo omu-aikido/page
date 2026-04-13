@@ -2,60 +2,28 @@
 import { navlinks } from "@/lib/navigation";
 
 const mainNav = navlinks[0]?.children || [];
+
+const flatNav = mainNav.flatMap((parent) => [
+  parent,
+  ...(parent.children || []),
+]);
 ---
 
-<nav class="grid gap-8 p-0 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-  {
-    mainNav.map((parent) => (
-      <div class="flex flex-col gap-3">
-        <a href={parent.path} class="flex-inline items-center gap-2">
-          <span class="text-lg font-bol guide-card-link">{parent.title}</span>
-          <span
-            class="text-xl text-blue-600 opacity-50 transition-opacity duration-150"
-            aria-hidden="true"
-          >
-            →
-          </span>
-        </a>
-        {parent.children?.length && (
-          <ul class="flex flex-col gap-1 list-none p-0 ml-1em">
-            {parent.children.map((child) => (
-              <li>
-                <a
-                  href={child.path}
-                  class="inline-flex items-center gap-1 text-base font-medium guide-card-link"
-                >
-                  {child.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    ))
-  }
+<nav class="grid gap-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+  {flatNav.map((nav) => <a href={nav.path} class="w-fit guide-card-link font-semibold">{nav.title}</a>)}
 </nav>
 
 <style>
   .guide-card-link {
-    text-decoration: none;
-    padding: 0.25rem 0;
-    transition: color 0.15s ease;
-    position: relative;
+    @apply no-underline transition-colors duration-150 relative;
   }
 
   .guide-card-link::after {
     content: "";
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background: rgb(37, 99, 235);
-    transition: width 0.15s ease;
+    @apply absolute -bottom-1px left-0 w-0 h-1px bg-brand-600 dark:bg-brand-500 transition-all duration-150;
   }
 
   .guide-card-link:hover::after {
-    width: 100%;
+    @apply w-full;
   }
 </style>

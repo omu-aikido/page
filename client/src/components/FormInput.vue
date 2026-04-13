@@ -30,10 +30,12 @@ function handleInput(event: Event) {
 </script>
 
 <template>
-  <div class="form-field">
-    <label :for="id" class="form-label">
+  <div class="form-field stack gap-1">
+    <label :for="id" class="text-sm font-bold fg-base">
       {{ label }}
-      <span v-if="required" aria-hidden="true" class="text-red-600">*</span>
+      <span v-if="required" aria-hidden="true" class="text-error font-bold"
+        >*</span
+      >
     </label>
     <input
       v-if="rows === 1"
@@ -43,7 +45,7 @@ function handleInput(event: Event) {
       :required="required"
       :disabled="disabled"
       :autocomplete="autocomplete"
-      class="form-input"
+      class="border bordered-muted bg-base rounded px-3 py-2 outline-none focus:border-accent"
       @input="handleInput"
     />
     <textarea
@@ -54,9 +56,9 @@ function handleInput(event: Event) {
       :disabled="disabled"
       :rows="rows"
       :autocomplete="autocomplete"
-      class="form-input resize-y"
+      class="border bordered-muted bg-base rounded px-3 py-2 outline-none resize-y focus:border-accent"
       @input="handleInput"
     />
-    <p v-if="error" class="form-error">{{ error }}</p>
+    <p v-if="error" class="text-error text-xs mt-1">{{ error }}</p>
   </div>
 </template>

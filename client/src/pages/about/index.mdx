@@ -6,12 +6,139 @@ description: 大阪公立大学合氣道部について
 
 import HistoryTimeline from "../../components/HistoryTimeline.astro";
 import InfoList from "../../components/InfoList.astro";
+import ScheduleList from "../../components/ScheduleList.astro";
 
 **2022年の春より、大阪市立大学合気道サークルと大阪府立大学合氣道部が統合し、大阪公立大学合氣道部として活動しています！**
 
 大阪公立大学で唯一、中百舌鳥キャンパスと杉本キャンパスの両方で活動する体育会所属の合気道部です。
 大阪府吹田市の天之武産合氣塾道場に門下として所属しています。
 また、[リンク集](/about/links)には、普段お世話になっている師範道場やOBの方々のホームページ、私たちと交流のある他の大学の部活動さんのリンクをまとめています。ぜひご覧ください。
+
+## 活動
+
+### 活動場所
+
+大阪公立大学の以下施設にて活動しています。
+
+- 森之宮キャンパス 2階 マルチユースルーム
+- 中百舌鳥キャンパス 体育館1階・武道場
+- 杉本キャンパス 新武道場
+
+詳細については[稽古場所](/access)をご覧ください。
+
+### 活動日
+
+<ScheduleList
+  items={[
+    { day: "月曜日", location: "中百舌鳥キャンパス", time: "18:00〜20:00" },
+    { day: "火曜日", location: "杉本キャンパス", time: "18:00〜20:00" },
+    { day: "木曜日", location: "森之宮キャンパス", time: "19:00〜20:00" },
+    { day: "金曜日", location: "杉本キャンパス", time: "18:00〜20:00" },
+    { day: "土曜日", location: "中百舌鳥キャンパス", time: "18:00〜20:00" },
+  ]}
+/>
+
+詳しい予定は[予定表](/calendar)をご確認ください。
+
+## 年間行事予定
+
+<section class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 my-2">
+  <div class="card">
+    <p class="text-sm font-semibold fg-muted">４月</p>
+    <p class="fg-muted mt-2">ふたば祭教室企画出店</p>
+  </div>
+  <div class="card opacity-60">
+    <p class="text-sm font-semibold fg-muted">５月</p>
+    <p class="fg-muted mt-2">—</p>
+  </div>
+  <div class="card">
+    <p class="text-sm font-semibold fg-muted">６月</p>
+    <p class="fg-muted mt-2">合気道フェスティバル</p>
+  </div>
+  <div class="card">
+    <p class="text-sm font-semibold fg-muted">７月</p>
+    <p class="fg-muted mt-2">都立大戦</p>
+  </div>
+  <div class="card">
+    <p class="text-sm font-semibold fg-muted">８月</p>
+    <p class="fg-muted mt-2">道場特別稽古</p>
+  </div>
+  <div class="card">
+    <p class="text-sm font-semibold fg-muted">９月</p>
+    <p class="fg-muted mt-2">合宿</p>
+  </div>
+  <div class="card">
+    <p class="text-sm font-semibold fg-muted">10月</p>
+    <p class="fg-muted mt-2">旧三商大合同稽古</p>
+  </div>
+  <div class="card">
+    <p class="text-sm font-semibold fg-muted">11月</p>
+    <p class="fg-muted mt-2">六公立大戦</p>
+    <p class="fg-muted">白鷺祭模擬店出店</p>
+  </div>
+  <div class="card">
+    <p class="text-sm font-semibold fg-muted">12月</p>
+    <p class="fg-muted mt-2">吹田市合気道演武大会</p>
+  </div>
+  <div class="card opacity-60">
+    <p class="text-sm font-semibold fg-muted">１月</p>
+    <p class="fg-muted mt-2">—</p>
+  </div>
+  <div class="card opacity-60">
+    <p class="text-sm font-semibold fg-muted">２月</p>
+    <p class="fg-muted mt-2">—</p>
+  </div>
+  <div class="card">
+    <p class="text-sm font-semibold fg-muted">３月</p>
+    <p class="fg-muted mt-2">道場特別稽古</p>
+  </div>
+</section>
+
+※ 上記は主な年間行事予定です。詳細は変更される場合があります。
+
+## 団体等基本情報
+
+<InfoList
+  items={[
+    { label: "団体名称", value: "大阪公立大学合氣道部" },
+    { label: "団体種別", value: "公認団体" },
+    { label: "活動分類", value: "武道／スポーツ" },
+    {
+      label: "活動場所",
+      value: [
+        "・中百舌鳥キャンパス 武道場",
+        "・杉本キャンパス 新武道場",
+        "・森之宮キャンパス マルチユースルーム",
+      ],
+    },
+    {
+      label: "引退時期",
+      value: ["特別の定めなし", "※幹部交代後も部活参加可能"],
+    },
+    { label: "部費", value: "5千円/6ヶ月" },
+    {
+      label: "部費以外の負担",
+      value: [
+        "合宿費（部会計、OB会、体育会等からの補助に応じて減免あり）",
+        "遠征費（交通費、イベント参加費（1500円〜）など）",
+      ],
+    },
+    { label: "２年生以上の受入", value: "歓迎" },
+    {
+      label: "兼部・兼サー",
+      value: [
+        "可能です。白鷺祭実行委員会、中百舌鳥新歓実行委員会などに参加している部員もいます。",
+        "ただし、昇級・昇段には一定以上の稽古の参加、道場のイベントへの参加を求めます。",
+      ],
+    },
+    { label: "バイトとの両立", value: "可能" },
+    { label: "入部可能時期", value: "通年可能" },
+    {
+      label: "入部方法",
+      value: "SNSのDM／飛び込み参加などにて、見学・体験を受け付けております。",
+    },
+  ]}
+/>
 
 ## 歴史
 
@@ -32,105 +159,3 @@ import InfoList from "../../components/InfoList.astro";
 />
 
 また、1968年から2018年4月まで、天之武産合氣塾道場門下の大阪市立大学体育会合氣道部が活動していました。別団体ではありますが、旧三商大合同稽古などのイベントを受け継いでいます。
-
----
-
-## 活動
-
-### 年間行事予定
-
-<section class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 my-2">
-  <article class="rounded-md border border-zinc-200/70 bg-zinc-50 p-4 dark:(border-zinc-700/70 bg-zinc-800/40)">
-    <p class="text-sm font-semibold text-muted">４月</p>
-    <p class="text-body mt-2">ふたば祭教室企画出店</p>
-  </article>
-  <article class="rounded-md border border-zinc-200/70 bg-zinc-50 p-4 opacity-50 dark:(border-zinc-700/70 bg-zinc-800/40)">
-    <p class="text-sm font-semibold text-muted">５月</p>
-    <p class="text-body mt-2">—</p>
-  </article>
-  <article class="rounded-md border border-zinc-200/70 bg-zinc-50 p-4 dark:(border-zinc-700/70 bg-zinc-800/40)">
-    <p class="text-sm font-semibold text-muted">６月</p>
-    <p class="text-body mt-2">合気道フェスティバル</p>
-  </article>
-  <article class="rounded-md border border-zinc-200/70 bg-zinc-50 p-4 dark:(border-zinc-700/70 bg-zinc-800/40)">
-    <p class="text-sm font-semibold text-muted">７月</p>
-    <p class="text-body mt-2">都立大戦</p>
-  </article>
-  <article class="rounded-md border border-zinc-200/70 bg-zinc-50 p-4 dark:(border-zinc-700/70 bg-zinc-800/40)">
-    <p class="text-sm font-semibold text-muted">８月</p>
-    <p class="text-body mt-2">道場特別稽古</p>
-  </article>
-  <article class="rounded-md border border-zinc-200/70 bg-zinc-50 p-4 dark:(border-zinc-700/70 bg-zinc-800/40)">
-    <p class="text-sm font-semibold text-muted">９月</p>
-    <p class="text-body mt-2">合宿</p>
-  </article>
-  <article class="rounded-md border border-zinc-200/70 bg-zinc-50 p-4 dark:(border-zinc-700/70 bg-zinc-800/40)">
-    <p class="text-sm font-semibold text-muted">10月</p>
-    <p class="text-body mt-2">旧三商大合同稽古</p>
-  </article>
-  <article class="rounded-md border border-zinc-200/70 bg-zinc-50 p-4 dark:(border-zinc-700/70 bg-zinc-800/40)">
-    <p class="text-sm font-semibold text-muted">11月</p>
-    <p class="text-body mt-2">六公立大戦</p>
-    <p class="text-body">白鷺祭模擬店出店</p>
-  </article>
-  <article class="rounded-md border border-zinc-200/70 bg-zinc-50 p-4 dark:(border-zinc-700/70 bg-zinc-800/40)">
-    <p class="text-sm font-semibold text-muted">12月</p>
-    <p class="text-body mt-2">吹田市合気道演武大会</p>
-  </article>
-  <article class="rounded-md border border-zinc-200/70 bg-zinc-50 p-4 opacity-50 dark:(border-zinc-700/70 bg-zinc-800/40)">
-    <p class="text-sm font-semibold text-muted">１月</p>
-    <p class="text-body mt-2">—</p>
-  </article>
-  <article class="rounded-md border border-zinc-200/70 bg-zinc-50 p-4 opacity-50 dark:(border-zinc-700/70 bg-zinc-800/40)">
-    <p class="text-sm font-semibold text-muted">２月</p>
-    <p class="text-body mt-2">—</p>
-  </article>
-  <article class="rounded-md border border-zinc-200/70 bg-zinc-50 p-4 dark:(border-zinc-700/70 bg-zinc-800/40)">
-    <p class="text-sm font-semibold text-muted">３月</p>
-    <p class="text-body mt-2">道場特別稽古</p>
-  </article>
-</section>
-
-※ 上記は主な年間行事予定です。詳細は変更される場合があります。
-
-### 団体等基本情報
-
-<InfoList
-  items={[
-    { label: "団体名称", value: "大阪公立大学合氣道部" },
-    { label: "団体種別", value: "公認団体" },
-    { label: "活動分類", value: "武道／スポーツ" },
-    {
-      label: "活動場所",
-      value: [
-        "中百舌鳥キャンパス 武道場",
-        "杉本キャンパス 新武道場",
-        "森之宮キャンパス マルチユースルーム",
-      ],
-    },
-    {
-      label: "引退時期",
-      value: ["特別の定めなし", "※幹部交代後も部活参加可能"],
-    },
-    { label: "部費", value: "5千円/6ヶ月" },
-    {
-      label: "部費以外の負担",
-      value:
-        "合宿費（部会計、OB会、体育会等からの補助に応じて減免あり）遠征費（交通費、イベント参加費（1500円〜）など）",
-    },
-    { label: "２年生以上の受入", value: "歓迎" },
-    {
-      label: "兼部・兼サー",
-      value: [
-        "可能です。白鷺祭実行委員会、中百舌鳥新歓実行委員会などに参加している部員もいます。",
-        "ただし、昇級・昇段には一定以上の稽古の参加、道場のイベントへの参加を求めます。",
-      ],
-    },
-    { label: "バイトとの両立", value: "可能" },
-    { label: "入部可能時期", value: "通年可能" },
-    {
-      label: "入部方法",
-      value: "SNSのDM／飛び込み参加などにて、見学・体験を受け付けております。",
-    },
-  ]}
-/>

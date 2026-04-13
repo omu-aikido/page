@@ -20,25 +20,22 @@ defineExpose({ token, status, executeChallenge, widgetRef });
       class="absolute opacity-0 pointer-events-none"
     />
     <div class="inline-flex items-center gap-2 my-4">
-      <div
-        v-if="status === 'idle' || status === 'checking'"
-        class="status-pending"
-      >
+      <div v-if="status === 'idle' || status === 'checking'" class="fg-accent">
         <div class="i-ri:loader-4-line h-5 w-5 animate-spin" />
       </div>
-      <div v-else-if="status === 'verified'" class="status-success">
+      <div v-else-if="status === 'verified'" class="text-success">
         <div class="i-ri:checkbox-circle-fill h-5 w-5" />
       </div>
       <div
         v-else-if="status === 'expired' || status === 'error'"
-        class="status-error"
+        class="text-error"
       >
         <div class="i-ri:error-warning-fill h-5 w-5" />
       </div>
 
       <div
         v-if="status === 'idle' || status === 'checking'"
-        class="text-sm status-pending"
+        class="text-sm fg-ghost"
       >
         <span>{{
           status === "idle"
@@ -46,16 +43,23 @@ defineExpose({ token, status, executeChallenge, widgetRef });
             : "人間かどうか確認中..."
         }}</span>
       </div>
-      <div v-else-if="status === 'verified'" class="text-sm status-success">
+      <div
+        v-else-if="status === 'verified'"
+        class="text-sm text-success font-bold"
+      >
         <span>確認完了</span>
       </div>
       <div v-else-if="status === 'expired' || status === 'error'" class="">
-        <span class="text-sm status-error">{{
+        <span class="text-sm text-error font-medium">{{
           status === "expired"
             ? "確認の期限が切れました。"
             : "確認中にエラーが発生しました。"
         }}</span>
-        <button type="button" class="link-retry" @click="executeChallenge()">
+        <button
+          type="button"
+          class="link ml-2 font-bold"
+          @click="executeChallenge()"
+        >
           再試行 →
         </button>
       </div>

@@ -136,27 +136,25 @@ async function handleSubmit() {
 
 <template>
   <Transition name="bounce">
-    <div v-if="status === 'success'" role="alert" class="card-base text-center">
-      <div class="status-icon-success mx-auto mb-3 w-fit">
+    <div v-if="status === 'success'" role="alert" class="card text-center">
+      <div class="mx-auto mb-3 w-fit text-success">
         <div class="i-ri:checkbox-circle-line h-5 w-5" />
       </div>
-      <p class="text-heading text-lg font-bold">
-        お問い合わせを受け付けました。
-      </p>
-      <p class="text-body mt-1">ありがとうございます。</p>
+      <p class="fg-base text-lg font-bold">お問い合わせを受け付けました。</p>
+      <p class="fg-muted mt-1">ありがとうございます。</p>
     </div>
   </Transition>
 
   <form
     v-if="status !== 'success'"
     novalidate
-    class="card-base mt-4"
+    class="card mt-4"
     @submit.prevent="handleSubmit"
   >
     <div
       v-if="status === 'error' && errorMessage"
       role="alert"
-      class="form-error mb-3"
+      class="text-error mb-3"
     >
       {{ errorMessage }}
     </div>
@@ -217,7 +215,7 @@ async function handleSubmit() {
     <button
       type="submit"
       :disabled="status === 'submitting' || !isReadyToSubmit"
-      class="btn-primary mt-2 w-full sm:w-auto"
+      class="button accent mt-2 w-full sm:w-auto px-4 py-2"
     >
       {{ status === "submitting" ? "送信中..." : "送信する" }}
     </button>

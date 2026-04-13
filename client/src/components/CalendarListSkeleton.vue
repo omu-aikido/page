@@ -6,7 +6,7 @@ const props = defineProps<{
 }>();
 
 // 0から7までの配列
-const skeletonItems = Array.from({ length: 8 }, (_, i) => i);
+const skeletonItems = Array.from({ length: 6 }, (_, i) => i);
 const exitStates = ref<boolean[]>(Array.from({ length: 8 }, () => false));
 const isFullyExited = ref(false);
 
@@ -36,7 +36,6 @@ watch(
     v-if="!isFullyExited"
     class="divide-y divide-zinc-200/70 dark:divide-zinc-700/70"
   >
-    <!-- 修正ポイント: (item, index) として、0から始まるindexを確実に取得する -->
     <div
       v-for="(item, index) in skeletonItems"
       :key="item"
@@ -46,27 +45,27 @@ watch(
     >
       <h3 class="font-semibold text-lg">
         <div
-          class="skeleton-item h-1em rounded bg-zinc-200 dark:bg-zinc-700"
+          class="skeleton-item h-1em rounded bg-zinc-200 dark:bg-zinc-800"
           :class="[index % 3 !== 0 ? 'w-4em' : 'w-3em']"
         />
       </h3>
 
-      <div class="space-y-1 text-sm text-body">
-        <div class="flex-inline items-center gap-2">
+      <div class="space-y-1 text-sm fg-muted">
+        <div class="inline-flex items-center gap-2">
           <div
-            class="skeleton-item h-4 w-1em rounded bg-zinc-200 dark:bg-zinc-700"
+            class="skeleton-item h-4 w-1em rounded bg-zinc-200 dark:bg-zinc-800"
           />
           <div
-            class="skeleton-item h-4 w-5em rounded bg-zinc-200 dark:bg-zinc-700"
+            class="skeleton-item h-4 w-5em rounded bg-zinc-200 dark:bg-zinc-800"
           />
         </div>
         <br />
-        <div class="flex-inline items-center gap-2">
+        <div class="inline-flex items-center gap-2">
           <div
-            class="skeleton-item h-4 w-1em rounded bg-zinc-200 dark:bg-zinc-700"
+            class="skeleton-item h-4 w-1em rounded bg-zinc-200 dark:bg-zinc-800"
           />
           <div
-            class="skeleton-item h-4 w-8em rounded bg-zinc-200 dark:bg-zinc-700"
+            class="skeleton-item h-4 w-8em rounded bg-zinc-200 dark:bg-zinc-800"
           />
         </div>
       </div>

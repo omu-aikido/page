@@ -2,86 +2,64 @@
 import { navlinks } from "@/lib/navigation";
 
 const currentPath = Astro.url.pathname;
+const isActive = (path: string) => currentPath === path;
 ---
 
 <button
   id="open-sidebar"
-  class="i-ri:menu-line text-2xl transition hover:(cursor-pointer i-ri:menu-unfold-4-line text-brand-600)"
-  aria-label="Open Sidebar"
->
-</button>
+  class="i-ri:menu-line text-2xl transition hover:(cursor-pointer fg-accent)"
+  aria-label="Open Sidebar"></button>
 
 <dialog
   id="sidebar"
-  class="w-80 max-w-full rounded-none border-0 bg-zinc-50 text-zinc-800 dark:(bg-zinc-900 text-zinc-100)"
+  class="w-80 max-w-full rounded-none border-0 bg-base fg-base"
 >
   <div class="min-h-100dvh m-4 flex flex-col">
     <button
       id="close-sidebar"
-      class="i-ri:close-line mb-2 ml-auto text-3xl transition hover:(i-ri:close-circle-line text-brand-600 cursor-pointer)"
-      aria-label="Close Sidebar"
-    >
-    </button>
+      class="i-ri:close-line mb-2 ml-auto text-3xl transition hover:(fg-accent cursor-pointer)"
+      aria-label="Close Sidebar"></button>
 
     <nav class="mx-2 flex-1 space-y-1">
       {
         navlinks.map((parent) => {
-          const isActiveParent = currentPath === parent.path;
-          const isHome = parent.path === "/";
-          const hasChildren = parent.children && parent.children.length > 0;
-
           return (
-            <div class="nav-group">
+            <stack gap-2>
               <a
                 href={parent.path}
                 transition:name={`nav-${parent.path.replaceAll("/", "-") || "home"}`}
-                class={`nav-link nav-link--parent ${isActiveParent ? "nav-link--active" : ""}`}
+                class={`px-2 py-1 rounded-sm ${isActive(parent.path) ? "accent" : "hover:muted"}`}
               >
                 {parent.title}
               </a>
+              {parent.children &&
+                parent.children.map((child) => {
+                  return (
+                    <>
+                      <a
+                        href={child.path}
+                        transition:name={`nav-${child.path.replaceAll("/", "-")}`}
+                        class={`px-2 py-1 rounded-sm ${isActive(child.path) ? "accent" : "hover:muted"}`}
+                      >
+                        {child.title}
+                      </a>
 
-              {hasChildren && (
-                <div
-                  class={`nav-children ${isHome ? "" : "nav-children--indent"}`}
-                >
-                  {parent.children!.map((child) => {
-                    const isActiveChild = currentPath === child.path;
-                    const hasGrandchildren =
-                      child.children && child.children.length > 0;
-
-                    return (
-                      <div class="nav-group">
-                        <a
-                          href={child.path}
-                          transition:name={`nav-${child.path.replaceAll("/", "-")}`}
-                          class={`nav-link nav-link--child ${isActiveChild ? "nav-link--active" : ""}`}
-                        >
-                          {child.title}
-                        </a>
-
-                        {hasGrandchildren && (
-                          <div class="nav-grandchildren">
-                            {child.children!.map((grandchild) => {
-                              const isActiveGrandchild =
-                                currentPath === grandchild.path;
-                              return (
-                                <a
-                                  href={grandchild.path}
-                                  transition:name={`nav-${grandchild.path.replaceAll("/", "-")}`}
-                                  class={`nav-link nav-link--grandchild ${isActiveGrandchild ? "nav-link--active" : ""}`}
-                                >
-                                  {grandchild.title}
-                                </a>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+                      {child.children &&
+                        child.children.map((grandchild) => {
+                          return (
+                            <a
+                              href={grandchild.path}
+                              transition:name={`nav-${grandchild.path.replaceAll("/", "-")}`}
+                              class={`pl-6 px-2 py-1 rounded-sm ${isActive(grandchild.path) ? "accent" : "hover:muted"}`}
+                            >
+                              {grandchild.title}
+                            </a>
+                          );
+                        })}
+                    </>
+                  );
+                })}
+            </stack>
           );
         })
       }
@@ -123,15 +101,15 @@ const currentPath = Astro.url.pathname;
   }
 
   .nav-link--parent {
-    @apply text-base font-bold hover:(bg-zinc-200 dark:bg-zinc-700);
+    @apply text-base font-bold hover:(bg-zinc-200 dark:bg-zinc-800);
   }
 
   .nav-link--child {
-    @apply text-sm font-semibold hover:(bg-zinc-200 dark:bg-zinc-700);
+    @apply text-sm font-semibold hover:(bg-zinc-200 dark:bg-zinc-800);
   }
 
   .nav-link--grandchild {
-    @apply text-sm font-medium hover:(bg-zinc-200 dark:bg-zinc-700);
+    @apply text-sm font-medium hover:(bg-zinc-200 dark:bg-zinc-800);
   }
 
   .nav-link--active {

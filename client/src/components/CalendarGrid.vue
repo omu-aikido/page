@@ -100,9 +100,9 @@ function isToday(date: Date): boolean {
 }
 
 function getWeekdayClass(weekday: string): string {
-  if (weekday === "日") return "weekday-sunday";
-  if (weekday === "土") return "weekday-saturday";
-  return "weekday-weekday";
+  if (weekday === "日") return "text-red-500";
+  if (weekday === "土") return "text-blue-500";
+  return "fg-ghost";
 }
 
 function isStartDay(event: CalendarEvent, date: Date): boolean {
@@ -116,7 +116,7 @@ function isStartDay(event: CalendarEvent, date: Date): boolean {
 </script>
 
 <template>
-  <div v-if="error" class="text-red-500">エラーが発生しました</div>
+  <div v-if="error" class="text-error">エラーが発生しました</div>
 
   <div
     id="calendar-grid"
@@ -124,7 +124,7 @@ function isStartDay(event: CalendarEvent, date: Date): boolean {
     role="grid"
     aria-labelledby="cal-title"
   >
-    <h2 id="cal-title" class="text-heading text-xl font-bold mb-4">
+    <h2 id="cal-title" class="h2 mb-4">
       {{ monthName }}
     </h2>
 
@@ -147,17 +147,17 @@ function isStartDay(event: CalendarEvent, date: Date): boolean {
         v-for="(date, index) in calendarDays"
         :key="index"
         role="gridcell"
-        class="min-h-24 rounded-sm p-1 border bg-zinc-50 dark:bg-zinc-800/40"
+        class="min-h-24 rounded-sm p-1 border bg-zinc-200/20 dark:bg-zinc-800/20"
         :class="[
           !date && 'opacity-60',
           date && isToday(date)
-            ? 'border-lime'
-            : 'border-zinc-200/70 dark:border-zinc-700/70',
+            ? 'border bordered-accent print:bordered-muted'
+            : 'border bordered-muted',
         ]"
       >
         <template v-if="date">
           <time
-            class="text-xs font-semibold ml-1"
+            class="text-xs font-semibold ml-1 fg-base"
             :datetime="`${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`"
           >
             {{ date.getDate() }}

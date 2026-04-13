@@ -14,23 +14,22 @@ interface Props {
 const { title, description } = Astro.props;
 
 const path = Astro.url.pathname;
+console.log(path);
 ---
 
-<html
-  lang="ja"
-  class="bg-zinc-50 text-zinc-800 dark:(bg-zinc-900 text-zinc-200)"
->
+<html lang="ja" class="base">
   <Head title={title} description={description} />
-  <body class="page-aikido-bg">
-    <Header />
+  <body
+    class="bg-[radial-gradient(circle_at_15%_0%,rgba(29,78,216,0.12),transparent_34%),radial-gradient(circle_at_85%_12%,rgba(6,95,70,0.14),transparent_38%)]"
+  >
+    <Header transition:persist />
     <main
-      class="mx-4 min-h-90dvh"
-      transition:name="main"
+      class="mx-4 min-h-90dvh max-w-4xl sm:mx-6 md:mx-8 lg:mx-auto"
       transition:animate="fade"
     >
-      {path !== "/" && <Breadcrumb pathname={path} />}
+      <Breadcrumb pathname={path} />
       <slot />
     </main>
-    <Footer />
+    <Footer transition:persist />
   </body>
 </html>
