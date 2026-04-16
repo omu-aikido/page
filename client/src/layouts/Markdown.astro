@@ -15,10 +15,11 @@ const { frontmatter } = Astro.props;
     <article
       aria-label="Article content"
       class={[
-        `prose dark:prose-invert max-w-4xl mx-6 sm:mx-8 md:mx-12 lg:mx-auto`,
+        `container`,
+        `prose dark:prose-invert`,
         `prose-p:(m-0)`,
         `prose-ul:(m-0 list-none p-0) prose-li:(before:content-["◆"] before:mr-2 before:fg-muted)`,
-        `prose-a:(underline underline-offset-4 underline-brand-600 dark:underline-brand-500)`
+        `prose-a:(underline underline-offset-4 underline-brand-600 dark:underline-brand-500)`,
       ].join(" ")}
     >
       <slot />

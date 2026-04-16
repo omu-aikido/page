@@ -10,7 +10,13 @@ const flatNav = mainNav.flatMap((parent) => [
 ---
 
 <nav class="grid gap-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-  {flatNav.map((nav) => <a href={nav.path} class="w-fit guide-card-link font-semibold">{nav.title}</a>)}
+  {
+    flatNav.map((nav) => (
+      <a href={nav.path} class="w-fit guide-card-link font-semibold">
+        {nav.title}
+      </a>
+    ))
+  }
 </nav>
 
 <style>

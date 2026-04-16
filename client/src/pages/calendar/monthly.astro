@@ -4,14 +4,14 @@ import Layout from "@/layouts/Layout.astro";
 ---
 
 <Layout title="稽古予定" description="今後の稽古予定">
-  <section class="mx-4 max-w-4xl mx-auto min-h-60dvh">
+  <section class="min-h-60dvh">
     <div class="mb-6" transition:name="calendar-head">
       <h1 class="h1">稽古予定</h1>
     </div>
 
     <CalendarGrid client:load />
   </section>
-  <section class="mx-4 max-w-4xl mx-auto print:hidden">
+  <section class="print:hidden">
     <p class="text-right mt-4">
       <a href="/calendar" class="text-lg link">リスト表示</a>
     </p>

@@ -17,9 +17,9 @@ defineExpose({ token, status, executeChallenge, widgetRef });
   <div class="relative">
     <div
       :ref="(el) => (widgetRef = el as HTMLElement)"
-      class="absolute opacity-0 pointer-events-none"
+      class="opacity-0 w-1 h-1 pointer-events-none"
     />
-    <div class="inline-flex items-center gap-2 my-4">
+    <div class="inline-flex items-center gap-2">
       <div v-if="status === 'idle' || status === 'checking'" class="fg-accent">
         <div class="i-ri:loader-4-line h-5 w-5 animate-spin" />
       </div>

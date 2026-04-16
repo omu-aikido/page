@@ -66,7 +66,11 @@ function getTitleClass(title: string) {
           {{ formatEventDateRange(event) }}
         </div>
         <div
-          v-if="!isAllDayEvent(event) && event.start !== event.end && !isMultiDayEvent(event)"
+          v-if="
+            !isAllDayEvent(event) &&
+            event.start !== event.end &&
+            !isMultiDayEvent(event)
+          "
           class="inline-flex items-center gap-2"
           aria-hidden
         >

@@ -17,8 +17,7 @@ export default defineConfig({
     }),
     presetAttributify(),
     presetIcons(),
-    presetTypography(
-    ),
+    presetTypography(),
     presetWebFonts({
       provider: "google",
       fonts: {
@@ -65,7 +64,7 @@ export default defineConfig({
     },
     // Layout
     {
-      container: "max-w-4xl mx-auto",
+      container: "max-w-4xl lg:mx-auto md:mx-8 sm:mx-6 mx-4",
       stack: "flex flex-col",
       row: "flex flex-row",
       grid: "grid",

@@ -23,10 +23,7 @@ console.log(path);
     class="bg-[radial-gradient(circle_at_15%_0%,rgba(29,78,216,0.12),transparent_34%),radial-gradient(circle_at_85%_12%,rgba(6,95,70,0.14),transparent_38%)]"
   >
     <Header transition:persist />
-    <main
-      class="mx-4 min-h-90dvh max-w-4xl sm:mx-6 md:mx-8 lg:mx-auto"
-      transition:animate="fade"
-    >
+    <main class="container min-h-90dvh" transition:animate="fade">
       <Breadcrumb pathname={path} />
       <slot />
     </main>

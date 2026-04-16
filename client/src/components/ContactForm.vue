@@ -148,7 +148,7 @@ async function handleSubmit() {
   <form
     v-if="status !== 'success'"
     novalidate
-    class="card mt-4"
+    class="stack gap-4"
     @submit.prevent="handleSubmit"
   >
     <div
@@ -199,27 +199,28 @@ async function handleSubmit() {
       :disabled="status === 'submitting'"
     />
 
-    <!-- eslint-disable-next-line vue/attribute-hyphenation -->
-    <TurnstileStatus ref="turnstileRef" :siteKey="siteKey" />
-
+    <div class="center">
+      <!-- eslint-disable-next-line vue/attribute-hyphenation -->
+      <TurnstileStatus ref="turnstileRef" :siteKey="siteKey" />
+      <button
+        type="submit"
+        :disabled="status === 'submitting' || !isReadyToSubmit"
+        class="button accent ml-auto w-fit sm:w-auto px-4 py-2"
+      >
+        {{ status === "submitting" ? "送信中..." : "送信する" }}
+      </button>
+    </div>
+  </form>
     <p class="text-sm">
-      このフォームを送信することで、<a
+      ※このフォームを送信することで、<a
         href="/terms-of-service"
         target="_blank"
-        class="link"
+        class="underline link"
         >利用規約</a
-      >及び<a href="/privacy-policy" target="_blank" class="link"
+      >及び<a href="/privacy-policy" target="_blank" class="underline link"
         >プライバシーポリシー</a
-      >に同意したものとなります
+      >に同意したものとなります。
     </p>
-    <button
-      type="submit"
-      :disabled="status === 'submitting' || !isReadyToSubmit"
-      class="button accent mt-2 w-full sm:w-auto px-4 py-2"
-    >
-      {{ status === "submitting" ? "送信中..." : "送信する" }}
-    </button>
-  </form>
 </template>
 
 <style scoped>
