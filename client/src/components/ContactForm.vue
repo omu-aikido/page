@@ -136,27 +136,25 @@ async function handleSubmit() {
 
 <template>
   <Transition name="bounce">
-    <div v-if="status === 'success'" role="alert" class="card-base text-center">
-      <div class="status-icon-success mx-auto mb-3 w-fit">
+    <div v-if="status === 'success'" role="alert" class="card text-center">
+      <div class="mx-auto mb-3 w-fit text-success">
         <div class="i-ri:checkbox-circle-line h-5 w-5" />
       </div>
-      <p class="text-heading text-lg font-bold">
-        お問い合わせを受け付けました。
-      </p>
-      <p class="text-body mt-1">ありがとうございます。</p>
+      <p class="fg-base text-lg font-bold">お問い合わせを受け付けました。</p>
+      <p class="fg-muted mt-1">ありがとうございます。</p>
     </div>
   </Transition>
 
   <form
     v-if="status !== 'success'"
     novalidate
-    class="card-base mt-4"
+    class="stack gap-4"
     @submit.prevent="handleSubmit"
   >
     <div
       v-if="status === 'error' && errorMessage"
       role="alert"
-      class="form-error mb-3"
+      class="text-error mb-3"
     >
       {{ errorMessage }}
     </div>
@@ -201,27 +199,28 @@ async function handleSubmit() {
       :disabled="status === 'submitting'"
     />
 
-    <!-- eslint-disable-next-line vue/attribute-hyphenation -->
-    <TurnstileStatus ref="turnstileRef" :siteKey="siteKey" />
-
+    <div class="center">
+      <!-- eslint-disable-next-line vue/attribute-hyphenation -->
+      <TurnstileStatus ref="turnstileRef" :siteKey="siteKey" />
+      <button
+        type="submit"
+        :disabled="status === 'submitting' || !isReadyToSubmit"
+        class="button accent ml-auto w-fit sm:w-auto px-4 py-2"
+      >
+        {{ status === "submitting" ? "送信中..." : "送信する" }}
+      </button>
+    </div>
+  </form>
     <p class="text-sm">
-      このフォームを送信することで、<a
+      ※このフォームを送信することで、<a
         href="/terms-of-service"
         target="_blank"
-        class="link"
+        class="underline link"
         >利用規約</a
-      >及び<a href="/privacy-policy" target="_blank" class="link"
+      >及び<a href="/privacy-policy" target="_blank" class="underline link"
         >プライバシーポリシー</a
-      >に同意したものとなります
+      >に同意したものとなります。
     </p>
-    <button
-      type="submit"
-      :disabled="status === 'submitting' || !isReadyToSubmit"
-      class="btn-primary mt-2 w-full sm:w-auto"
-    >
-      {{ status === "submitting" ? "送信中..." : "送信する" }}
-    </button>
-  </form>
 </template>
 
 <style scoped>

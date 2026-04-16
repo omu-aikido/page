@@ -8,11 +8,11 @@ const {
 } = Astro.props as any;
 ---
 
-<div class="iframe-wrapper">
+<div class="iframe-wrapper rounded-lg overflow-hidden border bordered-muted">
   <iframe
     src={src}
     title={title}
     loading={loading}
-    class={`relative z-10 ${iframeClass}`}
+    class={`relative z-10 w-full h-full border-0 ${iframeClass}`}
     {...allowFullScreen ? { allowfullscreen: true } : {}}></iframe>
 </div>

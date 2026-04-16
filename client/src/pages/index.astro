@@ -5,36 +5,86 @@ import Layout from "@/layouts/Layout.astro";
 ---
 
 <Layout title="トップ" description="大阪公立大学合氣道部の公式ホームページです">
-  <section class="mt-16 container-page" transition:name="home-hero">
-    <h1 class="text-heading text-4xl font-semibold">
+  <section
+    class="stack gap-4 relative pt-12"
+    transition:name="home-hero"
+    id="hero-section"
+  >
+    <h1 class="h1">
       大阪公立大学<br class="sm:hidden" />合氣道部
     </h1>
-    <p class="text-body mt-3 max-w-60% leading-relaxed">
+    <p class="max-w-2/3 leading-relaxed fg-base">
       大阪公立大学合氣道部は、森之宮キャンパス・中百舌鳥キャンパス・杉本キャンパスで活動する、体育会所属の合気道団体です。
     </p>
-    <a href="/about" class="btn-primary my-8">活動について→</a>
-    <div class="hero-accent-bg" aria-hidden="true"></div>
+    <a href="/about" class="button accent px-4 py-2 w-fit">活動について→</a>
+
+    <div id="hero-accent-bg" aria-hidden="true"></div>
   </section>
-  <section class="container-page pt-0 grid grid-cols-4 gap-24">
-    <div class="col-span-4 sm:col-span-3">
-      <h2 class="text-heading text-2xl font-semibold">合気道とは</h2>
-      <p class="text-body mt-3 leading-relaxed">
+  <section class="grid grid-cols-4 gap-4">
+    <stack class="col-span-4 sm:col-span-3">
+      <h2 class="h2">合気道とは</h2>
+      <p class="fg-base my-3 leading-relaxed">
         合気道は、開祖・植芝盛平翁が創始した現代武道です。<br
-        />相手と強弱を競わず、入身と転換の体捌きと呼吸力から生まれる技によって心身の錬成図ります。
-      </p>
-      <p class="text-body mt-3 leading-relaxed">
+        />相手と強弱を競わず、入身と転換の体捌きと呼吸力から生まれる技によって心身の錬成図ります。<br
+        />
         試合や競技は行わず、お互いに切磋琢磨し合って稽古を積み重ねることを目的としています。
       </p>
       <a
         title="合気道についてもっと詳しく知る"
         href="/about/aikido"
-        class="btn-secondary mt-4">もっと詳しく</a
+        class="button bg-muted border bordered-invert  px-4 py-2 w-fit"
+        >もっと詳しく→</a
       >
-    </div>
+    </stack>
     <div class="hidden sm:col-span-1"></div>
   </section>
-  <section class="container-page mt-4">
-    <h2 class="text-heading text-2xl font-bold mb-4">探索する</h2>
+  <section>
+    <h2 class="h2 mb-4">探索する</h2>
     <SiteGuideBento />
   </section>
 </Layout>
+
+<style is:inline>
+  #hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(37, 99, 235, 0.3),
+      transparent
+    );
+  }
+
+  #hero-accent-bg {
+    position: absolute;
+    top: -30%;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 30% 50%,
+      rgba(37, 99, 235, 0.08),
+      transparent 70%
+    );
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  @media (max-width: 640px) {
+    #hero-accent-bg {
+      width: min(400px, 70vw);
+      height: min(400px, 70vw);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #hero-accent-bg {
+      animation: none;
+    }
+  }
+</style>

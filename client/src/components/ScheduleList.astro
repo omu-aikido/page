@@ -12,20 +12,16 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<dl class="space-y-0">
+<dl class="space-y-4">
   {
     items.map((item) => (
-      <div class="row-soft">
-        <dt class="text-base font-bold text-zinc-900 dark:text-zinc-100">
-          {item.day}
-        </dt>
-        <dd class="text-zinc-700 dark:text-zinc-300 m-0">
-          <p class="text-base m-0">{item.location}</p>
-          <p class="text-sm text-zinc-500 dark:text-zinc-400 m-0">
-            {item.time}
-          </p>
+      <stack>
+        <dt class="text-base font-bold fg-base">{item.day}</dt>
+        <dd class="m-0">
+          <p class="text-base fg-muted m-0">{item.location}</p>
+          <p class="text-sm fg-muted m-0">{item.time}</p>
         </dd>
-      </div>
+      </stack>
     ))
   }
 </dl>

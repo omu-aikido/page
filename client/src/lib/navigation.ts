@@ -10,23 +10,21 @@ export const navlinks: NavLink[] = [
     path: "/",
     children: [
       {
-        title: "私たちについて",
+        title: "部活について",
         path: "/about",
         children: [
-          { title: "合気道について", path: "/about/aikido" },
+          { title: "合気道とは", path: "/about/aikido" },
           { title: "リンク集", path: "/about/links" },
-          { title: "応援する", path: "/support" },
         ],
       },
+      { title: "稽古場所", path: "/access" },
+      { title: "稽古予定", path: "/calendar" },
       {
-        title: "活動について",
-        path: "/club",
-        children: [
-          { title: "稽古場所", path: "/access" },
-          { title: "稽古予定", path: "/calendar" },
-        ],
+        title: "お問い合わせ",
+        path: "/contact",
+        children: [{ title: "よくある質問", path: "/faq" }],
       },
-      { title: "お問い合わせ", path: "/contact" },
+      { title: "応援する", path: "/support" },
     ],
   },
 ];
