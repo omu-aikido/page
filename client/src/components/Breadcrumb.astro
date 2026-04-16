@@ -18,11 +18,19 @@ const breadcrumbs = generateBreadcrumbs(pathname);
       <ol class="flex items-center gap-2 text-sm fg-muted">
         {breadcrumbs.map((item, index) => (
           <li class="flex items-center gap-2">
-            {index > 0 && <span class="fg-ghost">/</span>}
+            {index > 0 && (
+              <span class="fg-ghost" aria-hidden="true">
+                /
+              </span>
+            )}
             {item.isCurrent ? (
               <span class="font-semibold fg-base">{item.title}</span>
             ) : (
-              <a href={item.path} class="link">
+              <a
+                href={item.path}
+                class="link"
+                aria-current={item.isCurrent ? "page" : undefined}
+              >
                 {item.title}
               </a>
             )}
