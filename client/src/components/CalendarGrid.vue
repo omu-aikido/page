@@ -129,12 +129,12 @@ function isStartDay(event: CalendarEvent, date: Date): boolean {
     </h2>
 
     <!-- 曜日ヘッダー: role="row" -->
-    <div class="grid grid-cols-7 mb-1" role="row">
+    <div class="grid grid-cols-7 mb-2" role="row">
       <div
         v-for="day in ['日', '月', '火', '水', '木', '金', '土']"
         :key="day"
         role="columnheader"
-        class="px-1 py-2 text-sm font-semibold text-center"
+        class="text-sm font-semibold text-center"
         :class="getWeekdayClass(day)"
       >
         {{ day }}

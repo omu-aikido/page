@@ -114,7 +114,7 @@ export default defineConfig({
     },
     // Events
     {
-      "event-nakamozu": "text-brand-700 dark:text-brand-300",
+      "event-nakamozu": "text-sky-700 dark:text-sky-300",
       "event-sugimoto": "text-emerald-700 dark:text-emerald-300",
       "event-morinomiya": "text-orange-700 dark:text-orange-300",
       "event-event": "text-rose-700 dark:text-rose-300",
