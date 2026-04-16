@@ -53,7 +53,7 @@ function getTitleClass(title: string) {
     <div
       v-for="(event, index) in events"
       :key="event.id"
-      class="stagger-item bordered-muted [&:not(:last-child)]:border-b px-4 py-5 min-w-0 grid grid-flow-col grid-col-2 sm:grid-cols-[1fr_2fr] grid-cols-[1fr-1fr]"
+      class="stagger-item bordered-muted [&:not(:last-child)]:border-b px-4 py-5 min-w-0 grid grid-flow-col grid-cols-2 sm:grid-cols-[1fr_2fr]"
       :class="getTitleClass(event.title)"
       :style="{ animationDelay: `${index * 60}ms` }"
     >
