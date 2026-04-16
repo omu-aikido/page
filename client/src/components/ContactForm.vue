@@ -211,16 +211,6 @@ async function handleSubmit() {
       </button>
     </div>
   </form>
-  <p class="text-sm">
-    ※このフォームを送信することで、<a
-      href="/terms-of-service"
-      target="_blank"
-      class="underline link"
-      >利用規約</a
-    >及び<a href="/privacy-policy" target="_blank" class="underline link"
-      >プライバシーポリシー</a
-    >に同意したものとなります。
-  </p>
 </template>
 
 <style scoped>

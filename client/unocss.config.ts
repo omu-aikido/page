@@ -109,6 +109,7 @@ export default defineConfig({
       mark: "bg-accent fg-invert px-1 rounded-xs",
       card: "rounded-lg bg-ghost border bordered-muted p-4 shadow-sm",
       link: "text-brand-700 dark:text-brand-400 no-underline hover:underline underline-offset-4",
+      outer_link: "text-brand-700 dark:text-brand-400 no-underline hover:underline underline-offset-4 after:content-['_↗_']",
       button:
         "rounded-sm hover:(cursor-pointer shadow-sm opacity-90) active:(transform translate-y-1px) focus-visible:(ring-1 ring-brand-600 dark:ring-brand-500) disabled:(cursor-not-allowed translate-y-0 opacity-60 hover:shadow-none hover:cursor-not-allowed)",
     },
