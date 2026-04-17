@@ -22,7 +22,7 @@ export default defineConfig({
         {
           target: "_blank",
           rel: ["noopener", "noreferrer"],
-          content: { type: 'text', value: ' ↗ ' }
+          content: { type: "text", value: " ↗ " },
         },
       ],
     ],
