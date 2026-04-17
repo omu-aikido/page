@@ -1,0 +1,156 @@
+---
+import { Image } from "astro:assets";
+
+interface SlideImage {
+  src: any; // ImageMetadata
+  alt: string;
+}
+
+interface Props {
+  images: SlideImage[];
+  interval?: number;
+}
+
+const { images, interval = 5000 } = Astro.props;
+const hasMultipleImages = images.length > 1;
+---
+
+<photo-slideshow
+  data-interval={interval}
+  class="relative block w-full overflow-hidden rounded-2xl bg-zinc-900 shadow-xl aspect-video group"
+>
+  <!-- Slides -->
+  <div class="relative w-full h-full slideshow-container">
+    {
+      images.map((image, index) => (
+        <div
+          class={`absolute inset-0 w-full h-full overflow-hidden opacity-0 transition-opacity duration-1500 ease-in-out slideshow-slide ${index === 0 ? "opacity-100 active" : ""}`}
+          data-index={index}
+        >
+          {/* Blurred Background */}
+          <div class="absolute inset-0 w-full h-full scale-110 blur-sm contrast-125">
+            <Image
+              src={image.src}
+              alt=""
+              class="w-full h-full object-cover"
+              quality="low"
+              loading="lazy"
+            />
+          </div>
+
+          {/* Main Image */}
+          <div class="relative w-full h-full flex items-center justify-center">
+            <Image
+              src={image.src}
+              alt={image.alt}
+              class="max-w-full max-h-full object-contain relative z-10"
+              quality="max"
+              loading={index === 0 ? "eager" : "lazy"}
+            />
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <!-- Overlay Gradient (Subtle) -->
+  <div
+    class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10 pointer-events-none z-20"
+  >
+  </div>
+
+  {
+    hasMultipleImages && (
+      <>
+        {/*Navigation Arrows*/}
+        <button
+          data-prev
+          class="absolute left-4 top-1/2 p-3 rounded-full bg-black/20 hover:bg-black/40 text-white transition-all backdrop-blur-md opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 cursor-pointer z-30"
+          aria-label="Previous slide"
+        >
+          <div class="i-ri-arrow-left-s-line size-6" />
+        </button>
+        <button
+          data-next
+          class="absolute right-4 top-1/2 p-3 rounded-full bg-black/20 hover:bg-black/40 text-white transition-all backdrop-blur-md opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 cursor-pointer z-30"
+          aria-label="Next slide"
+        >
+          <div class="i-ri-arrow-right-s-line size-6" />
+        </button>
+
+        {/*Indicators*/}
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-30">
+          {images.map((_, index) => (
+            <button
+              data-indicator={index}
+              class={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${index === 0 ? "bg-white w-8" : "bg-white/40 hover:bg-white/70 w-2"}`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      </>
+    )
+  }
+</photo-slideshow>
+
+<style>
+  .slideshow-slide.active {
+    opacity: 1;
+    z-index: 10;
+  }
+</style>
+
+<script>
+  class PhotoSlideshow extends HTMLElement {
+    constructor() {
+      super();
+      const slides = this.querySelectorAll(".slideshow-slide");
+      if (slides.length <= 1) return;
+
+      const interval = parseInt(this.dataset.interval || "5000");
+      const indicators = this.querySelectorAll("[data-indicator]");
+      const prevBtn = this.querySelector("[data-prev]");
+      const nextBtn = this.querySelector("[data-next]");
+
+      let currentIndex = 0;
+      let timer: number | null = null;
+
+      const updateSlides = (newIndex: number) => {
+        slides[currentIndex].classList.remove("active");
+        if (indicators[currentIndex]) {
+          indicators[currentIndex].classList.remove("bg-white", "w-8");
+          indicators[currentIndex].classList.add("bg-white/40", "w-2");
+        }
+
+        currentIndex = (newIndex + slides.length) % slides.length;
+
+        slides[currentIndex].classList.add("active");
+        if (indicators[currentIndex]) {
+          indicators[currentIndex].classList.remove("bg-white/40", "w-2");
+          indicators[currentIndex].classList.add("bg-white", "w-8");
+        }
+
+        resetTimer();
+      };
+
+      const next = () => updateSlides(currentIndex + 1);
+      const prev = () => updateSlides(currentIndex - 1);
+
+      const resetTimer = () => {
+        if (timer) clearInterval(timer);
+        timer = window.setInterval(next, interval);
+      };
+
+      nextBtn?.addEventListener("click", next);
+      prevBtn?.addEventListener("click", prev);
+
+      indicators.forEach((indicator, index) => {
+        indicator.addEventListener("click", () => updateSlides(index));
+      });
+
+      resetTimer();
+    }
+  }
+
+  customElements.define("photo-slideshow", PhotoSlideshow);
+</script>

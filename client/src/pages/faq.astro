@@ -1,10 +1,153 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+
+import { marked } from "marked";
+
+const faqItems: Array<{
+  group: string;
+  items: Array<{
+    question: string;
+    answer: string[];
+  }>;
+}> = [
+  {
+    group: "活動",
+    items: [
+      {
+        question: "週１参加でも良いですか？",
+        answer: [
+          "大丈夫です。",
+          "特に2026年からは森之宮キャンパスの増設があり、キャンパス間移動は負担になりますので、可能な範囲の参加でOKです！",
+        ],
+      },
+      {
+        question: "ピアスって大丈夫ですか？",
+        answer: [
+          "ダメではないですが、外れたら危ないですし、受け身でケガするリスクもあるので、外して活動していただけたらと思います。",
+          "また、ネイルは本当に危ないのでなしでお願いしています。爪は短くするのが原則です。",
+          "髪染めは全然オッケーです。",
+        ],
+      },
+      {
+        question: "先輩後輩の上下関係は厳しいですか？",
+        answer: [
+          "厳しくはないと思います！学年関係なく仲良くしてます！",
+          "ただあくまで武道ですので、最低限の礼儀は身につけて欲しくはあります。",
+        ],
+      },
+      {
+        question: "他の合気道部との違いってなんですか？",
+        answer: [
+          "女子合気道部さんは、大阪女子大学からの歴史を持つ団体さんです。私たちとは、都立大戦や六公立大戦などで交流があります。大本を辿れば、合気会という同じ会派になります。",
+          "体育会合気道部さんは、競技合気道という、合気道とはまた別の流派を稽古されています。",
+        ],
+      },
+    ],
+  },
+  {
+    group: "新歓",
+    items: [
+      {
+        question: "今日体験行っていいですか？",
+        answer: [
+          "いつでもお越しください！",
+          "稽古予定は[こちら](/calendar)です。",
+        ],
+      },
+      {
+        question: "新歓はいつまでですか？",
+        answer: [
+          "見学体験入部に関しては特に決まりはありませんので、いつでもお越しください。",
+        ],
+      },
+      {
+        question: "入部したい場合はどうすればいいですか？",
+        answer: [
+          "先輩に直接や、LINEなどで入部したいと伝えていただければ案内します。",
+        ],
+      },
+    ],
+  },
+  {
+    group: "稽古",
+    items: [
+      {
+        question: "師範などはいますか？",
+        answer: [
+          "弊部は天之武産合氣塾道場に属していて、こちらから道場に教わりに行ったり、師範が大学に来ていただけることもあります。",
+        ],
+      },
+      {
+        question: "初心者でもついていけますか？",
+        answer: [
+          "はい、初心者でも安心してください！ほとんどの部員は大学から合気道を始めています。",
+          "一方で、同門の高校出身など経験者もいます。",
+        ],
+      },
+      {
+        question: "合気道って強くなれますか？",
+        answer: [
+          "あなたがなんの強さを求めてるのかわかりませんが、例えばけんかの強さが欲しいのであれば、そもそも殴り合いしないで勝つ圧倒的強さが手に入ります😁",
+        ],
+      },
+    ],
+  },
+];
 ---
 
 <Layout title="よくある質問" description="">
-  <center>
-    準備中
-    <div class="i-ri:loader-2-fill animate-spin" aria-hidden></div>
-  </center>
+  <h2 class="h2" id="faq">よくある質問</h2>
+  <article class="my-4" aria-labelledby="faq">
+    {
+      faqItems.map((groups) => (
+        <div>
+          <h3 class="h3 mb-2 mt-6" id={`id_${groups.group}`}>
+            {groups.group}
+          </h3>
+          <ul
+            class="grid grid-cols-1 md:grid-cols-2 gap-4"
+            aria-labelledby={`id_${groups.group}`}
+          >
+            {groups.items.map((item) => (
+              <li class="card bg-opacity-60">
+                <h4 class="h4 inline-flex items-center gap-2">
+                  <div
+                    class="i-ri:questionnaire-line dark:i-ri:questionnaire-fill"
+                    aria-hidden="true"
+                  />
+                  {item.question}
+                </h4>
+                <hr
+                  class="fg-accent opacity-50 pt-0.5 pb-2"
+                  aria-hidden="true"
+                />
+                <div
+                  class={[
+                    `prose dark:prose-invert text-zinc-700 dark:text-zinc-300 text-sm`,
+                    `prose-p:(m-0 indent-1em)`,
+                    `prose-a:(underline-1 underline-offset-4 underline-sky-600 dark:underline-sky-500)`,
+                  ].join(" ")}
+                  set:html={item.answer.map((answer) => marked.parse(answer))}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </article>
+  <p>
+    まだまだ知りたいことがありますか？
+    <a href="/contact" class="link"> お問い合わせ </a>
+    や
+    <a
+      href="https://marshmallow-qa.com/8f2ofku54h476je"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="outer_link"
+    >
+      マシュマロ
+    </a>
+    からなんでもご質問下さい！
+  </p>
 </Layout>

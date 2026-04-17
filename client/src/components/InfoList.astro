@@ -16,7 +16,7 @@ const { items } = Astro.props;
     items.map((item) => (
       <div>
         <dt class="text-sm font-bold fg-base">{item.label}</dt>
-        <dd class="text-base fg-muted m-0 leading-relaxed">
+        <dd class="text-base fg-base m-0 leading-relaxed">
           {typeof item.value === "string" ? (
             item.value
           ) : (

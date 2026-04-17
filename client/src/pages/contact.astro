@@ -13,7 +13,12 @@ import Layout from "@/layouts/Layout.astro";
       見学・体験・入部に関するご質問など、お気軽にご連絡ください。
     </p>
     <p class="mt-2 fg-base">
-      <a href="https://marshmallow-qa.com/8f2ofku54h476je" class="link">
+      <a
+        href="https://marshmallow-qa.com/8f2ofku54h476je"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="outer_link"
+      >
         マシュマロ
       </a>
       では匿名質問も受け付けています！<br />
@@ -24,4 +29,14 @@ import Layout from "@/layouts/Layout.astro";
   </div>
 
   <ContactForm client:only="vue" />
+
+  <p class="text-sm mt-4">
+    ※このフォームを送信することで、<a
+      href="/terms-of-service"
+      target="_blank"
+      class="outer_link">利用規約</a
+    >及び<a href="/privacy-policy" target="_blank" class="outer_link"
+      >プライバシーポリシー</a
+    >に同意したものとなります。
+  </p>
 </Layout>
