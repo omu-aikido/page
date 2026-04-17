@@ -1,0 +1,35 @@
+---
+import Footer from "@/components/Footer.astro";
+import Head from "@/components/Head.astro";
+import Header from "@/components/Header.astro";
+
+export const title = "404 - ページが見つかりません";
+export const description = "";
+---
+
+<html lang="ja" class="base">
+  <Head title={title} description={description} />
+  <body
+    class="bg-[radial-gradient(circle_at_15%_0%,rgba(29,78,216,0.12),transparent_34%),radial-gradient(circle_at_85%_12%,rgba(6,95,70,0.14),transparent_38%)]"
+  >
+    <Header transition:persist />
+    <main class="container min-h-60dvh flex items-center justify-center px-4">
+      <section class="w-full max-w-2xl p-10 text-center">
+        <div class="flex flex-col items-center justify-center mb-6">
+          <div class="text-7xl sm:text-8xl font-extrabold">404</div>
+          <div class="text-4xl sm:text-6xl font-bold font-mono">Not Found</div>
+        </div>
+        <p class="fg-base mb-6">
+          お探しのページは移動したか、存在しない可能性があります。
+        </p>
+
+        <div
+          class="flex flex-col sm:flex-row items-center justify-center gap-3"
+        >
+          <a href="/" class="button accent px-4 py-2 w-fit"> ホームに戻る </a>
+        </div>
+      </section>
+    </main>
+    <Footer transition:persist />
+  </body>
+</html>
