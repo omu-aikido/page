@@ -1,7 +1,22 @@
 ---
 import SiteGuideBento from "@/components/SiteGuideBento.astro";
+import PhotoSlideshow from "@/components/PhotoSlideshow.astro";
 
 import Layout from "@/layouts/Layout.astro";
+
+// Import hero images
+import a61baa65 from "@/assets/hero/a61baa65.jpg";
+import a899c25a from "@/assets/hero/a899c25a.jpg";
+import a2007d4a from "@/assets/hero/a2007d4a.jpg";
+
+const slideImages = [
+  {
+    src: a899c25a,
+    alt: "2025年度集合写真",
+  },
+  { src: a61baa65, alt: "2026年度の新歓の様子です" },
+  { src: a2007d4a, alt: "普段の稽古の様子" },
+];
 ---
 
 <Layout title="トップ" description="大阪公立大学合氣道部の公式ホームページです">
@@ -20,24 +35,11 @@ import Layout from "@/layouts/Layout.astro";
 
     <div id="hero-accent-bg" aria-hidden="true"></div>
   </section>
-  <section class="grid grid-cols-4 gap-4">
-    <stack class="col-span-4 sm:col-span-3">
-      <h2 class="h2">合気道とは</h2>
-      <p class="fg-base my-3 leading-relaxed">
-        合気道は、開祖・植芝盛平翁が創始した現代武道です。<br
-        />相手と強弱を競わず、入身と転換の体捌きと呼吸力から生まれる技によって心身の錬成図ります。<br
-        />
-        試合や競技は行わず、お互いに切磋琢磨し合って稽古を積み重ねることを目的としています。
-      </p>
-      <a
-        title="合気道についてもっと詳しく知る"
-        href="/about/aikido"
-        class="button bg-muted border bordered-invert px-4 py-2 w-fit"
-        >もっと詳しく→</a
-      >
-    </stack>
-    <div class="hidden sm:col-span-1"></div>
+
+  <section class="py-8">
+    <PhotoSlideshow images={slideImages} />
   </section>
+
   <section>
     <h2 class="h2 mb-4">探索する</h2>
     <SiteGuideBento />
