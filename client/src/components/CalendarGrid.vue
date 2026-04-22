@@ -8,15 +8,25 @@ import {
   useCalendar,
 } from "@/composables/useCalendar";
 
+function dateKey(date: Date): string {
+  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+}
+
 const { events, error, fetchEvents } = useCalendar();
 
-const today = new Date();
-const start = new Date(today.getFullYear(), today.getMonth(), 1);
-const end = new Date(today.getFullYear(), today.getMonth() + 1, 2);
+const today = ref(new Date());
+const startDate = new Date(today.value.getFullYear(), today.value.getMonth(), 1);
+const endDate = new Date(today.value.getFullYear(), today.value.getMonth() + 1, 2);
 
 onMounted(() => {
-  fetchEvents(start, end).then(() => console.log(events.value));
+  fetchEvents(startDate, endDate);
 });
+
+const todayDate = computed(() => ({
+  year: today.value.getFullYear(),
+  month: today.value.getMonth(),
+  date: today.value.getDate(),
+}));
 
 const currentYear = ref(new Date().getFullYear());
 const currentMonth = ref(new Date().getMonth());
@@ -24,9 +34,7 @@ const currentMonth = ref(new Date().getMonth());
 const daysInMonth = computed(() =>
   new Date(currentYear.value, currentMonth.value + 1, 0).getDate(),
 );
-const firstDayOfMonth = computed(() =>
-  new Date(currentYear.value, currentMonth.value, 1).getDay(),
-);
+const firstDayOfMonth = computed(() => new Date(currentYear.value, currentMonth.value, 1).getDay());
 const monthName = computed(() =>
   new Date(currentYear.value, currentMonth.value).toLocaleDateString("ja-JP", {
     year: "numeric",
@@ -57,20 +65,12 @@ const eventsByDate = computed(() => {
   const result = new Map<string, CalendarEvent[]>();
   events.value.forEach((event) => {
     const { startDate, endDate } = getEventDateRange(event);
-    const current = new Date(
-      startDate.getFullYear(),
-      startDate.getMonth(),
-      startDate.getDate(),
-    );
-    const end = new Date(
-      endDate.getFullYear(),
-      endDate.getMonth(),
-      endDate.getDate(),
-    );
+    const current = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+    const end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
     while (current <= end) {
-      const dateKey = `${current.getFullYear()}-${current.getMonth()}-${current.getDate()}`;
-      if (!result.has(dateKey)) result.set(dateKey, []);
-      result.get(dateKey)!.push(event);
+      const key = dateKey(current);
+      if (!result.has(key)) result.set(key, []);
+      result.get(key)!.push(event);
       current.setDate(current.getDate() + 1);
     }
   });
@@ -78,8 +78,7 @@ const eventsByDate = computed(() => {
 });
 
 function getEventsForDate(date: Date): CalendarEvent[] {
-  const dateKey = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-  return eventsByDate.value.get(dateKey) || [];
+  return eventsByDate.value.get(dateKey(date)) || [];
 }
 
 function getEventBadgeClass(title: string): string {
@@ -91,18 +90,25 @@ function getEventBadgeClass(title: string): string {
 }
 
 function isToday(date: Date): boolean {
-  const today = new Date();
   return (
-    date.getDate() === today.getDate() &&
-    date.getMonth() === today.getMonth() &&
-    date.getFullYear() === today.getFullYear()
+    date.getDate() === todayDate.value.date &&
+    date.getMonth() === todayDate.value.month &&
+    date.getFullYear() === todayDate.value.year
   );
 }
 
+const WEEKDAY_CLASSES: Record<string, string> = {
+  日: "text-red-500",
+  月: "fg-base",
+  火: "fg-base",
+  水: "fg-base",
+  木: "fg-base",
+  金: "fg-base",
+  土: "text-blue-500",
+};
+
 function getWeekdayClass(weekday: string): string {
-  if (weekday === "日") return "text-red-500";
-  if (weekday === "土") return "text-blue-500";
-  return "fg-ghost";
+  return WEEKDAY_CLASSES[weekday] ?? "fg-ghost";
 }
 
 function isStartDay(event: CalendarEvent, date: Date): boolean {
@@ -112,6 +118,11 @@ function isStartDay(event: CalendarEvent, date: Date): boolean {
     startDate.getMonth() === date.getMonth() &&
     startDate.getDate() === date.getDate()
   );
+}
+
+function getEventAnimationDelay(event: CalendarEvent): number {
+  const index = events.value.findIndex((e) => e.id === event.id);
+  return index >= 0 ? index * 30 : 0;
 }
 </script>
 
@@ -170,7 +181,7 @@ function isStartDay(event: CalendarEvent, date: Date): boolean {
               class="rounded px-1 py-0.5 text-[11px] leading-tight stagger-item"
               :class="getEventBadgeClass(event.title)"
               :title="`${event.title} ${formatEventTime(event.start)}${event.end ? ' - ' + formatEventTime(event.end) : ''}`"
-              :style="{ animationDelay: `${date.getDate() * 30}ms` }"
+              :style="{ animationDelay: `${getEventAnimationDelay(event)}ms` }"
             >
               <span class="truncate block">{{ event.title }}</span>
               <span class="flex-inline truncate">
