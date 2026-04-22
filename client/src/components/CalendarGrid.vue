@@ -15,11 +15,14 @@ function dateKey(date: Date): string {
 const { events, error, fetchEvents } = useCalendar();
 
 const today = ref(new Date());
-const startDate = new Date(today.value.getFullYear(), today.value.getMonth(), 1);
-const endDate = new Date(today.value.getFullYear(), today.value.getMonth() + 1, 2);
+const currentYear = ref(new Date().getFullYear());
+const currentMonth = ref(new Date().getMonth());
 
 onMounted(() => {
-  fetchEvents(startDate, endDate);
+  const now = new Date();
+  const start = new Date(now.getFullYear(), now.getMonth(), 1);
+  const end = new Date(now.getFullYear(), now.getMonth() + 2, 2);
+  fetchEvents(start, end);
 });
 
 const todayDate = computed(() => ({
@@ -28,13 +31,55 @@ const todayDate = computed(() => ({
   date: today.value.getDate(),
 }));
 
-const currentYear = ref(new Date().getFullYear());
-const currentMonth = ref(new Date().getMonth());
+function prevMonth() {
+  const now = new Date();
+  const minMonth = now.getMonth();
+  if (currentYear.value === now.getFullYear() && currentMonth.value <= minMonth)
+    return;
+
+  if (currentMonth.value === 0) {
+    currentMonth.value = 11;
+    currentYear.value--;
+  } else {
+    currentMonth.value--;
+  }
+}
+
+function nextMonth() {
+  const now = new Date();
+  const maxMonth = now.getMonth() + 1;
+  if (currentYear.value === now.getFullYear() && currentMonth.value >= maxMonth)
+    return;
+
+  if (currentMonth.value === 11) {
+    currentMonth.value = 0;
+    currentYear.value++;
+  } else {
+    currentMonth.value++;
+  }
+}
+
+function canGoNext() {
+  const now = new Date();
+  return (
+    currentYear.value < now.getFullYear() ||
+    currentMonth.value < now.getMonth() + 1
+  );
+}
+
+function canGoPrev() {
+  const now = new Date();
+  return (
+    currentYear.value > now.getFullYear() || currentMonth.value > now.getMonth()
+  );
+}
 
 const daysInMonth = computed(() =>
   new Date(currentYear.value, currentMonth.value + 1, 0).getDate(),
 );
-const firstDayOfMonth = computed(() => new Date(currentYear.value, currentMonth.value, 1).getDay());
+const firstDayOfMonth = computed(() =>
+  new Date(currentYear.value, currentMonth.value, 1).getDay(),
+);
 const monthName = computed(() =>
   new Date(currentYear.value, currentMonth.value).toLocaleDateString("ja-JP", {
     year: "numeric",
@@ -65,8 +110,16 @@ const eventsByDate = computed(() => {
   const result = new Map<string, CalendarEvent[]>();
   events.value.forEach((event) => {
     const { startDate, endDate } = getEventDateRange(event);
-    const current = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-    const end = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+    const current = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth(),
+      startDate.getDate(),
+    );
+    const end = new Date(
+      endDate.getFullYear(),
+      endDate.getMonth(),
+      endDate.getDate(),
+    );
     while (current <= end) {
       const key = dateKey(current);
       if (!result.has(key)) result.set(key, []);
@@ -135,8 +188,24 @@ function getEventAnimationDelay(event: CalendarEvent): number {
     role="grid"
     aria-labelledby="cal-title"
   >
-    <h2 id="cal-title" class="h2 mb-4">
-      {{ monthName }}
+    <h2 id="cal-title" class="h2 mb-4 flex items-center justify-between">
+      <button
+        class="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded disabled:opacity-30 disabled:cursor-not-allowed"
+        :disabled="!canGoPrev()"
+        aria-label="前の月"
+        @click="prevMonth"
+      >
+        <div class="i-ri:arrow-left-s-line h-5 w-5" />
+      </button>
+      <span>{{ monthName }}</span>
+      <button
+        class="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded disabled:opacity-30 disabled:cursor-not-allowed"
+        :disabled="!canGoNext()"
+        aria-label="次の月"
+        @click="nextMonth"
+      >
+        <div class="i-ri:arrow-right-s-line h-5 w-5" />
+      </button>
     </h2>
 
     <!-- 曜日ヘッダー: role="row" -->
