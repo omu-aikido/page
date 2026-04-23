@@ -8,18 +8,71 @@ import {
   useCalendar,
 } from "@/composables/useCalendar";
 
+function dateKey(date: Date): string {
+  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+}
+
 const { events, error, fetchEvents } = useCalendar();
 
-const today = new Date();
-const start = new Date(today.getFullYear(), today.getMonth(), 1);
-const end = new Date(today.getFullYear(), today.getMonth() + 1, 2);
-
-onMounted(() => {
-  fetchEvents(start, end).then(() => console.log(events.value));
-});
-
+const today = ref(new Date());
 const currentYear = ref(new Date().getFullYear());
 const currentMonth = ref(new Date().getMonth());
+
+onMounted(() => {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), now.getMonth(), 1);
+  const end = new Date(now.getFullYear(), now.getMonth() + 2, 2);
+  fetchEvents(start, end);
+});
+
+const todayDate = computed(() => ({
+  year: today.value.getFullYear(),
+  month: today.value.getMonth(),
+  date: today.value.getDate(),
+}));
+
+function prevMonth() {
+  const now = new Date();
+  const minMonth = now.getMonth();
+  if (currentYear.value === now.getFullYear() && currentMonth.value <= minMonth)
+    return;
+
+  if (currentMonth.value === 0) {
+    currentMonth.value = 11;
+    currentYear.value--;
+  } else {
+    currentMonth.value--;
+  }
+}
+
+function nextMonth() {
+  const now = new Date();
+  const maxMonth = now.getMonth() + 1;
+  if (currentYear.value === now.getFullYear() && currentMonth.value >= maxMonth)
+    return;
+
+  if (currentMonth.value === 11) {
+    currentMonth.value = 0;
+    currentYear.value++;
+  } else {
+    currentMonth.value++;
+  }
+}
+
+function canGoNext() {
+  const now = new Date();
+  return (
+    currentYear.value < now.getFullYear() ||
+    currentMonth.value < now.getMonth() + 1
+  );
+}
+
+function canGoPrev() {
+  const now = new Date();
+  return (
+    currentYear.value > now.getFullYear() || currentMonth.value > now.getMonth()
+  );
+}
 
 const daysInMonth = computed(() =>
   new Date(currentYear.value, currentMonth.value + 1, 0).getDate(),
@@ -68,9 +121,9 @@ const eventsByDate = computed(() => {
       endDate.getDate(),
     );
     while (current <= end) {
-      const dateKey = `${current.getFullYear()}-${current.getMonth()}-${current.getDate()}`;
-      if (!result.has(dateKey)) result.set(dateKey, []);
-      result.get(dateKey)!.push(event);
+      const key = dateKey(current);
+      if (!result.has(key)) result.set(key, []);
+      result.get(key)!.push(event);
       current.setDate(current.getDate() + 1);
     }
   });
@@ -78,8 +131,7 @@ const eventsByDate = computed(() => {
 });
 
 function getEventsForDate(date: Date): CalendarEvent[] {
-  const dateKey = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-  return eventsByDate.value.get(dateKey) || [];
+  return eventsByDate.value.get(dateKey(date)) || [];
 }
 
 function getEventBadgeClass(title: string): string {
@@ -91,18 +143,25 @@ function getEventBadgeClass(title: string): string {
 }
 
 function isToday(date: Date): boolean {
-  const today = new Date();
   return (
-    date.getDate() === today.getDate() &&
-    date.getMonth() === today.getMonth() &&
-    date.getFullYear() === today.getFullYear()
+    date.getDate() === todayDate.value.date &&
+    date.getMonth() === todayDate.value.month &&
+    date.getFullYear() === todayDate.value.year
   );
 }
 
+const WEEKDAY_CLASSES: Record<string, string> = {
+  日: "text-red-500",
+  月: "fg-base",
+  火: "fg-base",
+  水: "fg-base",
+  木: "fg-base",
+  金: "fg-base",
+  土: "text-blue-500",
+};
+
 function getWeekdayClass(weekday: string): string {
-  if (weekday === "日") return "text-red-500";
-  if (weekday === "土") return "text-blue-500";
-  return "fg-ghost";
+  return WEEKDAY_CLASSES[weekday] ?? "fg-ghost";
 }
 
 function isStartDay(event: CalendarEvent, date: Date): boolean {
@@ -112,6 +171,11 @@ function isStartDay(event: CalendarEvent, date: Date): boolean {
     startDate.getMonth() === date.getMonth() &&
     startDate.getDate() === date.getDate()
   );
+}
+
+function getEventAnimationDelay(event: CalendarEvent): number {
+  const index = events.value.findIndex((e) => e.id === event.id);
+  return index >= 0 ? index * 30 : 0;
 }
 </script>
 
@@ -124,8 +188,24 @@ function isStartDay(event: CalendarEvent, date: Date): boolean {
     role="grid"
     aria-labelledby="cal-title"
   >
-    <h2 id="cal-title" class="h2 mb-4">
-      {{ monthName }}
+    <h2 id="cal-title" class="h2 mb-4 flex items-center justify-between">
+      <button
+        class="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded disabled:opacity-30 disabled:cursor-not-allowed"
+        :disabled="!canGoPrev()"
+        aria-label="前の月"
+        @click="prevMonth"
+      >
+        <div class="i-ri:arrow-left-s-line h-5 w-5" />
+      </button>
+      <span>{{ monthName }}</span>
+      <button
+        class="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded disabled:opacity-30 disabled:cursor-not-allowed"
+        :disabled="!canGoNext()"
+        aria-label="次の月"
+        @click="nextMonth"
+      >
+        <div class="i-ri:arrow-right-s-line h-5 w-5" />
+      </button>
     </h2>
 
     <!-- 曜日ヘッダー: role="row" -->
@@ -170,7 +250,7 @@ function isStartDay(event: CalendarEvent, date: Date): boolean {
               class="rounded px-1 py-0.5 text-[11px] leading-tight stagger-item"
               :class="getEventBadgeClass(event.title)"
               :title="`${event.title} ${formatEventTime(event.start)}${event.end ? ' - ' + formatEventTime(event.end) : ''}`"
-              :style="{ animationDelay: `${date.getDate() * 30}ms` }"
+              :style="{ animationDelay: `${getEventAnimationDelay(event)}ms` }"
             >
               <span class="truncate block">{{ event.title }}</span>
               <span class="flex-inline truncate">

@@ -1,0 +1,94 @@
+---
+import Head from "@/components/Head.astro";
+import "@/styles/global.css";
+
+const title = "ログイン ‹ 大阪公立大学合氣道部 — WordPress";
+---
+
+<html lang="ja">
+  <Head title={title} description="ログイン画面" />
+  <body
+    class="bg-[#f0f0f1] text-[#3c434a] font-sans flex flex-col items-center pt-20"
+  >
+    <div class="w-[320px] mb-6">
+      <div class="flex justify-center mb-6">
+        <a
+          href="https://ja.wordpress.org/"
+          class="text-[#2271b1] hover:text-[#135e96] transition-colors"
+        >
+          <div class="i-ri-wordpress-fill text-8xl"></div>
+        </a>
+      </div>
+
+      <div class="bg-white p-6 shadow-[0_1px_3px_rgba(0,0,0,0.1)] rounded-sm">
+        <form id="loginform">
+          <div class="mb-4">
+            <label for="user_login" class="block text-sm mb-1"
+              >ユーザー名またはメールアドレス</label
+            >
+            <input
+              type="text"
+              id="user_login"
+              class="w-full border border-[#dcdcde] p-2 text-xl focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none rounded-sm"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label for="user_pass" class="block text-sm mb-1">パスワード</label>
+            <div class="relative">
+              <input
+                type="password"
+                id="user_pass"
+                class="w-full border border-[#dcdcde] p-2 text-xl focus:border-[#2271b1] focus:ring-1 focus:ring-[#2271b1] outline-none rounded-sm"
+              />
+              <button
+                type="button"
+                class="absolute right-2 top-1/2 -translate-y-1/2 text-[#646970]"
+              >
+                <div class="i-ri-eye-line text-lg"></div>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between mt-6">
+            <label class="flex items-center text-sm cursor-pointer">
+              <input type="checkbox" class="mr-2 border-[#dcdcde] rounded-sm" />
+              ログイン状態を保存する
+            </label>
+            <button
+              type="submit"
+              class="bg-[#2271b1] text-white px-3 py-1.5 rounded-sm font-medium hover:bg-[#135e96] transition-colors shadow-sm"
+            >
+              ログイン
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="mt-6 flex flex-col gap-2 text-sm">
+        <a href="/" class="text-[#2271b1] hover:text-[#135e96]"
+          >パスワードをお忘れですか？</a
+        >
+        <a href="/" class="text-[#2271b1] hover:text-[#135e96]">← 戻る</a>
+      </div>
+    </div>
+
+    <div class="mt-8 text-sm text-[#646970]">
+      <a
+        href="https://astro.build/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-[#2271b1]">build with astro.build</a
+      >
+    </div>
+
+    <script>
+      const form = document.getElementById("loginform");
+      form?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        sessionStorage.setItem("wp_logged_in", "true");
+        window.location.href = "/wp-admin";
+      });
+    </script>
+  </body>
+</html>
