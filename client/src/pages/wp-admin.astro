@@ -1,0 +1,14 @@
+---
+import Head from "@/components/Head.astro";
+import WpAdmin from "@/components/WpAdmin.vue";
+import "@/styles/global.css";
+
+const title = "ダッシュボード ‹ 大阪公立大学合氣道部 — WordPress";
+---
+
+<html lang="ja">
+  <Head title={title} description="WordPress ダッシュボード" />
+  <body>
+    <WpAdmin client:only="vue" />
+  </body>
+</html>
