@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 
 const currentHash = ref(window.location.hash.replace(/^#/, ""));
 const isSidebarCollapsed = ref(false);
