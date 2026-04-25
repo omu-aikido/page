@@ -277,9 +277,10 @@ const toggleScreenOptions = () => {
           </div>
         </div>
       </div>
-      <div class="flex items-center h-full">
-        <div
-          class="flex items-center gap-2 h-full px-3 hover:bg-[#2c3338] hover:text-[#72aee6] cursor-pointer transition-colors group relative"
+      <div class="flex items-center h-full relative">
+        <button
+          type="button"
+          class="flex items-center gap-2 h-full px-3 hover:bg-[#2c3338] hover:text-[#72aee6] cursor-pointer transition-colors group"
           @click="logout"
         >
           <span class="text-sm"
@@ -294,33 +295,33 @@ const toggleScreenOptions = () => {
               alt="user icon"
             />
           </div>
-          <div
-            class="absolute top-8 right-0 w-48 bg-[#2c3338] hidden group-hover:block border-t border-[#1d2327] shadow-lg text-[13px] z-[70]"
-          >
-            <div class="p-3 border-b border-[#1d2327] flex items-center gap-3">
-              <div class="w-10 h-10 bg-[#8c8f94] rounded-full overflow-hidden">
-                <img
-                  src="https://secure.gravatar.com/avatar/fb3d6291696230f8139556ee0e311094?s=64&d=mm&r=g"
-                  class="w-full h-full"
-                />
-              </div>
-              <div>
-                <div class="font-bold text-white">管理者</div>
-                <div class="text-[11px] text-[#a7aaad]">
-                  pot@honey.omu-aikido.com
-                </div>
+        </button>
+        <div
+          class="absolute top-8 right-0 w-48 bg-[#2c3338] hidden group-hover:block border-t border-[#1d2327] shadow-lg text-[13px] z-[70]"
+        >
+          <div class="p-3 border-b border-[#1d2327] flex items-center gap-3">
+            <div class="w-10 h-10 bg-[#8c8f94] rounded-full overflow-hidden">
+              <img
+                src="https://secure.gravatar.com/avatar/fb3d6291696230f8139556ee0e311094?s=64&d=mm&r=g"
+                class="w-full h-full"
+              />
+            </div>
+            <div>
+              <div class="font-bold text-white">管理者</div>
+              <div class="text-[11px] text-[#a7aaad]">
+                pot@honey.omu-aikido.com
               </div>
             </div>
-            <a href="#profile" class="block px-3 py-2 hover:text-[#72aee6]"
-              >プロフィールを編集</a
-            >
-            <a
-              href="/wp-admin#"
-              class="block px-3 py-2 hover:text-[#72aee6]"
-              @click.stop="logout"
-              >ログアウト</a
-            >
           </div>
+          <a href="#profile" class="block px-3 py-2 hover:text-[#72aee6]"
+            >プロフィールを編集</a
+          >
+          <a
+            href="/wp-admin#"
+            class="block px-3 py-2 hover:text-[#72aee6]"
+            @click.stop="logout"
+            >ログアウト</a
+          >
         </div>
       </div>
     </header>
@@ -394,7 +395,8 @@ const toggleScreenOptions = () => {
             </div>
           </div>
         </nav>
-        <div
+        <button
+          type="button"
           class="h-9 flex items-center px-2 cursor-pointer hover:bg-[#2c3338] hover:text-[#72aee6] border-t border-[#2c3338]"
           @click="toggleSidebar"
         >
@@ -405,7 +407,7 @@ const toggleScreenOptions = () => {
           <span v-if="!isSidebarCollapsed" class="ml-2 text-xs"
             >メニューを閉じる</span
           >
-        </div>
+        </button>
       </aside>
 
       <!-- Main Area -->
