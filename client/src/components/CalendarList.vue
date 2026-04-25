@@ -12,10 +12,10 @@ import {
 const { events, loading, error, fetchEvents } = useCalendar();
 
 const weekCount = 3;
-const start = new Date();
-const end = new Date(start.getTime() + weekCount * 7 * 24 * 60 * 60 * 1000);
 
 onMounted(() => {
+  const start = new Date();
+  const end = new Date(start.getTime() + weekCount * 7 * 24 * 60 * 60 * 1000);
   fetchEvents(start, end);
 });
 
