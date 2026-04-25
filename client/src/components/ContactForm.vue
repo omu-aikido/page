@@ -218,6 +218,12 @@ async function handleSubmit() {
   animation: bounceIn 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .bounce-enter-active {
+    animation: none;
+  }
+}
+
 @keyframes bounceIn {
   0% {
     transform: scale(0.3);

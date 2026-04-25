@@ -98,6 +98,12 @@ const hasMultipleImages = images.length > 1;
     opacity: 1;
     z-index: 10;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .slideshow-slide {
+      transition: none;
+    }
+  }
 </style>
 
 <script>

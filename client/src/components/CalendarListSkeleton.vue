@@ -79,6 +79,15 @@ watch(
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .stagger-item {
+    animation: none;
+  }
+  .skeleton-item {
+    animation: none;
+  }
+}
+
 .is-exiting {
   opacity: 0 !important;
   transform: translateY(-4px) !important;
@@ -86,8 +95,12 @@ watch(
 }
 
 @keyframes shimmer {
-  0% { background-position: -1000px 0; }
-  100% { background-position: 1000px 0; }
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
 }
 
 @keyframes fadeSlideIn {
@@ -102,12 +115,7 @@ watch(
 }
 
 .skeleton-item {
-  background-image: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
+  background-image: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
   background-size: 200px 100%;
   animation: shimmer 4s infinite;
 }

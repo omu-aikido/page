@@ -279,6 +279,12 @@ function getEventAnimationDelay(event: CalendarEvent): number {
 .stagger-item {
   animation: fadeSlideIn 0.4s ease both;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .stagger-item {
+    animation: none;
+  }
+}
 @keyframes fadeSlideIn {
   from {
     opacity: 0;
