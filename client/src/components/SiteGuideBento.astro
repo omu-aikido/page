@@ -32,4 +32,10 @@ const flatNav = mainNav.flatMap((parent) => [
   .guide-card-link:hover::after {
     @apply w-full;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .guide-card-link::after {
+      transition: none;
+    }
+  }
 </style>

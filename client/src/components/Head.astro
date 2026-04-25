@@ -6,7 +6,6 @@ interface Props {
   description: string;
 }
 
-const isDev = import.meta.env.DEV;
 const path = Astro.url.pathname;
 ---
 
@@ -26,6 +25,18 @@ const path = Astro.url.pathname;
   <link rel="icon" type="image/png" href="/icon-192x192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png" />
 
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png" />
+  <meta name="color-scheme" content="light dark" />
+  <meta
+    name="theme-color"
+    content="#ffffff"
+    media="(prefers-color-scheme: light)"
+  />
+  <meta
+    name="theme-color"
+    content="#1a1a1a"
+    media="(prefers-color-scheme: dark)"
+  />
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

@@ -14,7 +14,6 @@ function dateKey(date: Date): string {
 
 const { events, error, fetchEvents } = useCalendar();
 
-const today = ref(new Date());
 const currentYear = ref(new Date().getFullYear());
 const currentMonth = ref(new Date().getMonth());
 
@@ -25,11 +24,14 @@ onMounted(() => {
   fetchEvents(start, end);
 });
 
-const todayDate = computed(() => ({
-  year: today.value.getFullYear(),
-  month: today.value.getMonth(),
-  date: today.value.getDate(),
-}));
+const todayDate = computed(() => {
+  const now = new Date();
+  return {
+    year: now.getFullYear(),
+    month: now.getMonth(),
+    date: now.getDate(),
+  };
+});
 
 function prevMonth() {
   const now = new Date();
@@ -276,6 +278,12 @@ function getEventAnimationDelay(event: CalendarEvent): number {
 
 .stagger-item {
   animation: fadeSlideIn 0.4s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stagger-item {
+    animation: none;
+  }
 }
 @keyframes fadeSlideIn {
   from {

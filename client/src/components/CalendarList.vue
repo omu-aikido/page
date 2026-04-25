@@ -12,10 +12,10 @@ import {
 const { events, loading, error, fetchEvents } = useCalendar();
 
 const weekCount = 3;
-const start = new Date();
-const end = new Date(start.getTime() + weekCount * 7 * 24 * 60 * 60 * 1000);
 
 onMounted(() => {
+  const start = new Date();
+  const end = new Date(start.getTime() + weekCount * 7 * 24 * 60 * 60 * 1000);
   fetchEvents(start, end);
 });
 
@@ -47,7 +47,9 @@ function getTitleClass(title: string) {
 
     <div v-if="!loading && !error && events.length === 0" class="px-3">
       <div class="i-ri:calendar-view h-6 w-6 fg-muted" aria-hidden />
-      <p class="fg-muted mt-2">今月予定されている稽古はありません</p>
+      <p class="fg-muted mt-2" aria-hidden="true">
+        今月予定されている稽古はありません
+      </p>
     </div>
 
     <div
@@ -86,6 +88,12 @@ function getTitleClass(title: string) {
 <style scoped>
 .stagger-item {
   animation: fadeSlideIn 0.4s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stagger-item {
+    animation: none;
+  }
 }
 
 @keyframes fadeSlideIn {
