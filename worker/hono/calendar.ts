@@ -3,17 +3,9 @@ import { Hono } from "hono";
 import { convertIcsCalendar } from "ts-ics";
 import * as v from "valibot";
 
-import type { IcsCalendar, IcsEvent } from "ts-ics";
+import { eventsToJson, expandCalendarEvents, filterEvents } from "./calendarEvents";
 
-type CalendarEvent = {
-  id: string;
-  start: string; // ISO 8601 for timed events, yyyy-mm-dd for all-day
-  end: string; // ISO 8601 for timed events, yyyy-mm-dd for all-day
-  title: string;
-  isAllDay: boolean;
-  location?: string;
-  description?: string;
-};
+import type { IcsCalendar, IcsEvent } from "ts-ics";
 
 /**
  * Configuration
@@ -69,47 +61,6 @@ async function getEvents(): Promise<IcsEvent[]> {
   return inFlight;
 }
 
-function filterEvents(events: IcsEvent[], start: Date, end: Date): IcsEvent[] {
-  return events.filter((ev) => {
-    const s = ev.start.date;
-    if (!s) return false;
-    const e = ev.end ? ev.end.date : ev.start.date;
-    return s <= end && e >= start;
-  });
-}
-
-function eventsToJson(events: IcsEvent[]): CalendarEvent[] {
-  return events
-    .map((ev) => {
-      const start = ev.start.date;
-      const end = ev.end ? ev.end.date : ev.start.date;
-      const allDay = ev.start.type === "DATE";
-
-      const fmt = (d: Date) => {
-        if (allDay) {
-          const y = d.getFullYear();
-          const m = String(d.getMonth() + 1).padStart(2, "0");
-          const day = String(d.getDate()).padStart(2, "0");
-          return `${y}-${m}-${day}`;
-        } else {
-          return d.toISOString();
-        }
-      };
-
-      return {
-        id: ev.uid ?? "",
-        title: ev.summary ?? "",
-        start: fmt(start),
-        end: fmt(end),
-        isAllDay: allDay,
-        location: ev.location,
-        description: ev.description,
-      };
-    })
-    .filter(Boolean)
-    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
-}
-
 function getWindow(monthsBefore = 2, monthsAfter = 3) {
   const now = new Date();
   const start = new Date(now.getFullYear(), now.getMonth() - monthsBefore, 1);
@@ -142,7 +93,8 @@ const app = new Hono().get(
         ({ start, end } = getWindow(1, 1));
       }
 
-      const filtered = filterEvents(events, start, end);
+      const expanded = expandCalendarEvents(events, { start, end });
+      const filtered = filterEvents(expanded, start, end);
       return c.json(eventsToJson(filtered), 200, {
         "Cache-Control": "public, max-age=600, s-maxage=600",
       });
