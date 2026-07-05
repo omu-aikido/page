@@ -16,20 +16,11 @@ multi-ecosystem-groups:
       prefix: "chore"
     labels:
       - "dependencies"
-  nix-updates:
-    schedule:
-      interval: "daily"
-    commit-message:
-      prefix: "chore"
-    labels:
-      - "dependencies"
 
 updates:
   - package-ecosystem: "bun"
     directories:
       - "/"
-      - "client/"
-      - "worker/"
     patterns:
       - "*"
     multi-ecosystem-group: "bun-updates"
@@ -41,13 +32,5 @@ updates:
     patterns:
       - "*"
     multi-ecosystem-group: "actions-updates"
-    schedule:
-      interval: "daily"
-
-  - package-ecosystem: "nix"
-    directory: "/"
-    patterns:
-      - "*"
-    multi-ecosystem-group: "nix-updates"
     schedule:
       interval: "daily"
