@@ -1,0 +1,99 @@
+---
+const weekdayLabels = ["日", "月", "火", "水", "木", "金", "土"];
+const cells = Array.from({ length: 35 }, (_, index) => index);
+---
+
+<div class="calendar-container overflow-hidden" aria-hidden="true">
+  <div class="h2 mb-4 flex items-center justify-between">
+    <div class="skeleton-item h-9 w-9 rounded bg-zinc-200 dark:bg-zinc-800">
+    </div>
+    <div class="skeleton-item h-6 w-32 rounded bg-zinc-200 dark:bg-zinc-800">
+    </div>
+    <div class="skeleton-item h-9 w-9 rounded bg-zinc-200 dark:bg-zinc-800">
+    </div>
+  </div>
+
+  <div class="grid grid-cols-7 mb-2">
+    {
+      weekdayLabels.map((day) => (
+        <div
+          class:list={[
+            "text-sm font-semibold text-center",
+            day === "日" && "text-red-500",
+            day === "土" && "text-blue-500",
+            day !== "日" && day !== "土" && "fg-base",
+          ]}
+        >
+          {day}
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="grid grid-cols-7 gap-1">
+    {
+      cells.map((cell, index) => (
+        <div
+          class="min-h-24 rounded-sm p-1 border bordered-muted bg-zinc-200/20 dark:bg-zinc-800/20"
+          style={`animation-delay: ${index * 20}ms;`}
+        >
+          <div class="stagger-item">
+            <div class="skeleton-item ml-1 h-3 w-5 rounded bg-zinc-200 dark:bg-zinc-800" />
+            <div class="mt-2 space-y-1">
+              <div class="skeleton-item h-4 w-full rounded bg-zinc-200 dark:bg-zinc-800" />
+              <div class="skeleton-item h-4 w-3/4 rounded bg-zinc-200 dark:bg-zinc-800" />
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style scoped>
+  .calendar-container {
+    container-type: inline-size;
+  }
+
+  .stagger-item {
+    animation: fadeSlideIn 0.4s ease both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stagger-item,
+    .skeleton-item {
+      animation: none;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  @keyframes fadeSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .skeleton-item {
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    background-size: 200px 100%;
+    animation: shimmer 4s infinite;
+  }
+</style>

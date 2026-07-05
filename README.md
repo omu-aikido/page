@@ -1,57 +1,43 @@
-## 概要
-
-- SSG: Astro
-- JS Framework: Astro, Vue.js
-- UI Framework: UnoCSS, Headless UI,
-- Deployment: Cloudflare Workers（wrangler）
-
-## 前提
-
-- bun
-
-## クイックスタート
+# Astro Starter Kit: Minimal
 
 ```sh
-# リポジトリルートで実行
-bun install
-bun dev              # 開発サーバを起動（通常 http://localhost:4321）
+bun create astro@latest -- --template minimal
 ```
 
-## scripts
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-- `bun dev`
-  Turbo launch "astro dev" and "wrangler dev --port=8788" — ローカル開発サーバを起動（ポート 4321 と 8788）
+## 🚀 Project Structure
 
-- `bun build`
-  astro build
+Inside of your Astro project, you'll see the following folders and files:
 
-- `bun preview`
-  astro build && wrangler pages dev — ローカルエミュレーションを起動
+```text
+/
+├── public/
+├── src/
+│   └── pages/
+│       └── index.astro
+└── package.json
+```
 
-- `bun deploy`
-  astro build && wrangler versions upload --preview-alias preview — Cloudflare Workers にデプロイ
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
 
-- `bun cf-typegen`
-  wrangler types — Wrangler 用の型生成
+There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
 
-- `bun format`
-  bunx oxfmt . — コード整形
+Any static assets, like images, can be placed in the `public/` directory.
 
-- `bun prebuild`
-  bun run cf-typegen — ビルド前に型生成
+## 🧞 Commands
 
-## ディレクトリ構成
+All commands are run from the root of the project, from a terminal:
 
-- `client/src/pages/` — ルーティングされるページ（`.astro`, `.mdx`, `.md`）
-- `client/src/components/` — コンポーネント（`root/`, `ui/`, `component/` サブディレクトリ）
-- `client/src/layouts/` — レイアウトコンポーネント
-- `client/src/styles/` — グローバルスタイル
-- `client/src/assets/` — 画像アセット
-- `client/lib/` — ユーティリティライブラリ（Hono クライアントなど）
-- `client/public/` — 静的アセット
-- `server/` — Cloudflare Workers（Hono を使用）
-- `package.json`, `README.md` 等プロジェクトルートに配置
+| Command               | Action                                           |
+| :-------------------- | :----------------------------------------------- |
+| `bun install`         | Installs dependencies                            |
+| `bun dev`             | Starts local dev server at `localhost:4321`      |
+| `bun build`           | Build your production site to `./dist/`          |
+| `bun preview`         | Preview your build locally, before deploying     |
+| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `bun astro -- --help` | Get help using the Astro CLI                     |
 
-## デプロイ（Cloudflare Workers）
+## 👀 Want to learn more?
 
-This project was created using `bun init` in bun v1.3.11. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
