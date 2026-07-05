@@ -1,8 +1,3 @@
----
-layout: ../layouts/Markdown.astro
-title: 利用規約
----
-
 # 利用規約
 
 本利用規約は、大阪公立大学合氣道部のウェブサイト（[https://omu-aikido.com](https://omu-aikido.com)）および部員専用ウェブサイト（[https://app.omu-aikido.com](https://app.omu-aikido.com)）の利用に関するルールと規定を概説しています。

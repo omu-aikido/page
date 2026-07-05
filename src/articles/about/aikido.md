@@ -1,9 +1,3 @@
----
-layout: ../../layouts/Markdown.astro
-title: About Us
-description: 大阪公立大学合氣道部について
----
-
 ### 合気道とは
 
 合気道は古武術の流れをくむ武道の一つです。

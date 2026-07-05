@@ -1,6 +1,6 @@
 ---
+export const prerender = true;
 import CalendarList from "@/components/CalendarList.astro";
-import CalendarListSkeleton from "@/components/CalendarListSkeleton.astro";
 import Layout from "@/layouts/Layout.astro";
 ---
 
@@ -11,6 +11,7 @@ import Layout from "@/layouts/Layout.astro";
     </div>
 
     <CalendarList server:defer />
+
   </section>
   <section class="container">
     <p class="text-right mt-4">

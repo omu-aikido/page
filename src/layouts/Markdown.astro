@@ -1,13 +1,12 @@
 ---
-import type { MarkdownLayoutProps } from "astro";
 import Layout from "./Layout.astro";
 
-type Props = MarkdownLayoutProps<{
+type Props = {
   title: string;
   description?: string;
-}>;
+};
 
-const { frontmatter } = Astro.props;
+const frontmatter = Astro.props;
 ---
 
 <Layout title={frontmatter.title} description={frontmatter.description ?? ""}>
