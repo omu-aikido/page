@@ -22,5 +22,6 @@ jobs:
           node-version-file: package.json
           cache: true
       - run: bun install --frozen-lockfile
-      - run: vp lint .
-      - run: vp fmt --write .
+      - run: bun run generate-types
+      - run: vp lint
+      - run: vp fmt --write

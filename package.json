@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@iconify-json/ri": "^1.2.10",
+    "@types/node": "^26.1.0",
     "@types/three": "^0.185.0",
     "rehype-external-links": "^3.0.0",
     "vite": "npm:@voidzero-dev/vite-plus-core@latest",
