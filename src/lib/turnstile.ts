@@ -1,6 +1,4 @@
 // oxlint-disable typescript/unbound-method
-export const TURNSTILE_API_SRC =
-  "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
 
 export interface TurnstileRenderCallbacks {
   onSuccess(token: string): void;

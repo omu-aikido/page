@@ -33,7 +33,7 @@ export interface ContactArtifactsInput {
   data: Pick<ContactInput, "name" | "email" | "subject" | "body">;
 }
 
-export function createGmailUrl(uid: string): string {
+function createGmailUrl(uid: string): string {
   const query = `subject:"[${uid}]"`;
   return `https://mail.google.com/mail/u/0/#search/${encodeURIComponent(query)}`;
 }

@@ -63,19 +63,3 @@ export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
     isCurrent: index === path.length - 1,
   }));
 }
-
-export function getFlatNavLinks(): NavLink[] {
-  const flat: NavLink[] = [];
-
-  function flatten(items: NavLink[]) {
-    for (const item of items) {
-      flat.push({ title: item.title, path: item.path });
-      if (item.children) {
-        flatten(item.children);
-      }
-    }
-  }
-
-  flatten(navlinks);
-  return flat;
-}

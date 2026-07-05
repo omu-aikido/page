@@ -1,3 +1,5 @@
+/// <reference types="astro/client" />
+
 type Runtime = import("@astrojs/cloudflare").Runtime<Env>;
 
 declare namespace App {
@@ -15,5 +17,3 @@ declare module "*.vue" {
   const component: DefineComponent<{}, {}, unknown>;
   export default component;
 }
-
-/// <reference types="astro/client" />

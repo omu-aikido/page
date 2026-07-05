@@ -8,7 +8,7 @@ export type CalendarEvent = {
   description?: string;
 };
 
-export const JST_TIME_ZONE = "Asia/Tokyo";
+const JST_TIME_ZONE = "Asia/Tokyo";
 const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -16,7 +16,7 @@ function shiftToJst(date: Date): Date {
   return new Date(date.getTime() + JST_OFFSET_MS);
 }
 
-export function getJstDateParts(date: Date) {
+function getJstDateParts(date: Date) {
   const shifted = shiftToJst(date);
   return {
     year: shifted.getUTCFullYear(),
@@ -63,7 +63,7 @@ export function createJstDate(year: number, month: number, day: number): Date {
   );
 }
 
-export function addJstDays(date: Date, days: number): Date {
+function addJstDays(date: Date, days: number): Date {
   return new Date(date.getTime() + days * DAY_MS);
 }
 
@@ -86,7 +86,7 @@ export function getTodayInJst(): Date {
   return parseLocalDate(formatLocalDate(new Date()));
 }
 
-export function formatJstDateLabel(date: Date): string {
+function formatJstDateLabel(date: Date): string {
   return date.toLocaleDateString("ja-JP", {
     timeZone: JST_TIME_ZONE,
     month: "short",
@@ -132,36 +132,16 @@ export function getJstMonth(date: Date): number {
   return getJstDateParts(date).month;
 }
 
-export function isValidDateInstance(date: Date): boolean {
+function isValidDateInstance(date: Date): boolean {
   return !Number.isNaN(date.getTime());
 }
 
-export function getJstTimeText(date: Date): string {
+function getJstTimeText(date: Date): string {
   return date.toLocaleTimeString("ja-JP", {
     timeZone: JST_TIME_ZONE,
     hour: "2-digit",
     minute: "2-digit",
   });
-}
-
-export async function fetchCalendarEvents(
-  start: Date,
-  end: Date,
-): Promise<CalendarEvent[]> {
-  const startStr = formatLocalDate(start);
-  const endStr = formatLocalDate(end);
-  const params = new URLSearchParams({ start: startStr, end: endStr });
-  const response = await fetch(`/calendar.json?${params.toString()}`, {
-    headers: {
-      accept: "application/json",
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`稽古予定の取得に失敗しました (${response.status})`);
-  }
-
-  return (await response.json()) as CalendarEvent[];
 }
 
 export function getEventDateRange(event: CalendarEvent) {

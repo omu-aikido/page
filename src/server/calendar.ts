@@ -59,7 +59,7 @@ async function getEvents(): Promise<IcsEvent[]> {
   return inFlight;
 }
 
-export function getWindow(monthsBefore = 2, monthsAfter = 3) {
+function getWindow(monthsBefore = 2, monthsAfter = 3) {
   const { year, month } = getCurrentJstYearMonth();
   const start = createJstDate(year, month - monthsBefore, 1);
   const end = parseLocalDate(
@@ -260,7 +260,7 @@ function eventsToJson(events: ExpandedIcsEvent[]): CalendarEvent[] {
     .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
 }
 
-export function resolveCalendarRange(input?: CalendarRangeInput): ExpandWindow {
+function resolveCalendarRange(input?: CalendarRangeInput): ExpandWindow {
   if (!input?.start && !input?.end) {
     return getWindow(1, 1);
   }
