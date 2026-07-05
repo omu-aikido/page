@@ -1,0 +1,86 @@
+---
+import CalendarGrid from "@/components/CalendarGrid.astro";
+import CalendarGridSkeleton from "@/components/CalendarGridSkeleton.astro";
+
+import { getCurrentJstYearMonth } from "@/composables/useCalendar";
+import Layout from "@/layouts/Layout.astro";
+
+const { year: currentYear, month: currentMonth } = getCurrentJstYearMonth();
+
+function parseMonthParam(value: string | null, fallback: number): number {
+  if (!value) return fallback;
+  const parsed = Number.parseInt(value, 10);
+  return Number.isInteger(parsed) ? parsed : fallback;
+}
+
+function normalizeMonth(year: number, month: number) {
+  const normalized = new Date(year, month, 1);
+  return {
+    year: normalized.getFullYear(),
+    month: normalized.getMonth(),
+  };
+}
+
+function buildMonthlyHref(year: number, month: number): string {
+  return `/calendar/monthly?year=${year}&month=${month + 1}`;
+}
+
+const requestedYear = parseMonthParam(
+  Astro.url.searchParams.get("year"),
+  currentYear,
+);
+const requestedMonth =
+  parseMonthParam(Astro.url.searchParams.get("month"), currentMonth + 1) - 1;
+const { year, month } = normalizeMonth(requestedYear, requestedMonth);
+
+const canGoPrev = year > currentYear || month > currentMonth;
+const canGoNext = year < currentYear || month < currentMonth + 1;
+
+const prevMonthDate = normalizeMonth(year, month - 1);
+const nextMonthDate = normalizeMonth(year, month + 1);
+
+const prevHref = canGoPrev
+  ? buildMonthlyHref(prevMonthDate.year, prevMonthDate.month)
+  : null;
+const nextHref = canGoNext
+  ? buildMonthlyHref(nextMonthDate.year, nextMonthDate.month)
+  : null;
+---
+
+<Layout title="稽古予定" description="今後の稽古予定">
+  <section class="min-h-60dvh">
+    <div class="mb-6" transition:name="calendar-head">
+      <h1 class="h1">稽古予定</h1>
+    </div>
+
+    <CalendarGrid
+      year={year}
+      month={month}
+      prevHref={prevHref}
+      nextHref={nextHref}
+    />
+  </section>
+  <section class="print:hidden">
+    <p class="text-right mt-4">
+      <a href="/calendar" class="text-lg link">リスト表示</a>
+    </p>
+    <div
+      id="google-calendar-navigation"
+      class="card mt-4 flex items-start gap-3"
+    >
+      <center>
+        <p>
+          <a
+            href="https://calendar.google.com/calendar/embed?src=aikido.omu%40gmail.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link"
+          >
+            Googleカレンダー
+          </a>
+          では過去の稽古や1ヶ月以上先の稽古予定も確認できます。
+        </p>
+      </center>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,50 @@
+---
+interface Props {
+  title: string;
+  description: string;
+}
+
+const path = Astro.url.pathname;
+---
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="generator" content={Astro.generator} />
+  <meta name="description" content={Astro.props.description} />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="canonical" href={`https://omu-aikido.com${path}`} />
+  <link rel="icon" type="image/svg" href="/favicon.svg" />
+  <link
+    rel="apple-touch-icon"
+    type="image/png"
+    href="/apple-touch-icon-180x180.png"
+  />
+  <link rel="icon" type="image/png" href="/icon-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png" />
+
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png" />
+  <meta name="color-scheme" content="light dark" />
+  <meta
+    name="theme-color"
+    content="#ffffff"
+    media="(prefers-color-scheme: light)"
+  />
+  <meta
+    name="theme-color"
+    content="#1a1a1a"
+    media="(prefers-color-scheme: dark)"
+  />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <title>
+    {Astro.props.title} | 大阪公立大学合氣道部
+  </title>
+  <script
+    is:inline
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+    defer></script>
+  <link rel="preconnect" href="https://challenges.cloudflare.com" />
+</head>

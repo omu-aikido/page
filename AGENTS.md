@@ -1,121 +1,39 @@
-# Repository Guidelines
+## Development
 
-## Project Overview
-
-This is a monorepo static site generator with a serverless backend. It features an Astro-based frontend with Vue.js components, styled with UnoCSS, and a Cloudflare Workers backend using Hono. The project uses Bun as the package manager and Turbo for build orchestration.
-
-**Tech Stack:**
-- Frontend: Astro, Vue.js, UnoCSS, Headless UI
-- Backend: Cloudflare Workers (Hono)
-- Build: Bun, Turbo, Wrangler
-- Linting: oxlint, oxfmt
-
-## Project Structure
+When starting the dev server, use background mode:
 
 ```
-.
-├── client/                    # Astro frontend workspace
-│   ├── src/
-│   │   ├── pages/             # Routable pages (.astro, .mdx, .md)
-│   │   ├── components/        # Reusable components (root/, ui/, component/)
-│   │   ├── layouts/           # Layout templates
-│   │   ├── composables/       # Vue composables and utilities
-│   │   ├── styles/            # Global styles
-│   │   ├── lib/               # Utility libraries (Hono client, etc.)
-│   │   ├── assets/            # Images and static assets
-│   │   └── env.d.ts           # Type definitions
-│   └── public/                # Static assets
-├── worker/                    # Cloudflare Workers workspace
-│   ├── hono/                  # Hono server implementation
-│   ├── index.ts               # Entry point
-│   └── package.json
-└── package.json               # Root workspace configuration
+astro dev --background
 ```
 
-## Build, Test, and Development Commands
+Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
 
-```bash
-# Install dependencies (required)
-bun install
+## Documentation
 
-# Development server (Astro on 4321, Wrangler on 8788)
-bun dev
+Full documentation: https://docs.astro.build
 
-# Build for production
-bun build
+Consult these guides before working on related tasks:
 
-# Preview production build locally
-bun preview
+- [Adding pages, dynamic routes, or middleware](https://docs.astro.build/en/guides/routing/)
+- [Working with Astro components](https://docs.astro.build/en/basics/astro-components/)
+- [Using React, Vue, Svelte, or other framework components](https://docs.astro.build/en/guides/framework-components/)
+- [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
+- [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
+- [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
 
-# Code formatting (oxfmt)
-bun format
+<!--VITE PLUS START-->
 
-# Linting (oxlint)
-bun lint
+# Using Vite+, the Unified Toolchain for the Web
 
-# Check outdated dependencies
-bun outdated
+This project is using Vite+, a unified toolchain built on top of Vite, Rolldown, Vitest, tsdown, Oxlint, Oxfmt, and Vite Task. Vite+ wraps runtime management, package management, and frontend tooling in a single global CLI called `vp`. Vite+ is distinct from Vite, and it invokes Vite through `vp dev` and `vp build`. Run `vp help` to print a list of commands and `vp <command> --help` for information about a specific command.
 
-# Generate Wrangler types
-bun cf-typegen
-```
+Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.dev/guide/.
 
-**Pre-build setup:** TypeScript types are automatically generated before building via the `prebuild` script.
+## Review Checklist
 
-## Coding Style & Naming Conventions
+- [ ] Run `vp install` after pulling remote changes and before getting started.
+- [ ] Run `vp check` and `vp test` to format, lint, type check and test changes.
+- [ ] Check if there are `vite.config.ts` tasks or `package.json` scripts necessary for validation, run via `vp run <script>`.
+- [ ] If setup, runtime, or package-manager behavior looks wrong, run `vp env doctor` and include its output when asking for help.
 
-- **Language:** TypeScript (strict mode enabled)
-- **Indentation:** 2 spaces
-- **Formatting:** oxfmt (run `bun format` before committing)
-- **Linting:** oxlint (run `bun lint` to check)
-- **JSX:** React-style JSX imports, `module: "Preserve"` in tsconfig
-- **Module Resolution:** bundler mode with ESNext target
-- **Components:** Use PascalCase (e.g., `MyComponent.astro`, `MyComponent.vue`)
-- **Utilities:** Use camelCase (e.g., `parseDate.ts`, `formatString.ts`)
-
-**Type Safety:** Strict TypeScript mode is enforced. Use proper types and avoid `any` when possible.
-
-## Testing Guidelines
-
-There are no dedicated test scripts configured in the current setup. Before adding tests:
-- Consider using Vitest for unit tests
-- Consider using Playwright for e2e tests
-- Place tests adjacent to source files or in a `tests/` directory
-- Run linting (`bun lint`) and formatting (`bun format`) for code quality
-
-## Commit & Pull Request Guidelines
-
-**Commit Message Patterns:**
-- Merge commits: `Merge pull request #N from user/branch`
-- Feature/refactor: Descriptive English or Japanese (e.g., "Add skeleton-item class")
-- Fixes: `Fix [description]` or `複数の脆弱性を修正` (Japanese acceptable)
-- Cleanup: `[description]を削除` or "Remove [description]"
-
-**Pull Request Requirements:**
-- Link related issues in the PR description
-- Use semantic branch naming: `feature/`, `fix/`, `refactor/`, `docs/`
-- Include descriptive commit messages
-- Ensure `bun lint` and `bun format` pass locally before pushing
-- Request reviews from team members
-
-## Deployment
-
-This project deploys to **Cloudflare Workers** via Wrangler:
-
-```bash
-# Deploy preview
-bun run cf-typegen && bun build && wrangler versions upload --preview-alias preview
-
-# Production deployment
-wrangler pages deploy dist/
-```
-
-Configuration is in `wrangler.json`. Ensure environment variables are set in Cloudflare dashboard.
-
-## Development Tips
-
-- **Hot Reload:** `bun dev` provides hot module replacement for Astro and Wrangler
-- **Environment Variables:** Use `.env` file (copy from `.env.example` if available)
-- **Type Generation:** Run `bun cf-typegen` after Wrangler config changes
-- **Component Reuse:** Store reusable components in `client/src/components/`
-- **Utility Sharing:** Export shared functions from `client/lib/` or `worker/`
+<!--VITE PLUS END-->

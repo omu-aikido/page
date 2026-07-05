@@ -1,0 +1,30 @@
+"$schema" = "node_modules/wrangler/config-schema.json"
+name = "page"
+compatibility_date = "2025-10-29"
+compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
+
+[[routes]]
+pattern = "omu-aikido.com"
+custom_domain = true
+
+[placement]
+mode = "smart"
+
+[assets]
+directory = "./dist"
+not_found_handling = "404-page"
+
+[observability]
+enabled = true
+
+[secrets]
+required = ["CF_TURNSTILE_SECRETKEY", "DISCORD_WEBHOOK_URL"]
+
+[ai]
+binding = "AI"
+remote = true
+
+[[send_email]]
+destination_address = "aikido.omu@gmail.com"
+remote = true
+name = "CONTACT_MAILER"
