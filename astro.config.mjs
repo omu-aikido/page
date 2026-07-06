@@ -18,8 +18,11 @@ export default defineConfig({
   adapter: cloudflare({
     imageService: "compile",
   }),
-  site: "https://omu-aikido.com",
+
   output: "static",
+
+  site: "https://omu-aikido.com",
+
   trailingSlash: "never",
   markdown: {
     processor: unified({
@@ -38,8 +41,8 @@ export default defineConfig({
     UnoCSS(),
   ],
   vite: {
-    optimizeDeps: {
-      exclude: [],
+    build: {
+      minify: false,
     },
   },
 });

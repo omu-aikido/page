@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import Layout from "@/layouts/Layout.astro";
 import ContactForm from "@/components/ContactForm.vue";
 ---
@@ -20,7 +22,7 @@ import ContactForm from "@/components/ContactForm.vue";
       >に同意したものとなります。
     </p>
 
-    <ContactForm client:load />
+    <ContactForm client:only="vue" />
 
     <p class="mt-2 fg-base text-base">
       <a

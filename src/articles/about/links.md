@@ -1,9 +1,3 @@
----
-layout: ../../layouts/Markdown.astro
-title: 関係団体など
-description: 大阪公立大学合氣道部がお世話になっている方々の紹介ページ
----
-
 ## 関係団体など
 
 [**天之武産合氣塾道場**](https://amenotakemusu.jimdofree.com)

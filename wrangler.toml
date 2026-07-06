@@ -1,7 +1,8 @@
-"$schema" = "node_modules/wrangler/config-schema.json"
 name = "page"
-compatibility_date = "2025-10-29"
-compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
+compatibility_date = "2026-06-18"
+compatibility_flags = ["global_fetch_strictly_public", "nodejs_compat"]
+
+"main" = "@astrojs/cloudflare/entrypoints/server"
 
 [[routes]]
 pattern = "omu-aikido.com"
@@ -12,7 +13,7 @@ mode = "smart"
 
 [assets]
 directory = "./dist"
-not_found_handling = "404-page"
+binding = "ASSETS"
 
 [observability]
 enabled = true

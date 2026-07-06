@@ -1,32 +1,33 @@
 ---
-layout: ../../layouts/Markdown.astro
-title: About Us
-description: 大阪公立大学合氣道部について
+export const prerender = true;
+import Markdown from "@/layouts/Markdown.astro"
+
+import HistoryTimeline from "@/components/HistoryTimeline.astro";
+import InfoList from "@/components/InfoList.astro";
+import ScheduleList from "@/components/ScheduleList.astro";
 ---
 
-import HistoryTimeline from "../../components/HistoryTimeline.astro";
-import InfoList from "../../components/InfoList.astro";
-import ScheduleList from "../../components/ScheduleList.astro";
+<Markdown title="About">
 
-**2022年の春より、大阪市立大学合気道サークルと大阪府立大学合氣道部が統合し、大阪公立大学合氣道部として活動しています！**
+  <b>2022年の春より、大阪市立大学合気道サークルと大阪府立大学合氣道部が統合し、大阪公立大学合氣道部として活動しています！</b>
 
-大阪公立大学で唯一、中百舌鳥キャンパスと杉本キャンパスの両方で活動する体育会所属の合気道部です。
-大阪府吹田市の天之武産合氣塾道場に門下として所属しています。
-また、[リンク集](/about/links)には、普段お世話になっている師範道場やOBの方々のホームページ、私たちと交流のある他の大学の部活動さんのリンクをまとめています。ぜひご覧ください。
+  <p>大阪公立大学で唯一、中百舌鳥キャンパスと杉本キャンパスの両方で活動する体育会所属の合気道部です。</p>
+  <p>大阪府吹田市の天之武産合氣塾道場に門下として所属しています。</p>
+  <p>また、<a href="/about/links">リンク集</a>には、普段お世話になっている師範道場やOBの方々のホームページ、私たちと交流のある他の大学の部活動さんのリンクをまとめています。ぜひご覧ください。</p>
 
-## 活動
+<h2>活動</h2>
 
-### 活動場所
+<h3>活動場所</h3>
 
-大阪公立大学の以下施設にて活動しています。
+<ul>
+  <li>森之宮キャンパス 2階 マルチユースルーム</li>
+  <li>中百舌鳥キャンパス 体育館1階・武道場</li>
+  <li>杉本キャンパス 新武道場</li>
+</ul>
 
-- 森之宮キャンパス 2階 マルチユースルーム
-- 中百舌鳥キャンパス 体育館1階・武道場
-- 杉本キャンパス 新武道場
+詳細については<a href="/access">稽古場所</a>をご覧ください。
 
-詳細については[稽古場所](/access)をご覧ください。
-
-### 活動日
+<h3>活動日</h3>
 
 <ScheduleList
   items={[
@@ -38,9 +39,9 @@ import ScheduleList from "../../components/ScheduleList.astro";
   ]}
 />
 
-詳しい予定は[予定表](/calendar)をご確認ください。
+詳しい予定は<a href="/calendar">予定表</a>をご確認ください。
 
-## 年間行事予定
+<h3>年間行事予定</h3>
 
 <section class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 my-2">
   <div class="card">
@@ -96,7 +97,7 @@ import ScheduleList from "../../components/ScheduleList.astro";
 
 ※ 上記は主な年間行事予定です。詳細は変更される場合があります。
 
-## 団体等基本情報
+<h3>団体等基本情報</h3>
 
 <InfoList
   items={[
@@ -140,7 +141,7 @@ import ScheduleList from "../../components/ScheduleList.astro";
   ]}
 />
 
-## 歴史
+<h3>歴史</h3>
 
 <HistoryTimeline
   items={[
@@ -159,3 +160,5 @@ import ScheduleList from "../../components/ScheduleList.astro";
 />
 
 また、1968年から2018年4月まで、天之武産合氣塾道場門下の大阪市立大学体育会合氣道部が活動していました。別団体ではありますが、旧三商大合同稽古などのイベントを受け継いでいます。
+``
+</Markdown>
