@@ -130,6 +130,8 @@ const isActive = (path: string) => currentPath === path;
 </style>
 
 <script>
+  const initializedElements = new WeakSet<EventTarget>();
+
   function initSidebar() {
     const dialog = document.getElementById("sidebar") as HTMLDialogElement;
     const openBtn = document.getElementById("open-sidebar");
@@ -139,21 +141,31 @@ const isActive = (path: string) => currentPath === path;
       dialog.close();
     }
 
-    openBtn?.addEventListener("click", () => {
-      dialog?.showModal();
-    });
+    if (openBtn && !initializedElements.has(openBtn)) {
+      openBtn.addEventListener("click", () => {
+        dialog?.showModal();
+      });
+      initializedElements.add(openBtn);
+    }
 
-    closeBtn?.addEventListener("click", () => {
-      dialog?.close();
-    });
+    if (closeBtn && !initializedElements.has(closeBtn)) {
+      closeBtn.addEventListener("click", () => {
+        dialog?.close();
+      });
+      initializedElements.add(closeBtn);
+    }
 
-    dialog?.addEventListener("click", (event) => {
-      if (event.target === dialog) {
-        dialog.close();
-      }
-    });
+    if (dialog && !initializedElements.has(dialog)) {
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) {
+          dialog.close();
+        }
+      });
+      initializedElements.add(dialog);
+    }
   }
 
+  initSidebar();
   document.addEventListener("astro:page-load", initSidebar);
 
   document.addEventListener("keydown", (event) => {
