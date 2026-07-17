@@ -77,8 +77,7 @@ function clampSeconds(value: number) {
     <div
       class="flex items-baseline justify-between border-b-2 pb-2 bordered-base"
     >
-      <h2 class="h2">稽古メニュー</h2>
-      <small class="fg-muted">開始前に設定</small>
+      <h2 class="h2">プリセット</h2>
     </div>
 
     <div class="mt-4 grid gap-3 sm:grid-cols-2" aria-label="組み込みプリセット">
@@ -103,7 +102,6 @@ function clampSeconds(value: number) {
     </div>
 
     <div class="mt-5">
-      <h3 class="text-sm font-bold fg-muted">進行順</h3>
       <ol class="mt-2 overflow-hidden rounded border bordered-muted bg-base">
         <li
           v-for="(duration, index) in durations"
@@ -169,7 +167,7 @@ function clampSeconds(value: number) {
           ></label
         >
         <label class="stack gap-1 text-sm fg-muted"
-          >全員の持ち時間<span class="relative"
+          >時間<span class="relative"
             ><input
               v-model.number="bulkSeconds"
               class="w-full rounded border bordered-muted bg-base px-3 py-2 pr-9 fg-base"

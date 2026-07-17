@@ -6,10 +6,15 @@ export type RandoriPreset = {
 };
 
 export const builtInRandoriPresets: RandoriPreset[] = [
-  { id: "three", name: "3人掛け", durations: [30, 30, 30], builtIn: true },
+  {
+    id: "three",
+    name: "三人掛け（一級）",
+    durations: [30, 30, 30],
+    builtIn: true,
+  },
   {
     id: "four",
-    name: "4人掛け",
+    name: "四人掛け（初段）",
     durations: [30, 30, 30, 60],
     builtIn: true,
   },

@@ -14,8 +14,7 @@ defineEmits<{ reset: []; toggle: [] }>();
 <template>
   <section class="card mt-6 overflow-hidden" aria-live="polite">
     <div class="flex items-center justify-between text-sm fg-muted">
-      <span>{{ activeRound }}人目</span
-      ><span>{{ activeRound }} / {{ totalRounds }}</span>
+      <span>{{ activeRound }}人目 / {{ totalRounds }}</span>
     </div>
     <div
       class="my-4 text-center font-mono text-7xl font-bold leading-none tracking-tighter sm:text-9xl tabular-nums"
@@ -29,15 +28,6 @@ defineEmits<{ reset: []; toggle: [] }>();
         :style="{ width: `${progress}%` }"
       />
     </div>
-    <p class="mt-3 text-center text-sm fg-muted">
-      {{
-        running
-          ? "次の合図まで"
-          : remaining === 0
-            ? "おつかれさまでした"
-            : "開始を押すとベルが鳴ります"
-      }}
-    </p>
     <div class="mt-5 flex justify-center gap-2">
       <button
         type="button"
