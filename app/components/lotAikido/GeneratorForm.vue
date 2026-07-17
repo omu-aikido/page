@@ -24,7 +24,7 @@ const emit = defineEmits<{
         <label class="sr-only" for="rank">級・段位</label>
         <select
           id="rank"
-          class="rounded-sm border bg-base px-2 py-1.5 text-base fg-base bordered-muted focus:bordered-accent focus:outline-none"
+          class="control rounded-sm px-2 py-1.5 text-base"
           :value="rank"
           @change="
             emit(
@@ -44,7 +44,7 @@ const emit = defineEmits<{
         <label class="sr-only" for="filter">フィルター</label>
         <select
           id="filter"
-          class="rounded-sm border bg-base px-2 py-1.5 text-base fg-base bordered-muted focus:bordered-accent focus:outline-none"
+          class="control rounded-sm px-2 py-1.5 text-base"
           :value="filter"
           @change="
             emit('update:filter', ($event.target as HTMLSelectElement).value)
@@ -61,7 +61,7 @@ const emit = defineEmits<{
         <label class="flex items-center gap-2 text-sm fg-muted" for="count">
           <input
             id="count"
-            class="w-16 rounded-sm border bg-base px-2 py-1.5 text-center fg-base bordered-muted focus:bordered-accent focus:outline-none"
+            class="control w-16 rounded-sm px-2 py-1.5 text-center"
             max="50"
             min="1"
             type="number"

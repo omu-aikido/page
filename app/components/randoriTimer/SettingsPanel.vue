@@ -199,7 +199,7 @@ function formatTotalDuration(seconds: number) {
             ><span class="relative w-32"
               ><input
                 :value="duration"
-                class="w-full rounded border bordered-muted bg-base px-3 py-2 pr-9 text-right font-mono fg-base tabular-nums"
+                class="control w-full pr-9 text-right font-mono tabular-nums"
                 type="number"
                 min="5"
                 max="600"
@@ -244,7 +244,7 @@ function formatTotalDuration(seconds: number) {
           <span class="relative">
             <input
               v-model.number="bulkCount"
-              class="w-full rounded border bordered-muted bg-base px-3 py-2 pr-9 fg-base"
+              class="control w-full pr-9"
               type="number"
               min="1"
               max="20"
@@ -259,7 +259,7 @@ function formatTotalDuration(seconds: number) {
           <span class="relative">
             <input
               v-model.number="bulkSeconds"
-              class="w-full rounded border bordered-muted bg-base px-3 py-2 pr-9 fg-base"
+              class="control w-full pr-9"
               type="number"
               min="5"
               max="600"
@@ -283,7 +283,7 @@ function formatTotalDuration(seconds: number) {
     <div class="mt-5 flex gap-2">
       <input
         v-model="presetName"
-        class="min-w-0 flex-1 rounded border bordered-muted bg-base px-3 py-2 fg-base"
+        class="control min-w-0 flex-1"
         type="text"
         maxlength="20"
         placeholder="この設定に名前をつける"

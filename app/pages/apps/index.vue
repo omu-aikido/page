@@ -21,21 +21,20 @@ const apps = computed(() =>
 <template>
   <section class="mx-auto max-w-3xl py-8">
     <h1 class="h1">アプリ</h1>
-    <nav
-      class="mt-6 grid md:grid-cols-2 gap-3 bordered-muted"
-      aria-label="アプリ一覧"
-    >
+    <nav class="mt-6 grid gap-3 md:grid-cols-2" aria-label="アプリ一覧">
       <NuxtLink
         v-for="app in apps"
         :key="app.path"
         :to="app.path"
-        class="card py-5 no-underline transition-colors hover:fg-accent"
+        class="card group py-5 no-underline transition-colors hover:fg-accent"
       >
         <span class="min-w-0">
-          <span class="block text-lg font-bold fg-base">{{ app.title }}</span>
+          <span class="block text-lg font-bold fg-base group-hover:fg-accent">{{
+            app.title
+          }}</span>
           <span
             v-if="app.description"
-            class="mt-1 block text-sm leading-relaxed fg-muted"
+            class="mt-1 block text-sm leading-relaxed fg-muted group-hover:fg-accent"
           >
             {{ app.description }}
           </span>

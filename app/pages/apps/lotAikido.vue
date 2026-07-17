@@ -38,7 +38,7 @@ async function handleShare() {
         @update:rank="gen.rank.value = $event"
         @update:sort-enabled="gen.sortEnabled.value = $event"
       />
-      <section class="grid gap-2 bordered-muted md:grid-cols-2">
+      <section class="grid gap-2 md:grid-cols-2">
         <TagInput
           placeholder="含める技名を入力"
           type="positive"

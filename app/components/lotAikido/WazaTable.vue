@@ -26,7 +26,9 @@ function toRank(rank: number): string {
       style="min-width: -webkit-fill-available"
       class="w-full border-collapse text-left text-sm"
     >
-      <thead class="border-b bg-muted/50 text-xs fg-muted bordered-muted">
+      <thead
+        class="border-b bg-muted bg-opacity-50 text-xs fg-muted bordered-muted"
+      >
         <tr>
           <th class="px-3 py-2 font-semibold">技</th>
           <th class="w-16 px-3 py-2 text-center font-semibold">級段</th>
