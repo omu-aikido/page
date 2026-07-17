@@ -7,7 +7,7 @@ import {
   builtInRandoriPresets,
   formatDurations,
   type RandoriPreset,
-} from "~/utils/randoriTimer";
+} from "~/utils/randoriTimer/randoriTimer";
 
 const props = defineProps<{
   customPresets: RandoriPreset[];
@@ -87,51 +87,52 @@ function formatTotalDuration(seconds: number) {
 </script>
 
 <template>
-  <section class="mt-8 rounded border bordered-muted bg-ghost p-4">
-    <fieldset :disabled="settingsLocked">
-      <legend class="font-bold">再生方法</legend>
-      <div class="mt-3 grid gap-3 sm:grid-cols-2">
-        <label
-          class="flex cursor-pointer gap-3 rounded border bordered-muted bg-base p-4"
-        >
-          <input
-            type="radio"
-            name="randori-playback-mode"
-            value="normal"
-            :checked="playbackMode === 'normal'"
-            @change="$emit('setPlaybackMode', 'normal')"
-          />
-          <span>
-            <span class="block font-bold">通常</span>
-            <span class="mt-1 block text-sm fg-muted">
-              画面を表示したまま使用します。
-            </span>
+  <section class="mt-8" aria-labelledby="randori-playback-heading">
+    <fieldset
+      class="mt-2 overflow-hidden rounded border bordered-muted bg-base"
+      :class="{ 'pointer-events-none opacity-55': settingsLocked }"
+      :disabled="settingsLocked"
+    >
+      <label
+        class="flex cursor-pointer gap-3 border-b px-4 py-3 bordered-muted"
+        :class="playbackMode === 'normal' ? 'bg-sky-600/8' : ''"
+      >
+        <input
+          type="radio"
+          name="randori-playback-mode"
+          value="normal"
+          :checked="playbackMode === 'normal'"
+          @change="$emit('setPlaybackMode', 'normal')"
+        />
+        <span>
+          <span class="block font-bold">通常</span>
+          <span class="mt-1 block text-sm fg-muted">
+            画面を表示したまま使用します。
           </span>
-        </label>
-        <label
-          class="flex gap-3 rounded border bordered-muted bg-base p-4"
-          :class="
-            backgroundPlaybackAvailable
-              ? 'cursor-pointer'
-              : 'cursor-not-allowed opacity-55'
-          "
-        >
-          <input
-            type="radio"
-            name="randori-playback-mode"
-            value="background"
-            :checked="playbackMode === 'background'"
-            :disabled="!backgroundPlaybackAvailable"
-            @change="$emit('setPlaybackMode', 'background')"
-          />
-          <span>
-            <span class="block font-bold">バックグラウンド再生</span>
-            <span class="mt-1 block text-sm fg-muted">
-              他のアプリを開いている間も合図音を再生します。開始前に音声を準備します。
-            </span>
+        </span>
+      </label>
+      <label
+        class="flex gap-3 px-4 py-3"
+        :class="[
+          backgroundPlaybackAvailable ? 'cursor-pointer' : 'cursor-not-allowed',
+          playbackMode === 'background' ? 'bg-sky-600/8' : '',
+        ]"
+      >
+        <input
+          type="radio"
+          name="randori-playback-mode"
+          value="background"
+          :checked="playbackMode === 'background'"
+          :disabled="!backgroundPlaybackAvailable"
+          @change="$emit('setPlaybackMode', 'background')"
+        />
+        <span>
+          <span class="block font-bold">バックグラウンド再生</span>
+          <span class="mt-1 block text-sm fg-muted">
+            開始前に音声を準備します。
           </span>
-        </label>
-      </div>
+        </span>
+      </label>
     </fieldset>
     <p
       v-if="!backgroundPlaybackAvailable"

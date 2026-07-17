@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { audioBufferToWav } from "../app/utils/audioBufferToWav";
+import { audioBufferToWav } from "../app/utils/randoriTimer/audioBufferToWav";
 
 describe("audioBufferToWav", () => {
   it("モノラル24 kHzのPCM16 WAVを生成する", async () => {

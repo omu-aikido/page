@@ -15,7 +15,9 @@ const staticRoutes = [
 const securityHeaders = {
   "Content-Security-Policy": [
     "default-src 'self'",
+    "media-src 'self' blob:",
     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://static.cloudflareinsights.com",
+    "worker-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://static.cloudflareinsights.com",
     "connect-src 'self' https://challenges.cloudflare.com https://static.cloudflareinsights.com",
     "frame-src https://challenges.cloudflare.com https://www.google.com",
     "img-src 'self' data: https:",

@@ -37,6 +37,13 @@ export function scheduleRandoriBell(
       frequency: 1430,
       glide: 1.01,
     });
+    // スマートフォンの小型スピーカーでも減衰しにくい中域を補う。
+    addWhistleTone(context, output.input, start, duration, {
+      type: "sine",
+      volume: 0.5,
+      frequency: 720,
+      glide: 1.015,
+    });
     addWhistleTone(context, output.input, start, duration, {
       type: "sine",
       volume: 0.2,

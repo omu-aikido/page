@@ -1,9 +1,9 @@
-import type { RandoriPreset } from "~/utils/randoriTimer";
+import type { RandoriPreset } from "~/utils/randoriTimer/randoriTimer";
 import {
   BACKGROUND_AUDIO_MAX_SECONDS,
   renderRandoriWav,
-} from "~/utils/randoriBackgroundAudio";
-import { getRandoriTimelineState } from "~/utils/randoriTimeline";
+} from "~/utils/randoriTimer/randoriBackgroundAudio";
+import { getRandoriTimelineState } from "~/utils/randoriTimer/randoriTimeline";
 
 export type RandoriPlaybackMode = "normal" | "background";
 export type RandoriTimerStatus =

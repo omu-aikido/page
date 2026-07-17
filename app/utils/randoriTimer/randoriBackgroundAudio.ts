@@ -1,5 +1,5 @@
-import { audioBufferToWav } from "~/utils/audioBufferToWav";
-import { scheduleRandoriBell } from "~/utils/randoriBellAudio";
+import { audioBufferToWav } from "~/utils/randoriTimer/audioBufferToWav";
+import { scheduleRandoriBell } from "~/utils/randoriTimer/randoriBellAudio";
 
 export const BACKGROUND_AUDIO_MAX_SECONDS = 600;
 export const RANDORI_AUDIO_SAMPLE_RATE = 24_000;

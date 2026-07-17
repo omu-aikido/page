@@ -1,4 +1,7 @@
-import { scheduleRandoriBell, type BellCue } from "~/utils/randoriBellAudio";
+import {
+  scheduleRandoriBell,
+  type BellCue,
+} from "~/utils/randoriTimer/randoriBellAudio";
 
 export function useRandoriBell() {
   let audioContext: AudioContext | undefined;

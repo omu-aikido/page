@@ -3,7 +3,7 @@ import { describe, expect, it } from "vite-plus/test";
 import {
   createRoundBoundaries,
   getRandoriTimelineState,
-} from "../app/utils/randoriTimeline";
+} from "../app/utils/randoriTimer/randoriTimeline";
 
 const durations = [30, 30, 30, 60];
 
