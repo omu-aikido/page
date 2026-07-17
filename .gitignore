@@ -1,7 +1,8 @@
-# build output
-dist/
-# generated types
-.astro/
+# build output and generated Nuxt files
+.output/
+.nuxt/
+app/generated/
+public/llms*.txt
 
 # dependencies
 node_modules/
@@ -18,6 +19,7 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.*
+!.env.age
 !.env.example
 .dev.vars
 

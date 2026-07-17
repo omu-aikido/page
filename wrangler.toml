@@ -2,7 +2,7 @@ name = "page"
 compatibility_date = "2026-06-18"
 compatibility_flags = ["global_fetch_strictly_public", "nodejs_compat"]
 
-"main" = "@astrojs/cloudflare/entrypoints/server"
+main = ".output/server/index.mjs"
 
 [[routes]]
 pattern = "omu-aikido.com"
@@ -12,14 +12,19 @@ custom_domain = true
 mode = "smart"
 
 [assets]
-directory = "./dist"
+directory = ".output/public"
 binding = "ASSETS"
+html_handling = "drop-trailing-slash"
 
 [observability]
 enabled = true
 
 [secrets]
 required = ["CF_TURNSTILE_SECRETKEY", "DISCORD_WEBHOOK_URL"]
+
+[vars]
+CONTACT_ALLOWED_ORIGINS = "https://omu-aikido.com"
+TURNSTILE_HOSTNAME = "omu-aikido.com"
 
 [ai]
 binding = "AI"
@@ -29,3 +34,11 @@ remote = true
 destination_address = "aikido.omu@gmail.com"
 remote = true
 name = "CONTACT_MAILER"
+
+[[ratelimits]]
+name = "CONTACT_RATE_LIMITER"
+namespace_id = "1001"
+
+[ratelimits.simple]
+limit = 10
+period = 60

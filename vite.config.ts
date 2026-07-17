@@ -5,13 +5,24 @@ export default defineConfig({
     "*": "vp check --fix",
   },
   lint: {
+    ignorePatterns: [
+      ".nuxt/**",
+      ".output/**",
+      "dist/**",
+      "worker-configuration.d.ts",
+    ],
     jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
     rules: { "vite-plus/prefer-vite-plus-imports": "error" },
-    options: { typeAware: true, typeCheck: true },
+    options: { typeAware: false, typeCheck: false },
   },
   fmt: {
     printWidth: 80,
     sortPackageJson: false,
-    ignorePatterns: [],
+    ignorePatterns: [
+      ".nuxt/**",
+      ".output/**",
+      "dist/**",
+      "worker-configuration.d.ts",
+    ],
   },
 });

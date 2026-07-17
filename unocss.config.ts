@@ -16,7 +16,13 @@ export default defineConfig({
       dark: "media",
     }),
     presetAttributify(),
-    presetIcons(),
+    presetIcons({
+      autoInstall: true,
+      extraProperties: {
+        display: "inline-block",
+        "vertical-align": "middle",
+      },
+    }),
     presetTypography(),
     presetWebFonts({
       provider: "google",
@@ -56,7 +62,7 @@ export default defineConfig({
       stack: "flex flex-col",
       row: "flex flex-row",
       grid: "grid",
-      section: "mx-4 my-6",
+      section: "mx-2 my-3",
       start: "flex gap-2 items-start justify-center text-start",
       center: "flex gap-2 items-center justify-center text-center",
       end: "flex gap-2 items-end justify-center text-end",

@@ -3,24 +3,22 @@
   "version": "3.0.0",
   "type": "module",
   "scripts": {
-    "dev": "rm -rf .wrangler && astro dev",
-    "build": "astro build",
-    "preview": "astro build && wrangler dev",
-    "astro": "astro",
-    "generate-types": "wrangler types"
+    "dev": "nuxt dev",
+    "build": "bun scripts/generate-site-content.ts && nuxt build",
+    "preview": "wrangler dev",
+    "postinstall": "bun scripts/generate-site-content.ts && nuxt prepare",
+    "typecheck": "nuxt typecheck",
+    "generate-types": "wrangler types",
+    "generate-content": "bun scripts/generate-site-content.ts"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^14.1.1",
-    "@astrojs/markdown-remark": "^7.2.1",
-    "@astrojs/mdx": "^7.0.2",
-    "@astrojs/sitemap": "^3.7.3",
-    "@astrojs/vue": "^7.0.1",
-    "@unocss/astro": "^66.7.4",
+    "@nuxtjs/sitemap": "^8.2.2",
+    "@unocss/nuxt": "^66.7.5",
     "@unocss/preset-attributify": "^66.7.4",
-    "astro": "^7.0.6",
-    "astro-llms-generate": "^1.3.3",
+    "arktype": "^2.2.3",
+    "hono": "^4.12.30",
     "marked": "^18.0.5",
-    "sharp": "^0.35.3",
+    "nuxt": "^4.0.0",
     "ts-ics": "^2.4.6",
     "unocss": "^66.7.4",
     "vue": "^3.5.39",
@@ -29,8 +27,9 @@
   "devDependencies": {
     "@iconify-json/ri": "^1.2.10",
     "@types/node": "^26.1.0",
-    "rehype-external-links": "^3.0.0",
-    "vite-plus": "latest"
+    "typescript": "5.9.3",
+    "vite-plus": "0.2.2",
+    "vue-tsc": "^3.3.7"
   },
   "devEngines": {
     "packageManager": {

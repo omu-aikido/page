@@ -1,2 +1,0 @@
-/*
-  Content-Security-Policy: script-src 'self' 'unsafe-eval' 'unsafe-inline' https://challenges.cloudflare.com https://*.cloudflare.com https://static.cloudflareinsights.com; connect-src 'self' https://challenges.cloudflare.com https://*.cloudflare.com https://static.cloudflareinsights.com; frame-src https://challenges.cloudflare.com https://*.cloudflare.com https://www.google.com; worker-src https://static.cloudflareinsights.com;
