@@ -70,4 +70,11 @@ async function handleShare() {
       </button>
     </div>
   </section>
+
+  <section class="text-right">
+    <p class="fg-muted">
+      ※ご利用の際は<a class="link" href="/terms-of-service">利用規約</a
+      >をご一読下さい
+    </p>
+  </section>
 </template>
