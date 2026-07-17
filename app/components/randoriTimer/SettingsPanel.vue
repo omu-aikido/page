@@ -95,80 +95,6 @@ function formatTotalDuration(seconds: number) {
       画面を閉じたり他のアプリへ移動するとサウンドが停止する場合があります。
     </template>
   </p>
-  <section class="mt-8" aria-labelledby="randori-playback-heading">
-    <fieldset
-      class="mt-2 overflow-hidden rounded border bordered-muted bg-base"
-      :class="{ 'pointer-events-none opacity-55': settingsLocked }"
-      :disabled="settingsLocked"
-    >
-      <label
-        class="flex cursor-pointer gap-3 border-b px-4 py-3 bordered-muted"
-        :class="playbackMode === 'normal' ? 'bg-sky-600/8' : ''"
-      >
-        <input
-          type="radio"
-          name="randori-playback-mode"
-          value="normal"
-          :checked="playbackMode === 'normal'"
-          @change="$emit('setPlaybackMode', 'normal')"
-        />
-        <span>
-          <span class="block font-bold">画面を開いたまま使う</span>
-          <span class="mt-1 block text-sm fg-muted">
-            この画面を離れると停止します
-          </span>
-        </span>
-      </label>
-      <label
-        class="flex gap-3 px-4 py-3"
-        :class="[
-          backgroundPlaybackAvailable ? 'cursor-pointer' : 'cursor-not-allowed',
-          playbackMode === 'background' ? 'bg-sky-600/8' : '',
-        ]"
-      >
-        <input
-          type="radio"
-          name="randori-playback-mode"
-          value="background"
-          :checked="playbackMode === 'background'"
-          :disabled="!backgroundPlaybackAvailable"
-          @change="$emit('setPlaybackMode', 'background')"
-        />
-        <span>
-          <span class="block font-bold">他のアプリを使いながら</span>
-          <span class="mt-1 block text-sm fg-muted">
-            画面を離れても合図音を再生します。
-          </span>
-        </span>
-      </label>
-    </fieldset>
-    <p
-      v-if="!backgroundPlaybackAvailable"
-      class="mt-3 text-sm text-amber-700 dark:text-amber-400"
-    >
-      バックグラウンド再生は合計10分まで利用できます。現在の設定:
-      {{ formatTotalDuration(totalDuration) }}
-    </p>
-    <p v-if="status === 'preparing'" class="mt-3 text-sm fg-muted">
-      バックグラウンド音声を準備しています…
-    </p>
-    <div
-      v-if="preparationError"
-      class="mt-3 text-sm text-red-700 dark:text-red-400"
-    >
-      <p>バックグラウンド音声の準備に失敗しました。</p>
-      <button
-        type="button"
-        class="button base bordered-muted mt-2 border px-3 py-2"
-        @click="$emit('retryPreparation')"
-      >
-        再試行
-      </button>
-    </div>
-    <p v-if="playbackError" class="mt-3 text-sm text-red-700 dark:text-red-400">
-      バックグラウンド音声を再生できませんでした。端末の音声設定を確認して、リセット後に再試行してください。
-    </p>
-  </section>
 
   <section
     class="mt-8"
@@ -335,5 +261,80 @@ function formatTotalDuration(seconds: number) {
         />
       </div>
     </div>
+  </section>
+
+  <section class="mt-8" aria-labelledby="randori-playback-heading">
+    <fieldset
+      class="mt-2 overflow-hidden rounded border bordered-muted bg-base"
+      :class="{ 'pointer-events-none opacity-55': settingsLocked }"
+      :disabled="settingsLocked"
+    >
+      <label
+        class="flex cursor-pointer gap-3 border-b px-4 py-3 bordered-muted"
+        :class="playbackMode === 'normal' ? 'bg-sky-600/8' : ''"
+      >
+        <input
+          type="radio"
+          name="randori-playback-mode"
+          value="normal"
+          :checked="playbackMode === 'normal'"
+          @change="$emit('setPlaybackMode', 'normal')"
+        />
+        <span>
+          <span class="block font-bold">画面を開いたまま使う</span>
+          <span class="mt-1 block text-sm fg-muted">
+            この画面を離れると停止します
+          </span>
+        </span>
+      </label>
+      <label
+        class="flex gap-3 px-4 py-3"
+        :class="[
+          backgroundPlaybackAvailable ? 'cursor-pointer' : 'cursor-not-allowed',
+          playbackMode === 'background' ? 'bg-sky-600/8' : '',
+        ]"
+      >
+        <input
+          type="radio"
+          name="randori-playback-mode"
+          value="background"
+          :checked="playbackMode === 'background'"
+          :disabled="!backgroundPlaybackAvailable"
+          @change="$emit('setPlaybackMode', 'background')"
+        />
+        <span>
+          <span class="block font-bold">他のアプリを使いながら</span>
+          <span class="mt-1 block text-sm fg-muted">
+            画面を離れても合図音を再生します。
+          </span>
+        </span>
+      </label>
+    </fieldset>
+    <p
+      v-if="!backgroundPlaybackAvailable"
+      class="mt-3 text-sm text-amber-700 dark:text-amber-400"
+    >
+      バックグラウンド再生は合計10分まで利用できます。現在の設定:
+      {{ formatTotalDuration(totalDuration) }}
+    </p>
+    <p v-if="status === 'preparing'" class="mt-3 text-sm fg-muted">
+      バックグラウンド音声を準備しています…
+    </p>
+    <div
+      v-if="preparationError"
+      class="mt-3 text-sm text-red-700 dark:text-red-400"
+    >
+      <p>バックグラウンド音声の準備に失敗しました。</p>
+      <button
+        type="button"
+        class="button base bordered-muted mt-2 border px-3 py-2"
+        @click="$emit('retryPreparation')"
+      >
+        再試行
+      </button>
+    </div>
+    <p v-if="playbackError" class="mt-3 text-sm text-red-700 dark:text-red-400">
+      バックグラウンド音声を再生できませんでした。端末の音声設定を確認して、リセット後に再試行してください。
+    </p>
   </section>
 </template>

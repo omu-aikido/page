@@ -58,18 +58,17 @@ const emit = defineEmits<{
             {{ option.label }}
           </option>
         </select>
-        <label class="flex items-center gap-2 text-sm fg-muted" for="count">
+        <label class="flex items-center gap-2 fg-muted" for="count">
           <input
             id="count"
-            class="control w-16 rounded-sm px-2 py-1.5 text-center"
-            max="50"
+            class="control w-24 rounded-sm px-2 py-1.5 text-center"
             min="1"
             type="number"
             :value="count"
             @input="
               emit(
                 'update:count',
-                Number(($event.target as HTMLInputElement).value) || 10,
+                Number(($event.target as HTMLInputElement).value),
               )
             "
           />
@@ -77,9 +76,7 @@ const emit = defineEmits<{
         </label>
       </div>
       <div class="flex items-center gap-3">
-        <label
-          class="flex cursor-pointer items-center gap-1.5 text-sm fg-muted"
-        >
+        <label class="flex cursor-pointer items-center gap-1.5 fg-muted">
           <input
             class="accent-sky-600"
             type="checkbox"
