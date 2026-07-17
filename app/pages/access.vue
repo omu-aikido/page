@@ -2,6 +2,7 @@
 definePageMeta({
   title: "稽古場所",
   description: "大阪公立大学合氣道部の活動場所について",
+  navigation: { parent: "/", order: 2 },
 });
 const maps = {
   nakamozu:

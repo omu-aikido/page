@@ -1,41 +1,53 @@
+import type { RouteRecordNormalized } from "vue-router";
+
 export interface NavLink {
   title: string;
   path: string;
+  description?: string;
   children?: NavLink[];
 }
-
-export const navlinks: NavLink[] = [
-  {
-    title: "ホーム",
-    path: "/",
-    children: [
-      {
-        title: "部活について",
-        path: "/about",
-        children: [
-          { title: "合気道とは", path: "/about/aikido" },
-          { title: "リンク集", path: "/about/links" },
-        ],
-      },
-      { title: "稽古場所", path: "/access" },
-      { title: "稽古予定", path: "/calendar" },
-      {
-        title: "お問い合わせ",
-        path: "/contact",
-        children: [{ title: "よくある質問", path: "/faq" }],
-      },
-      { title: "応援する", path: "/support" },
-    ],
-  },
-];
 
 export interface BreadcrumbItem extends NavLink {
   isCurrent?: boolean;
 }
 
+interface NavigationItem extends NavLink {
+  parent?: string;
+  order: number;
+}
+
+function createNavigation(routes: RouteRecordNormalized[]): NavLink[] {
+  const items = routes
+    .flatMap((route): NavigationItem[] => {
+      const { navigation, title, description } = route.meta;
+      if (!navigation || !title) return [];
+
+      return [
+        {
+          title,
+          description,
+          path: route.path,
+          parent: navigation.parent,
+          order: navigation.order,
+        },
+      ];
+    })
+    .sort((left, right) => left.order - right.order);
+
+  const childrenOf = (parent?: string): NavLink[] =>
+    items
+      .filter((item) => item.parent === parent)
+      .map(({ parent: _parent, order: _order, ...item }) => {
+        const children = childrenOf(item.path);
+        return children.length > 0 ? { ...item, children } : item;
+      });
+
+  return childrenOf();
+}
+
 function getPathToNode(
   pathname: string,
-  items: NavLink[] = navlinks,
+  items: NavLink[],
   path: NavLink[] = [],
 ): NavLink[] {
   for (const item of items) {
@@ -49,11 +61,18 @@ function getPathToNode(
   return [];
 }
 
-export function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
-  const normalized = pathname === "/" ? "/" : pathname.replace(/\/$/, "");
-  const path = getPathToNode(normalized);
-  return path.map((item, index) => ({
-    ...item,
-    isCurrent: index === path.length - 1,
-  }));
+export function useNavigation() {
+  const router = useRouter();
+  const navlinks = computed(() => createNavigation(router.getRoutes()));
+
+  const generateBreadcrumbs = (pathname: string): BreadcrumbItem[] => {
+    const normalized = pathname === "/" ? "/" : pathname.replace(/\/$/, "");
+    const path = getPathToNode(normalized, navlinks.value);
+    return path.map((item, index) => ({
+      ...item,
+      isCurrent: index === path.length - 1,
+    }));
+  };
+
+  return { navlinks, generateBreadcrumbs };
 }

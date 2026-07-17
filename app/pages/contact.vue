@@ -2,6 +2,7 @@
 definePageMeta({
   title: "お問い合わせ",
   description: "大阪公立大学合氣道部へのお問い合わせフォームです。",
+  navigation: { parent: "/", order: 4 },
 });
 </script>
 

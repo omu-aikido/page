@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const route = useRoute();
+const { generateBreadcrumbs } = useNavigation();
 const breadcrumbs = computed(() => generateBreadcrumbs(route.path));
 </script>
 

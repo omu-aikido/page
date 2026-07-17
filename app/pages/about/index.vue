@@ -2,6 +2,7 @@
 definePageMeta({
   title: "About",
   description: "大阪公立大学合氣道部の活動概要",
+  navigation: { parent: "/", order: 1 },
 });
 
 const schedule = [

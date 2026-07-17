@@ -1,5 +1,8 @@
 <script setup lang="ts">
-definePageMeta({ title: "よくある質問" });
+definePageMeta({
+  title: "よくある質問",
+  navigation: { parent: "/contact", order: 1 },
+});
 const groups = [
   {
     group: "活動",

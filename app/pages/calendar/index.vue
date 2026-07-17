@@ -1,5 +1,9 @@
 <script setup lang="ts">
-definePageMeta({ title: "稽古予定", description: "今後の稽古予定" });
+definePageMeta({
+  title: "稽古予定",
+  description: "今後の稽古予定",
+  navigation: { parent: "/", order: 3 },
+});
 </script>
 
 <template>
