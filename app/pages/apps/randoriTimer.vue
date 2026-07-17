@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   title: "乱取りタイマー",
-  description: "掛かり稽古の交代を、音で知らせるタイマー",
+  description: "乱取り特化のタイマー",
 });
 
 import TimerPanel from "~/components/randoriTimer/TimerPanel.vue";
@@ -11,12 +11,7 @@ const timer = useRandoriTimer();
 </script>
 
 <template>
-  <section class="mx-auto max-w-3xl py-8">
-    <header>
-      <h1 class="h1">乱取りタイマー</h1>
-      <p class="mt-2 fg-muted">交代の合図を音で知らせます。</p>
-    </header>
-
+  <section class="mx-auto max-w-3xl">
     <TimerPanel
       :active-round="timer.activeRound.value"
       :display-time="timer.displayTime.value"

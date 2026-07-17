@@ -43,20 +43,20 @@ export function useRandoriTimer() {
 
   function advance() {
     if (activeRound.value >= durations.value.length) {
-      bell.play(true);
+      bell.play("finish");
       stop();
       remaining.value = 0;
       return;
     }
     activeRound.value += 1;
     remaining.value = currentDuration.value;
-    bell.play();
+    bell.play("change");
   }
 
   function toggle() {
     if (running.value) return stop();
     if (remaining.value === 0) reset();
-    bell.play();
+    bell.play("start");
     running.value = true;
     interval = setInterval(() => {
       if (remaining.value > 1) remaining.value -= 1;
