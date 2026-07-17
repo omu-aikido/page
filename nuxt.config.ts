@@ -124,4 +124,7 @@ export default defineNuxtConfig({
       include: ["arktype"],
     },
   },
+  unocss: {
+    nuxtLayers: true,
+  },
 });

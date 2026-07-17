@@ -18,6 +18,10 @@ export default defineConfig({
     presetAttributify(),
     presetIcons({
       autoInstall: true,
+      extraProperties: {
+        display: "inline-block",
+        "vertical-align": "middle",
+      },
     }),
     presetTypography(),
     presetWebFonts({
