@@ -1,8 +1,8 @@
 <script setup lang="ts">
-usePageSeo(
-  "お問い合わせ",
-  "大阪公立大学合氣道部へのお問い合わせフォームです。",
-);
+definePageMeta({
+  title: "お問い合わせ",
+  description: "大阪公立大学合氣道部へのお問い合わせフォームです。",
+});
 </script>
 
 <template>

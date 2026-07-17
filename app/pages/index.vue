@@ -1,5 +1,8 @@
 <script setup lang="ts">
-usePageSeo("トップ", "大阪公立大学合氣道部の公式ホームページです");
+definePageMeta({
+  title: "トップ",
+  description: "大阪公立大学合氣道部の公式ホームページです",
+});
 </script>
 
 <template>

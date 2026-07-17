@@ -6,7 +6,6 @@ const page = generatedContent[props.path];
 if (!page) {
   throw createError({ statusCode: 404, statusMessage: "Page not found" });
 }
-usePageSeo(page.title, page.description);
 </script>
 
 <template>

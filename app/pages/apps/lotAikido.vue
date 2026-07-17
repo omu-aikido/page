@@ -5,7 +5,10 @@ import GeneratorForm from "~/components/lotAikido/GeneratorForm.vue";
 import TagInput from "~/components/lotAikido/TagInput.vue";
 import WazaTable from "~/components/lotAikido/WazaTable.vue";
 
-usePageSeo("lotAikido", "合気道の稽古技を条件ごとに抽選するツール");
+definePageMeta({
+  title: "lotAikido",
+  description: "合気道の稽古技をランダムに表示します",
+});
 
 const gen = useGenerator();
 const copied = ref(false);

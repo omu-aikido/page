@@ -1,5 +1,5 @@
 <script setup lang="ts">
-usePageSeo("よくある質問");
+definePageMeta({ title: "よくある質問" });
 const groups = [
   {
     group: "活動",

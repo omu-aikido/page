@@ -1,6 +1,9 @@
 <script setup lang="ts">
-usePageSeo("稽古予定", "月ごとの稽古予定");
-definePageMeta({ key: (route) => route.fullPath });
+definePageMeta({
+  title: "稽古予定",
+  description: "月ごとの稽古予定",
+  key: (route) => route.fullPath,
+});
 const route = useRoute();
 const current = getCurrentJstYearMonth();
 const requestedYear = Number.parseInt(

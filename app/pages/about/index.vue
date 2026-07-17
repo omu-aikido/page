@@ -1,5 +1,8 @@
 <script setup lang="ts">
-usePageSeo("About", "大阪公立大学合氣道部の活動概要");
+definePageMeta({
+  title: "About",
+  description: "大阪公立大学合氣道部の活動概要",
+});
 
 const schedule = [
   ["月曜日", "中百舌鳥キャンパス", "18:00〜20:00"],

@@ -1,5 +1,8 @@
 <script setup lang="ts">
-usePageSeo("稽古場所", "大阪公立大学合氣道部の活動場所について");
+definePageMeta({
+  title: "稽古場所",
+  description: "大阪公立大学合氣道部の活動場所について",
+});
 const maps = {
   nakamozu:
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d397.3430397985925!2d135.5079877652318!3d34.54625048292778!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6000dbcc4b8d0ddd%3A0x74010ebd35722f16!2z44CSNTk5LTgyMzEg5aSn6Ziq5bqc5aC65biC5Lit5Yy65a2m5ZyS55S677yRIEMy5qOfICjkvZPogrLppKgp!5e0!3m2!1sja!2sjp!4v1735826369857!5m2!1sja!2sjp",

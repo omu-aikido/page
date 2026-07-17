@@ -1,5 +1,5 @@
 <script setup lang="ts">
-usePageSeo("稽古予定", "今後の稽古予定");
+definePageMeta({ title: "稽古予定", description: "今後の稽古予定" });
 </script>
 
 <template>
