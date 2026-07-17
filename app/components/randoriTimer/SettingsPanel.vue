@@ -74,13 +74,6 @@ function clampSeconds(value: number) {
     :class="{ 'pointer-events-none opacity-55': running }"
     :aria-disabled="running"
   >
-    <div
-      class="flex items-baseline justify-between border-b-2 pb-2 bordered-base"
-    >
-      <h2 class="h2">稽古メニュー</h2>
-      <small class="fg-muted">開始前に設定</small>
-    </div>
-
     <div class="mt-4 grid gap-3 sm:grid-cols-2" aria-label="組み込みプリセット">
       <button
         v-for="preset in builtInRandoriPresets"
@@ -103,7 +96,6 @@ function clampSeconds(value: number) {
     </div>
 
     <div class="mt-5">
-      <h3 class="text-sm font-bold fg-muted">進行順</h3>
       <ol class="mt-2 overflow-hidden rounded border bordered-muted bg-base">
         <li
           v-for="(duration, index) in durations"
@@ -155,33 +147,37 @@ function clampSeconds(value: number) {
     <details class="mt-5 rounded border bordered-muted bg-ghost p-4">
       <summary class="cursor-pointer font-bold">一括編集</summary>
       <div class="mt-4 grid items-end gap-3 sm:grid-cols-[1fr_1fr_auto]">
-        <label class="stack gap-1 text-sm fg-muted"
-          >人数<span class="relative"
-            ><input
+        <label class="stack gap-1 fg-muted">
+          人数
+          <span class="relative">
+            <input
               v-model.number="bulkCount"
               class="w-full rounded border bordered-muted bg-base px-3 py-2 pr-9 fg-base"
               type="number"
               min="1"
               max="20"
-            /><span class="pointer-events-none absolute right-3 top-2 fg-muted"
-              >人</span
-            ></span
-          ></label
-        >
-        <label class="stack gap-1 text-sm fg-muted"
-          >全員の持ち時間<span class="relative"
-            ><input
+            />
+            <span class="pointer-events-none absolute right-3 top-2 fg-muted">
+              人
+            </span>
+          </span>
+        </label>
+        <label class="stack gap-1 fg-muted">
+          時間
+          <span class="relative">
+            <input
               v-model.number="bulkSeconds"
               class="w-full rounded border bordered-muted bg-base px-3 py-2 pr-9 fg-base"
               type="number"
               min="5"
               max="600"
               step="5"
-            /><span class="pointer-events-none absolute right-3 top-2 fg-muted"
-              >秒</span
-            ></span
-          ></label
-        >
+            />
+            <span class="pointer-events-none absolute right-3 top-2 fg-muted">
+              秒
+            </span>
+          </span>
+        </label>
         <button
           type="button"
           class="button base bordered-muted border px-4 py-2"
