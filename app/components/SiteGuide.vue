@@ -12,7 +12,7 @@ const mainNav = computed(() => navlinks.value[0]?.children ?? []);
       v-for="item in mainNav"
       :key="item.path"
       :to="item.path"
-      class="group relative grid min-h-18 overflow-hidden rounded-lg border border-zinc-400/60 bg-white/34% p-4 no-underline transition-[transform,border-color,background] duration-180 ease-out hover:-translate-y-0.5 hover:border-sky-600/70 hover:bg-sky-600/8 dark:border-zinc-600/80 dark:bg-zinc-900/30 motion-reduce:transition-none"
+      class="card group relative grid min-h-18 overflow-hidden no-underline transition-[transform,border-color,background] duration-180 ease-out hover:-translate-y-0.5 hover:bordered-accent hover:bg-sky-600/8 motion-reduce:transition-none"
     >
       <span class="self-center">
         <span class="block text-[1.08rem] font-bold">{{ item.title }}</span>

@@ -29,7 +29,7 @@ const apps = computed(() =>
         v-for="app in apps"
         :key="app.path"
         :to="app.path"
-        class="rounded border shadow items-center px-4 py-5 no-underline transition-colors hover:fg-accent"
+        class="card py-5 no-underline transition-colors hover:fg-accent"
       >
         <span class="min-w-0">
           <span class="block text-lg font-bold fg-base">{{ app.title }}</span>
