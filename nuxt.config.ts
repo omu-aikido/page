@@ -10,6 +10,7 @@ const staticRoutes = [
   "/support",
   "/terms-of-service",
   "/sitemap-index.xml",
+  "/lotAikido",
 ];
 
 const securityHeaders = {
@@ -96,6 +97,7 @@ export default defineNuxtConfig({
       prerender: false,
       headers: { "Cache-Control": "no-store" },
     },
+    "/lotAikido": { ssr: false, prerender: true },
     "/api/**": {
       cors: false,
       headers: { "Cache-Control": "no-store" },
