@@ -61,7 +61,6 @@ export default defineConfig({
       container: "max-w-4xl lg:mx-auto md:mx-8 sm:mx-6 mx-4",
       stack: "flex flex-col",
       row: "flex flex-row",
-      grid: "grid",
       section: "mx-2 my-3",
       start: "flex gap-2 items-start justify-center text-start",
       center: "flex gap-2 items-center justify-center text-center",
@@ -107,6 +106,9 @@ export default defineConfig({
         "text-sky-700 dark:text-sky-400 no-underline hover:underline underline-offset-4 after:content-['_↗_']",
       button:
         "rounded-sm hover:(cursor-pointer shadow-sm opacity-90) active:(transform translate-y-1px) focus-visible:(ring-1 ring-sky-600 dark:ring-sky-500) disabled:(cursor-not-allowed translate-y-0 opacity-60 hover:shadow-none hover:cursor-not-allowed)",
+      control:
+        "rounded border bg-base px-3 py-2 fg-base bordered-muted focus:bordered-accent focus:outline-none",
+      input: "control",
     },
     // Events
     {

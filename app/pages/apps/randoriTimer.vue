@@ -15,22 +15,34 @@ const timer = useRandoriTimer();
     <TimerPanel
       :active-round="timer.activeRound.value"
       :display-time="timer.displayTime.value"
+      :durations="timer.durations.value"
       :progress="timer.progress.value"
       :remaining="timer.remaining.value"
+      :reset-disabled="timer.resetDisabled.value"
       :running="timer.running.value"
+      :start-disabled="timer.startDisabled.value"
+      :status="timer.status.value"
       :total-rounds="timer.durations.value.length"
       @reset="timer.reset"
       @toggle="timer.toggle"
     />
 
     <SettingsPanel
+      :background-playback-available="timer.backgroundPlaybackAvailable.value"
       :custom-presets="timer.customPresets.value"
       :durations="timer.durations.value"
-      :running="timer.running.value"
+      :playback-error="timer.playbackError.value"
+      :playback-mode="timer.playbackMode.value"
+      :preparation-error="timer.preparationError.value"
       :selected-id="timer.selectedId.value"
+      :settings-locked="timer.settingsLocked.value"
+      :status="timer.status.value"
+      :total-duration="timer.totalDuration.value"
       @delete-preset="timer.deletePreset"
+      @retry-preparation="timer.retryPreparation"
       @save-preset="timer.savePreset"
       @set-durations="timer.setDurations"
+      @set-playback-mode="timer.setPlaybackMode"
     />
   </section>
 </template>

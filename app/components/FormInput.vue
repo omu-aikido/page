@@ -38,7 +38,7 @@ function update(event: Event) {
       :required="required"
       :disabled="disabled"
       :autocomplete="autocomplete"
-      class="rounded border bg-base px-3 py-2 outline-none bordered-muted focus:bordered-accent"
+      class="control"
       @input="update"
     />
     <textarea
@@ -48,7 +48,7 @@ function update(event: Event) {
       :required="required"
       :disabled="disabled"
       :rows="rows"
-      class="resize-y rounded border bg-base px-3 py-2 outline-none bordered-muted focus:bordered-accent"
+      class="control resize-y"
       @input="update"
     />
     <p v-if="error" class="mt-1 text-xs text-error">{{ error }}</p>

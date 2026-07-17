@@ -43,7 +43,7 @@ function onKeydown(event: KeyboardEvent) {
   <div class="min-w-0">
     <input
       v-model="inputText"
-      class="w-full rounded-sm border bg-base px-3 py-2 text-base fg-base bordered-muted focus:bordered-accent focus:outline-none"
+      class="control w-full rounded-sm text-base"
       type="text"
       :placeholder="placeholder || 'Enterで追加'"
       @keydown="onKeydown"

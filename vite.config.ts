@@ -25,4 +25,7 @@ export default defineConfig({
       "worker-configuration.d.ts",
     ],
   },
+  test: {
+    exclude: [".worktrees", "node_modules"],
+  },
 });
