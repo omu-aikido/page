@@ -44,4 +44,5 @@ defineEmits<{ reset: []; toggle: [] }>();
       />
     </div>
   </section>
+  <sm class="mx-4 fg-muted"> ※画面を閉じるとタイマーが停止します </sm>
 </template>
