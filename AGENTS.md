@@ -1,25 +1,23 @@
 ## Development
 
-When starting the dev server, use background mode:
+Start the Nuxt development server through Vite+:
 
 ```
-astro dev --background
+vp dev
 ```
 
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
+Use `vp run build` for the Cloudflare-module production build and `vp run preview` for Wrangler preview.
 
 ## Documentation
 
-Full documentation: https://docs.astro.build
+Full documentation: https://nuxt.com/docs
 
 Consult these guides before working on related tasks:
 
-- [Adding pages, dynamic routes, or middleware](https://docs.astro.build/en/guides/routing/)
-- [Working with Astro components](https://docs.astro.build/en/basics/astro-components/)
-- [Using React, Vue, Svelte, or other framework components](https://docs.astro.build/en/guides/framework-components/)
-- [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
-- [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
-- [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+- [Pages and routing](https://nuxt.com/docs/guide/directory-structure/app/pages)
+- [Vue components](https://nuxt.com/docs/guide/directory-structure/app/components)
+- [Server routes](https://nuxt.com/docs/guide/directory-structure/server)
+- [Rendering modes](https://nuxt.com/docs/guide/concepts/rendering)
 
 <!--VITE PLUS START-->
 

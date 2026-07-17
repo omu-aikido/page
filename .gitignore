@@ -1,7 +1,8 @@
-# build output
-dist/
-# generated types
-.astro/
+# build output and generated Nuxt files
+.output/
+.nuxt/
+app/generated/
+public/llms*.txt
 
 # dependencies
 node_modules/
