@@ -8,6 +8,7 @@ export function useRandoriTimer() {
   const customPresets = ref<RandoriPreset[]>([]);
   const selectedId = ref("three");
   const running = ref(false);
+  useScreenWakeLock(running);
   const remaining = ref(30);
   const activeRound = ref(1);
   let interval: ReturnType<typeof setInterval> | undefined;
@@ -43,20 +44,20 @@ export function useRandoriTimer() {
 
   function advance() {
     if (activeRound.value >= durations.value.length) {
-      bell.play("finish");
+      void bell.play("finish");
       stop();
       remaining.value = 0;
       return;
     }
     activeRound.value += 1;
     remaining.value = currentDuration.value;
-    bell.play("change");
+    void bell.play("change");
   }
 
   function toggle() {
     if (running.value) return stop();
     if (remaining.value === 0) reset();
-    bell.play("start");
+    void bell.play("start");
     running.value = true;
     interval = setInterval(() => {
       if (remaining.value > 1) remaining.value -= 1;

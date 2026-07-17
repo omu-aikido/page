@@ -9,43 +9,29 @@ export function useRandoriBell() {
   let audioContext: AudioContext | undefined;
   let noiseBuffer: AudioBuffer | undefined;
 
-  function play(cue: BellCue) {
-    if (!import.meta.client) return;
+  async function play(cue: BellCue) {
+    const context = await resumeAudioContext();
+    if (!context) return;
 
-    const AudioContextClass =
-      window.AudioContext ||
-      (
-        window as Window & {
-          webkitAudioContext?: typeof AudioContext;
-        }
-      ).webkitAudioContext;
-
-    if (!AudioContextClass) return;
-
-    audioContext ??= new AudioContextClass();
-
-    // suspendedでも予約された音はresume後に再生される。
-    void audioContext.resume();
-
-    const now = audioContext.currentTime + 0.01;
-    const output = createOutput();
+    const now = context.currentTime + 0.01;
+    const output = createOutput(context);
     const segments = getSegments(cue);
 
     for (const { offset, duration } of segments) {
       const start = now + offset;
 
       // アタックを目立たせるノイズ成分
-      addNoiseBurst(output.input, start);
+      addNoiseBurst(context, output.input, start);
 
       // 主成分。スマートフォンでも聞こえやすい中高域を中心にする。
-      addWhistleTone(output.input, start, duration, {
+      addWhistleTone(context, output.input, start, duration, {
         type: "square",
         volume: 0.62,
         frequency: 2860,
         glide: 1.018,
       });
 
-      addWhistleTone(output.input, start, duration, {
+      addWhistleTone(context, output.input, start, duration, {
         type: "sawtooth",
         volume: 0.32,
         frequency: 2890,
@@ -53,7 +39,7 @@ export function useRandoriBell() {
       });
 
       // 低めの成分を加え、細すぎる音になるのを防ぐ。
-      addWhistleTone(output.input, start, duration, {
+      addWhistleTone(context, output.input, start, duration, {
         type: "triangle",
         volume: 0.42,
         frequency: 1430,
@@ -61,7 +47,7 @@ export function useRandoriBell() {
       });
 
       // 高域成分を少量追加して存在感を出す。
-      addWhistleTone(output.input, start, duration, {
+      addWhistleTone(context, output.input, start, duration, {
         type: "sine",
         volume: 0.2,
         frequency: 4300,
@@ -74,6 +60,69 @@ export function useRandoriBell() {
     );
 
     window.setTimeout(output.dispose, (lastEnd + 0.5) * 1000);
+  }
+
+  async function resumeAudioContext() {
+    if (!import.meta.client) return;
+
+    const AudioContextClass =
+      window.AudioContext ||
+      (
+        window as Window & {
+          webkitAudioContext?: typeof AudioContext;
+        }
+      ).webkitAudioContext;
+
+    if (!AudioContextClass) return;
+
+    if (!audioContext || audioContext.state === "closed") {
+      audioContext = new AudioContextClass();
+      noiseBuffer = undefined;
+    }
+
+    if (audioContext.state !== "running") {
+      // resumeはユーザー操作のイベント中に呼ぶ必要がある。awaitより先に
+      // 無音バッファも再生し、古いiOS Safariの音声ロックを解除する。
+      const resume = audioContext.resume();
+      playSilentBuffer(audioContext);
+
+      try {
+        await resume;
+      } catch {
+        return;
+      }
+    }
+
+    if (audioContext.state !== "running") return;
+
+    return audioContext;
+  }
+
+  function playSilentBuffer(context: AudioContext) {
+    const source = context.createBufferSource();
+    source.buffer = context.createBuffer(1, 1, context.sampleRate);
+    source.connect(context.destination);
+    source.start();
+    source.addEventListener("ended", () => source.disconnect(), { once: true });
+  }
+
+  async function recoverAfterVisibilityChange() {
+    if (
+      document.visibilityState !== "visible" ||
+      !audioContext ||
+      audioContext.state === "closed"
+    ) {
+      return;
+    }
+
+    try {
+      // iOSでは別アプリから戻った後、stateがrunningのまま無音になることがある。
+      // 一度suspendを挟み、WebKitの音声出力を再接続させる。
+      if (audioContext.state === "running") await audioContext.suspend();
+      await audioContext.resume();
+    } catch {
+      // 次回のユーザー操作またはplay時に再試行する。
+    }
   }
 
   function getSegments(cue: BellCue) {
@@ -94,9 +143,7 @@ export function useRandoriBell() {
     ];
   }
 
-  function createOutput(): OutputBus {
-    const context = audioContext!;
-
+  function createOutput(context: AudioContext): OutputBus {
     const input = context.createGain();
     const drive = context.createWaveShaper();
     const compressor = context.createDynamicsCompressor();
@@ -143,6 +190,7 @@ export function useRandoriBell() {
   }
 
   function addWhistleTone(
+    context: AudioContext,
     output: AudioNode,
     start: number,
     duration: number,
@@ -153,7 +201,6 @@ export function useRandoriBell() {
       glide: number;
     },
   ) {
-    const context = audioContext!;
     const oscillator = context.createOscillator();
     const gain = context.createGain();
 
@@ -189,9 +236,11 @@ export function useRandoriBell() {
     );
   }
 
-  function addNoiseBurst(output: AudioNode, start: number) {
-    const context = audioContext!;
-
+  function addNoiseBurst(
+    context: AudioContext,
+    output: AudioNode,
+    start: number,
+  ) {
     noiseBuffer ??= createNoiseBuffer(context);
 
     const source = context.createBufferSource();
@@ -265,6 +314,20 @@ export function useRandoriBell() {
 
     return curve;
   }
+
+  onMounted(() => {
+    document.addEventListener("visibilitychange", recoverAfterVisibilityChange);
+  });
+
+  onBeforeUnmount(() => {
+    document.removeEventListener(
+      "visibilitychange",
+      recoverAfterVisibilityChange,
+    );
+    if (audioContext && audioContext.state !== "closed") {
+      void audioContext.close();
+    }
+  });
 
   return { play };
 }
