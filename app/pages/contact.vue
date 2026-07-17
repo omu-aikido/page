@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   title: "お問い合わせ",
-  description: "大阪公立大学合氣道部へのお問い合わせフォームです。",
+  description: "ご質問などはこちらから",
   navigation: { parent: "/", order: 4 },
 });
 </script>

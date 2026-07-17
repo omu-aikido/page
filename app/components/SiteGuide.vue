@@ -1,37 +1,32 @@
 <script setup lang="ts">
-const mainNav = navlinks[0]?.children ?? [];
-const links = mainNav.flatMap((parent) => [parent, ...(parent.children ?? [])]);
+const { navlinks } = useNavigation();
+const mainNav = computed(() => navlinks.value[0]?.children ?? []);
 </script>
 
 <template>
-  <nav class="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4">
+  <nav
+    aria-label="サイト案内"
+    class="grid grid-cols-1 gap-3 min-[441px]:grid-cols-3"
+  >
     <NuxtLink
-      v-for="linkItem in links"
-      :key="linkItem.path"
-      :to="linkItem.path"
-      class="guide-link w-fit font-semibold"
+      v-for="item in mainNav"
+      :key="item.path"
+      :to="item.path"
+      class="group relative grid min-h-18 overflow-hidden rounded-lg border border-zinc-400/60 bg-white/34% p-4 no-underline transition-[transform,border-color,background] duration-180 ease-out hover:-translate-y-0.5 hover:border-sky-600/70 hover:bg-sky-600/8 dark:border-zinc-600/80 dark:bg-zinc-900/30 motion-reduce:transition-none"
     >
-      {{ linkItem.title }}
+      <span class="self-center">
+        <span class="block text-[1.08rem] font-bold">{{ item.title }}</span>
+        <span
+          v-if="item.description"
+          class="mt-1 block flex-1 text-xs leading-1.5 fg-muted"
+        >
+          {{ item.description }}
+        </span>
+      </span>
+      <span
+        class="i-ri:arrow-right-up-line absolute right-4 top-4 fg-accent transition-transform duration-180 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none"
+        aria-hidden="true"
+      />
     </NuxtLink>
   </nav>
 </template>
-
-<style scoped>
-.guide-link {
-  position: relative;
-  text-decoration: none;
-}
-.guide-link::after {
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  content: "";
-  background: #0284c7;
-  transition: width 150ms;
-}
-.guide-link:hover::after {
-  width: 100%;
-}
-</style>
