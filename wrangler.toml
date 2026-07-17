@@ -16,7 +16,11 @@ directory = ".output/public"
 binding = "ASSETS"
 html_handling = "drop-trailing-slash"
 
-[observability]
+[observability.logs]
+enabled = true
+invocation_logs = true
+
+[observability.traces]
 enabled = true
 
 [secrets]
