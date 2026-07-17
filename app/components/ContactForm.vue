@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { contactFieldsSchema } from "~~/shared/schemas/contact";
+import { validateContactFields } from "~~/shared/schemas/contact";
 
 type FieldName = "name" | "email" | "subject" | "body";
 type SubmitStatus = "idle" | "submitting" | "success" | "error";
@@ -40,12 +40,12 @@ function validate() {
   Object.keys(fieldErrors).forEach(
     (key) => (fieldErrors[key as FieldName] = ""),
   );
-  const parsed = contactFieldsSchema.safeParse(form);
+  const parsed = validateContactFields(form);
   if (parsed.success) return true;
-  for (const issue of parsed.error.issues) {
-    const key = issue.path[0] as FieldName;
-    if (key in fieldErrors && !fieldErrors[key])
-      fieldErrors[key] = issue.message;
+  for (const [key, messages] of Object.entries(parsed.fields)) {
+    const field = key as FieldName;
+    if (field in fieldErrors && !fieldErrors[field])
+      fieldErrors[field] = messages[0] ?? "";
   }
   return false;
 }

@@ -26,5 +26,5 @@ vp exec wrangler deploy --dry-run
 - `content/pages/`: 公開 Markdown の source of truth
 - `server/api/`: Hono 問い合わせ API
 - `server/services/`: カレンダー、問い合わせ配送処理
-- `shared/schemas/`: client/server 共有 Zod schema
+- `shared/schemas/`: client/server 共有 ArkType validator
 - `scripts/generate-site-content.ts`: Markdown HTML と llms ファイルの build-time 生成

@@ -72,7 +72,7 @@ export default defineNuxtConfig({
         { rel: "preconnect", href: "https://challenges.cloudflare.com" },
       ],
     },
-    pageTransition: { name: "page", mode: "out-in" },
+    pageTransition: { name: "page" },
   },
   runtimeConfig: {
     public: {
@@ -120,7 +120,7 @@ export default defineNuxtConfig({
   },
   vite: {
     optimizeDeps: {
-      include: ["zod"],
+      include: ["arktype"],
     },
   },
 });

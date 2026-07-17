@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 
 import {
-  contactSchema,
+  validateContact,
   type ContactFields,
 } from "../../shared/schemas/contact";
 import { buildContactArtifacts } from "../services/contact-artifacts";
@@ -153,16 +153,6 @@ async function moderate(env: ContactEnv, data: ContactFields) {
   }
 }
 
-function validationFields(error: import("zod").ZodError) {
-  const fields: Record<string, string[]> = {};
-  for (const issue of error.issues) {
-    const key = String(issue.path[0] ?? "form");
-    fields[key] ??= [];
-    fields[key].push(issue.message);
-  }
-  return fields;
-}
-
 export function createContactApp(options: ContactAppOptions = {}) {
   const app = new Hono<{
     Bindings: ContactEnv;
@@ -237,13 +227,13 @@ export function createContactApp(options: ContactAppOptions = {}) {
       return errorResponse("INVALID_FORM", "フォームを読み取れません。", 400);
     }
     const raw = Object.fromEntries(formData.entries());
-    const parsed = contactSchema.safeParse(raw);
+    const parsed = validateContact(raw);
     if (!parsed.success) {
       return errorResponse(
         "VALIDATION_ERROR",
         "入力内容を確認してください。",
         400,
-        validationFields(parsed.error),
+        parsed.fields,
       );
     }
 

@@ -63,7 +63,9 @@ onBeforeUnmount(() => {
 
 <template>
   <div>
-    <div ref="container" />
+    <div class="hidden">
+      <div ref="container" />
+    </div>
     <p
       class="mt-1 text-sm"
       :class="

@@ -32,7 +32,7 @@ textarea {
 
 .page-enter-active,
 .page-leave-active {
-  transition: opacity 150ms ease;
+  transition: opacity 120ms ease;
 }
 
 .page-enter-from,
