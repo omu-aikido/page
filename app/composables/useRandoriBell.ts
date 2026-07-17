@@ -1,70 +1,21 @@
-type BellCue = "start" | "change" | "finish";
-
-type OutputBus = {
-  input: AudioNode;
-  dispose: () => void;
-};
+import { scheduleRandoriBell, type BellCue } from "~/utils/randoriBellAudio";
 
 export function useRandoriBell() {
   let audioContext: AudioContext | undefined;
-  let noiseBuffer: AudioBuffer | undefined;
 
   async function play(cue: BellCue) {
     const context = await resumeAudioContext();
     if (!context) return;
-
-    const now = context.currentTime + 0.01;
-    const output = createOutput(context);
-    const segments = getSegments(cue);
-
-    for (const { offset, duration } of segments) {
-      const start = now + offset;
-
-      // アタックを目立たせるノイズ成分
-      addNoiseBurst(context, output.input, start);
-
-      // 主成分。スマートフォンでも聞こえやすい中高域を中心にする。
-      addWhistleTone(context, output.input, start, duration, {
-        type: "square",
-        volume: 0.62,
-        frequency: 2860,
-        glide: 1.018,
-      });
-
-      addWhistleTone(context, output.input, start, duration, {
-        type: "sawtooth",
-        volume: 0.32,
-        frequency: 2890,
-        glide: 1.012,
-      });
-
-      // 低めの成分を加え、細すぎる音になるのを防ぐ。
-      addWhistleTone(context, output.input, start, duration, {
-        type: "triangle",
-        volume: 0.42,
-        frequency: 1430,
-        glide: 1.01,
-      });
-
-      // 高域成分を少量追加して存在感を出す。
-      addWhistleTone(context, output.input, start, duration, {
-        type: "sine",
-        volume: 0.2,
-        frequency: 4300,
-        glide: 1.008,
-      });
-    }
-
-    const lastEnd = Math.max(
-      ...segments.map(({ offset, duration }) => offset + duration),
+    scheduleRandoriBell(
+      context,
+      context.destination,
+      cue,
+      context.currentTime + 0.01,
     );
-
-    window.setTimeout(output.dispose, (lastEnd + 0.5) * 1000);
   }
 
   async function resumeAudioContext() {
     if (!import.meta.client) return;
-
     const AudioContextClass =
       window.AudioContext ||
       (
@@ -72,29 +23,21 @@ export function useRandoriBell() {
           webkitAudioContext?: typeof AudioContext;
         }
       ).webkitAudioContext;
-
     if (!AudioContextClass) return;
 
     if (!audioContext || audioContext.state === "closed") {
       audioContext = new AudioContextClass();
-      noiseBuffer = undefined;
     }
-
     if (audioContext.state !== "running") {
-      // resumeはユーザー操作のイベント中に呼ぶ必要がある。awaitより先に
-      // 無音バッファも再生し、古いiOS Safariの音声ロックを解除する。
       const resume = audioContext.resume();
       playSilentBuffer(audioContext);
-
       try {
         await resume;
       } catch {
         return;
       }
     }
-
     if (audioContext.state !== "running") return;
-
     return audioContext;
   }
 
@@ -114,10 +57,7 @@ export function useRandoriBell() {
     ) {
       return;
     }
-
     try {
-      // iOSでは別アプリから戻った後、stateがrunningのまま無音になることがある。
-      // 一度suspendを挟み、WebKitの音声出力を再接続させる。
       if (audioContext.state === "running") await audioContext.suspend();
       await audioContext.resume();
     } catch {
@@ -125,200 +65,9 @@ export function useRandoriBell() {
     }
   }
 
-  function getSegments(cue: BellCue) {
-    if (cue === "start") {
-      return [{ offset: 0, duration: 0.5 }];
-    }
-
-    if (cue === "change") {
-      return [
-        { offset: 0, duration: 0.12 },
-        { offset: 0.2, duration: 0.12 },
-      ];
-    }
-
-    return [
-      { offset: 0, duration: 0.14 },
-      { offset: 0.22, duration: 0.78 },
-    ];
-  }
-
-  function createOutput(context: AudioContext): OutputBus {
-    const input = context.createGain();
-    const drive = context.createWaveShaper();
-    const compressor = context.createDynamicsCompressor();
-    const makeupGain = context.createGain();
-    const limiter = context.createWaveShaper();
-
-    // 波形を積極的に飽和させ、平均音量を上げる。
-    input.gain.value = 2.4;
-
-    drive.curve = createDriveCurve(3.6);
-    drive.oversample = "4x";
-
-    // ピークを抑え、短い音でも密度を高くする。
-    compressor.threshold.value = -18;
-    compressor.knee.value = 2;
-    compressor.ratio.value = 20;
-    compressor.attack.value = 0.002;
-    compressor.release.value = 0.09;
-
-    // コンプレッションで下がった音量を戻す。
-    makeupGain.gain.value = 1.8;
-
-    // 最終出力が極端にクリップしないように抑える。
-    limiter.curve = createLimiterCurve();
-    limiter.oversample = "4x";
-
-    input
-      .connect(drive)
-      .connect(compressor)
-      .connect(makeupGain)
-      .connect(limiter)
-      .connect(context.destination);
-
-    return {
-      input,
-      dispose() {
-        input.disconnect();
-        drive.disconnect();
-        compressor.disconnect();
-        makeupGain.disconnect();
-        limiter.disconnect();
-      },
-    };
-  }
-
-  function addWhistleTone(
-    context: AudioContext,
-    output: AudioNode,
-    start: number,
-    duration: number,
-    options: {
-      type: OscillatorType;
-      volume: number;
-      frequency: number;
-      glide: number;
-    },
-  ) {
-    const oscillator = context.createOscillator();
-    const gain = context.createGain();
-
-    const attack = 0.003;
-    const release = Math.min(0.03, duration * 0.25);
-
-    oscillator.type = options.type;
-    oscillator.frequency.setValueAtTime(options.frequency, start);
-
-    // 鳴り始めだけ少し高くすることで、笛らしい鋭さを出す。
-    oscillator.frequency.exponentialRampToValueAtTime(
-      options.frequency * options.glide,
-      start + Math.min(0.05, duration * 0.4),
-    );
-
-    gain.gain.setValueAtTime(0.0001, start);
-    gain.gain.exponentialRampToValueAtTime(options.volume, start + attack);
-    gain.gain.setValueAtTime(options.volume, start + duration - release);
-    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-
-    oscillator.connect(gain).connect(output);
-
-    oscillator.start(start);
-    oscillator.stop(start + duration + 0.02);
-
-    oscillator.addEventListener(
-      "ended",
-      () => {
-        oscillator.disconnect();
-        gain.disconnect();
-      },
-      { once: true },
-    );
-  }
-
-  function addNoiseBurst(
-    context: AudioContext,
-    output: AudioNode,
-    start: number,
-  ) {
-    noiseBuffer ??= createNoiseBuffer(context);
-
-    const source = context.createBufferSource();
-    const bandPass = context.createBiquadFilter();
-    const gain = context.createGain();
-
-    source.buffer = noiseBuffer;
-
-    // クリック音ではなく、笛の息に近い帯域へ絞る。
-    bandPass.type = "bandpass";
-    bandPass.frequency.value = 3200;
-    bandPass.Q.value = 0.8;
-
-    gain.gain.setValueAtTime(0.0001, start);
-    gain.gain.exponentialRampToValueAtTime(0.65, start + 0.0015);
-    gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.035);
-
-    source.connect(bandPass).connect(gain).connect(output);
-
-    source.start(start);
-    source.stop(start + 0.04);
-
-    source.addEventListener(
-      "ended",
-      () => {
-        source.disconnect();
-        bandPass.disconnect();
-        gain.disconnect();
-      },
-      { once: true },
-    );
-  }
-
-  function createNoiseBuffer(context: AudioContext) {
-    const duration = 0.05;
-    const buffer = context.createBuffer(
-      1,
-      Math.ceil(context.sampleRate * duration),
-      context.sampleRate,
-    );
-
-    const samples = buffer.getChannelData(0);
-
-    for (let index = 0; index < samples.length; index += 1) {
-      samples[index] = Math.random() * 2 - 1;
-    }
-
-    return buffer;
-  }
-
-  function createDriveCurve(amount: number) {
-    const curve = new Float32Array(1024);
-
-    for (let index = 0; index < curve.length; index += 1) {
-      const input = (index * 2) / (curve.length - 1) - 1;
-      curve[index] = Math.tanh(input * amount);
-    }
-
-    return curve;
-  }
-
-  function createLimiterCurve() {
-    const curve = new Float32Array(1024);
-    const amount = 1.5;
-    const normalization = Math.tanh(amount);
-
-    for (let index = 0; index < curve.length; index += 1) {
-      const input = (index * 2) / (curve.length - 1) - 1;
-      curve[index] = Math.tanh(input * amount) / normalization;
-    }
-
-    return curve;
-  }
-
   onMounted(() => {
     document.addEventListener("visibilitychange", recoverAfterVisibilityChange);
   });
-
   onBeforeUnmount(() => {
     document.removeEventListener(
       "visibilitychange",

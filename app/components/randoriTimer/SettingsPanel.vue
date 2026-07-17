@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import type {
+  RandoriPlaybackMode,
+  RandoriTimerStatus,
+} from "~/composables/useRandoriTimer";
 import {
   builtInRandoriPresets,
   formatDurations,
@@ -8,14 +12,22 @@ import {
 const props = defineProps<{
   customPresets: RandoriPreset[];
   durations: number[];
-  running: boolean;
+  backgroundPlaybackAvailable: boolean;
+  playbackError: unknown;
+  playbackMode: RandoriPlaybackMode;
+  preparationError: unknown;
   selectedId: string;
+  settingsLocked: boolean;
+  status: RandoriTimerStatus;
+  totalDuration: number;
 }>();
 
 const emit = defineEmits<{
   deletePreset: [id: string];
   savePreset: [name: string];
   setDurations: [durations: number[], presetId?: string];
+  retryPreparation: [];
+  setPlaybackMode: [mode: RandoriPlaybackMode];
 }>();
 
 const bulkCount = ref(3);
@@ -66,13 +78,93 @@ function savePreset() {
 function clampSeconds(value: number) {
   return Math.max(5, Math.min(600, Math.round(value || 5)));
 }
+
+function formatTotalDuration(seconds: number) {
+  const minutes = Math.floor(seconds / 60);
+  const remainder = seconds % 60;
+  return remainder ? `${minutes}分${remainder}秒` : `${minutes}分`;
+}
 </script>
 
 <template>
+  <section class="mt-8 rounded border bordered-muted bg-ghost p-4">
+    <fieldset :disabled="settingsLocked">
+      <legend class="font-bold">再生方法</legend>
+      <div class="mt-3 grid gap-3 sm:grid-cols-2">
+        <label
+          class="flex cursor-pointer gap-3 rounded border bordered-muted bg-base p-4"
+        >
+          <input
+            type="radio"
+            name="randori-playback-mode"
+            value="normal"
+            :checked="playbackMode === 'normal'"
+            @change="$emit('setPlaybackMode', 'normal')"
+          />
+          <span>
+            <span class="block font-bold">通常</span>
+            <span class="mt-1 block text-sm fg-muted">
+              画面を表示したまま使用します。
+            </span>
+          </span>
+        </label>
+        <label
+          class="flex gap-3 rounded border bordered-muted bg-base p-4"
+          :class="
+            backgroundPlaybackAvailable
+              ? 'cursor-pointer'
+              : 'cursor-not-allowed opacity-55'
+          "
+        >
+          <input
+            type="radio"
+            name="randori-playback-mode"
+            value="background"
+            :checked="playbackMode === 'background'"
+            :disabled="!backgroundPlaybackAvailable"
+            @change="$emit('setPlaybackMode', 'background')"
+          />
+          <span>
+            <span class="block font-bold">バックグラウンド再生</span>
+            <span class="mt-1 block text-sm fg-muted">
+              他のアプリを開いている間も合図音を再生します。開始前に音声を準備します。
+            </span>
+          </span>
+        </label>
+      </div>
+    </fieldset>
+    <p
+      v-if="!backgroundPlaybackAvailable"
+      class="mt-3 text-sm text-amber-700 dark:text-amber-400"
+    >
+      バックグラウンド再生は合計10分まで利用できます。現在の設定:
+      {{ formatTotalDuration(totalDuration) }}
+    </p>
+    <p v-if="status === 'preparing'" class="mt-3 text-sm fg-muted">
+      バックグラウンド音声を準備しています…
+    </p>
+    <div
+      v-if="preparationError"
+      class="mt-3 text-sm text-red-700 dark:text-red-400"
+    >
+      <p>バックグラウンド音声の準備に失敗しました。</p>
+      <button
+        type="button"
+        class="button base bordered-muted mt-2 border px-3 py-2"
+        @click="$emit('retryPreparation')"
+      >
+        再試行
+      </button>
+    </div>
+    <p v-if="playbackError" class="mt-3 text-sm text-red-700 dark:text-red-400">
+      バックグラウンド音声を再生できませんでした。端末の音声設定を確認して、リセット後に再試行してください。
+    </p>
+  </section>
+
   <section
     class="mt-8"
-    :class="{ 'pointer-events-none opacity-55': running }"
-    :aria-disabled="running"
+    :class="{ 'pointer-events-none opacity-55': settingsLocked }"
+    :aria-disabled="settingsLocked"
   >
     <div class="mt-4 grid gap-3 sm:grid-cols-2" aria-label="組み込みプリセット">
       <button
@@ -85,7 +177,7 @@ function clampSeconds(value: number) {
             ? 'bordered-accent ring-1 ring-sky-600 dark:ring-sky-500'
             : ''
         "
-        :disabled="running"
+        :disabled="settingsLocked"
         @click="$emit('setDurations', preset.durations, preset.id)"
       >
         <span class="block text-lg font-bold">{{ preset.name }}</span
