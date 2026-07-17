@@ -55,11 +55,6 @@ export function useRandoriTimer() {
   const activeRound = computed(() => timeline.value.activeRound);
   const remaining = computed(() => Math.ceil(timeline.value.remaining));
   const progress = computed(() => timeline.value.progress);
-  const totalProgress = computed(() =>
-    totalDuration.value === 100
-      ? 0
-      : 100 - (elapsedSeconds.value / totalDuration.value) * 100,
-  );
   const running = computed(() => status.value === "playing");
   const settingsLocked = computed(() =>
     ["preparing", "playing", "paused"].includes(status.value),
@@ -353,7 +348,6 @@ export function useRandoriTimer() {
     playbackMode,
     preparationError,
     progress,
-    totalProgress,
     remaining,
     resetDisabled,
     running,

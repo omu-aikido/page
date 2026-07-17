@@ -4,21 +4,47 @@ import type {
   RandoriTimerStatus,
 } from "~/composables/useRandoriTimer";
 
-defineProps<{
+const props = defineProps<{
   activeRound: number;
   displayTime: string;
+  durations: readonly number[];
   progress: number;
   remaining: number;
   resetDisabled: boolean;
   running: boolean;
-  playbackMode: RandoriPlaybackMode;
   startDisabled: boolean;
   status: RandoriTimerStatus;
-  totalProgress: number;
   totalRounds: number;
 }>();
 
 defineEmits<{ reset: []; toggle: [] }>();
+
+const segments = computed(() =>
+  props.durations.map((duration, index) => ({
+    duration,
+    fill:
+      index + 1 < props.activeRound
+        ? 0
+        : index + 1 === props.activeRound
+          ? props.progress
+          : 100,
+  })),
+);
+
+const totalProgress = computed(() => {
+  const totalDuration = props.durations.reduce(
+    (sum, duration) => sum + duration,
+    0,
+  );
+  if (totalDuration === 0) return 0;
+
+  return (
+    segments.value.reduce(
+      (sum, segment) => sum + segment.duration * segment.fill,
+      0,
+    ) / totalDuration
+  );
+});
 </script>
 
 <template>
@@ -33,11 +59,25 @@ defineEmits<{ reset: []; toggle: [] }>();
     >
       {{ displayTime }}
     </div>
-    <div class="h-2 overflow-hidden rounded-full bg-muted" aria-hidden="true">
-      <i
-        class="block h-full bg-accent transition-[width] duration-800 ease-linear"
-        :style="{ width: `${progress}%` }"
-      />
+    <div
+      class="flex h-3 flex-row-reverse gap-1"
+      role="progressbar"
+      aria-label="残りラウンド"
+      :aria-valuenow="totalProgress"
+      aria-valuemin="0"
+      aria-valuemax="100"
+    >
+      <div
+        v-for="(segment, index) in segments"
+        :key="index"
+        class="min-w-0 flex-1 overflow-hidden rounded-full bg-muted"
+        :style="{ flexGrow: segment.duration }"
+      >
+        <i
+          class="block h-full rounded-full bg-accent transition-[width] duration-800 ease-linear"
+          :style="{ width: `${segment.fill}%` }"
+        />
+      </div>
     </div>
     <div class="mt-5 flex justify-center gap-2">
       <button
@@ -63,12 +103,4 @@ defineEmits<{ reset: []; toggle: [] }>();
       />
     </div>
   </section>
-  <p class="mx-4 mt-2 text-sm fg-muted">
-    <template v-if="playbackMode === 'background'">
-      他のアプリを開いている間も合図音を再生します。端末やOSの状態によって停止する場合があります。
-    </template>
-    <template v-else>
-      画面を閉じたり他のアプリへ移動すると、タイマーや合図音が停止する場合があります。
-    </template>
-  </p>
 </template>

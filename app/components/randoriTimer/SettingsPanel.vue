@@ -87,6 +87,14 @@ function formatTotalDuration(seconds: number) {
 </script>
 
 <template>
+  <p class="mx-4 mt-2 text-sm fg-muted">
+    <template v-if="playbackMode === 'background'">
+      他のアプリを開いている間も合図音を再生します。端末やOSの状態によって停止する場合があります。
+    </template>
+    <template v-else>
+      画面を閉じたり他のアプリへ移動するとサウンドが停止する場合があります。
+    </template>
+  </p>
   <section class="mt-8" aria-labelledby="randori-playback-heading">
     <fieldset
       class="mt-2 overflow-hidden rounded border bordered-muted bg-base"
