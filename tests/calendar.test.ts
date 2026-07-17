@@ -5,6 +5,7 @@ import { describe, expect, it } from "vite-plus/test";
 import {
   createJstDate,
   formatEventDateRange,
+  formatMonthlyEventTime,
   formatLocalDate,
   getJstDaysInMonth,
 } from "../app/composables/useCalendar";
@@ -45,5 +46,15 @@ describe("ICS parsing", () => {
       "2026-07-06",
       "2026-07-20",
     ]);
+  });
+
+  it("月表示では同日内の時刻指定予定に開始・終了時刻を表示する", () => {
+    const events = parseCalendarEvents(fixture, {
+      start: "2026-07-06",
+      end: "2026-07-06",
+    });
+    const event = events.find((item) => item.id === "weekly-1");
+
+    expect(event && formatMonthlyEventTime(event)).toBe("18:00 - 20:00");
   });
 });

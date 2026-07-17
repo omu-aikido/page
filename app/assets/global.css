@@ -30,14 +30,24 @@ textarea {
   font: inherit;
 }
 
-.page-enter-active,
-.page-leave-active {
-  transition: opacity 120ms ease;
+::view-transition-old(root) {
+  animation: 120ms ease-out both page-fade-out;
 }
 
-.page-enter-from,
-.page-leave-to {
-  opacity: 0;
+::view-transition-new(root) {
+  animation: 120ms ease-in both page-fade-in;
+}
+
+@keyframes page-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -52,8 +62,8 @@ textarea {
     scroll-behavior: auto;
   }
 
-  .page-enter-active,
-  .page-leave-active {
-    transition: none;
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
   }
 }

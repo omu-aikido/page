@@ -22,7 +22,7 @@ const apps = computed(() =>
   <section class="mx-auto max-w-3xl py-8">
     <h1 class="h1">アプリ</h1>
     <nav
-      class="mt-6 grid grid-cols-2 gap-3 bordered-muted"
+      class="mt-6 grid md:grid-cols-2 gap-3 bordered-muted"
       aria-label="アプリ一覧"
     >
       <NuxtLink

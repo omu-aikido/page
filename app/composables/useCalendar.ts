@@ -189,3 +189,15 @@ export function formatEventTime(dateString: string): string {
 
   return getJstTimeText(date);
 }
+
+export function formatMonthlyEventTime(event: CalendarEvent): string {
+  if (
+    isAllDayEvent(event) ||
+    event.start === event.end ||
+    isMultiDayEvent(event)
+  ) {
+    return "";
+  }
+
+  return `${formatEventTime(event.start)} - ${formatEventTime(event.end)}`;
+}

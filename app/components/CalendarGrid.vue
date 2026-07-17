@@ -111,6 +111,11 @@ function badge(title: string) {
               :title="event.title"
             >
               <span class="block truncate">{{ event.title }}</span>
+              <span
+                v-if="formatMonthlyEventTime(event)"
+                class="block truncate text-[10px] opacity-80"
+                >{{ formatMonthlyEventTime(event) }}</span
+              >
             </li>
           </ul></template
         >

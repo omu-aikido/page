@@ -72,7 +72,6 @@ export default defineNuxtConfig({
         { rel: "preconnect", href: "https://challenges.cloudflare.com" },
       ],
     },
-    pageTransition: { name: "page" },
   },
   runtimeConfig: {
     public: {
@@ -118,6 +117,7 @@ export default defineNuxtConfig({
   },
   experimental: {
     payloadExtraction: false,
+    viewTransition: true,
   },
   vite: {
     optimizeDeps: {

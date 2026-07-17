@@ -1,7 +1,8 @@
 <script setup lang="ts">
 definePageMeta({
   title: "よくある質問",
-  navigation: { parent: "/contact", order: 1 },
+  description: "マシュマロなどから",
+  navigation: { parent: "/", order: 5 },
 });
 const groups = [
   {
