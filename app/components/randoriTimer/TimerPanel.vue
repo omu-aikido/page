@@ -14,6 +14,7 @@ defineProps<{
   playbackMode: RandoriPlaybackMode;
   startDisabled: boolean;
   status: RandoriTimerStatus;
+  totalProgress: number;
   totalRounds: number;
 }>();
 

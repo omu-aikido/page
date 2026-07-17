@@ -105,9 +105,9 @@ function formatTotalDuration(seconds: number) {
           @change="$emit('setPlaybackMode', 'normal')"
         />
         <span>
-          <span class="block font-bold">通常</span>
+          <span class="block font-bold">画面を開いたまま使う</span>
           <span class="mt-1 block text-sm fg-muted">
-            画面を表示したまま使用します。
+            この画面を離れると停止します
           </span>
         </span>
       </label>
@@ -127,9 +127,9 @@ function formatTotalDuration(seconds: number) {
           @change="$emit('setPlaybackMode', 'background')"
         />
         <span>
-          <span class="block font-bold">バックグラウンド再生</span>
+          <span class="block font-bold">他のアプリを使いながら</span>
           <span class="mt-1 block text-sm fg-muted">
-            開始前に音声を準備します。
+            画面を離れても合図音を再生します。
           </span>
         </span>
       </label>

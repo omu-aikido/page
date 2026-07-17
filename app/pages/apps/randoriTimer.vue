@@ -22,6 +22,7 @@ const timer = useRandoriTimer();
       :playback-mode="timer.playbackMode.value"
       :start-disabled="timer.startDisabled.value"
       :status="timer.status.value"
+      :total-progress="timer.totalProgress.value"
       :total-rounds="timer.durations.value.length"
       @reset="timer.reset"
       @toggle="timer.toggle"
