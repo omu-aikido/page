@@ -98,7 +98,7 @@ export default defineEventHandler(async (event) => {
     getRequestURL(event).toString(),
     range,
   );
-  const cache = caches.default;
+  const cache = await caches.open("calendar-json-v1");
 
   let cached: Response | undefined;
   try {
