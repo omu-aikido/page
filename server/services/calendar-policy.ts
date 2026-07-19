@@ -12,23 +12,23 @@ const MAX_RANGE_MS = 62 * DAY_MS;
 const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 export const CALENDAR_CACHE_FRESH_SECONDS = 15 * 60;
-export const CALENDAR_CACHE_STALE_SECONDS = 24 * 60 * 60;
-export const CALENDAR_CACHE_TIMESTAMP_HEADER = "x-calendar-cache-created-at";
-export const CALENDAR_CACHE_STORAGE_CONTROL = `public, max-age=${CALENDAR_CACHE_STALE_SECONDS}`;
-export const CALENDAR_CLIENT_CACHE_CONTROL = [
+export const CALENDAR_CACHE_TOTAL_SECONDS = 24 * 60 * 60;
+const CALENDAR_CACHE_STALE_SECONDS =
+  CALENDAR_CACHE_TOTAL_SECONDS - CALENDAR_CACHE_FRESH_SECONDS;
+
+export const CALENDAR_BROWSER_CACHE_CONTROL = "public, max-age=60";
+export const CALENDAR_EDGE_CACHE_CONTROL = [
   "public",
-  "max-age=60",
-  `s-maxage=${CALENDAR_CACHE_FRESH_SECONDS}`,
-  `stale-while-revalidate=${CALENDAR_CACHE_STALE_SECONDS - CALENDAR_CACHE_FRESH_SECONDS}`,
+  `max-age=${CALENDAR_CACHE_FRESH_SECONDS}`,
+  `stale-while-revalidate=${CALENDAR_CACHE_STALE_SECONDS}`,
   `stale-if-error=${CALENDAR_CACHE_STALE_SECONDS}`,
 ].join(", ");
+export const CALENDAR_CACHE_TAG = "calendar";
 
 export type CalendarRange = {
   start: string;
   end: string;
 };
-
-export type CalendarCacheState = "fresh" | "stale" | "expired";
 
 function invalidCalendarRange(): never {
   throw createError({
@@ -37,8 +37,8 @@ function invalidCalendarRange(): never {
   });
 }
 
-function parseDateQuery(value: unknown, endOfDay = false): Date {
-  if (typeof value !== "string" || !ISO_DATE_PATTERN.test(value)) {
+function parseDateQuery(value: string, endOfDay = false): Date {
+  if (!ISO_DATE_PATTERN.test(value)) {
     invalidCalendarRange();
   }
 
@@ -60,12 +60,25 @@ export function getAllowedCalendarWindow(now = new Date()) {
   return { start, end };
 }
 
-export function parseCalendarRangeQuery(
-  query: Record<string, unknown>,
+export function parseCalendarRequestUrl(
+  requestUrl: string | URL,
   now = new Date(),
 ): CalendarRange {
-  const start = parseDateQuery(query.start);
-  const end = parseDateQuery(query.end, true);
+  const url = new URL(requestUrl);
+  const entries = [...url.searchParams.entries()];
+
+  if (
+    entries.length !== 2 ||
+    entries[0]?.[0] !== "start" ||
+    entries[1]?.[0] !== "end"
+  ) {
+    invalidCalendarRange();
+  }
+
+  const startValue = entries[0][1];
+  const endValue = entries[1][1];
+  const start = parseDateQuery(startValue);
+  const end = parseDateQuery(endValue, true);
 
   if (end < start || end.getTime() - start.getTime() > MAX_RANGE_MS) {
     invalidCalendarRange();
@@ -76,33 +89,5 @@ export function parseCalendarRangeQuery(
     invalidCalendarRange();
   }
 
-  return {
-    start: query.start as string,
-    end: query.end as string,
-  };
-}
-
-export function createCalendarCacheKey(
-  requestUrl: string,
-  range: CalendarRange,
-): Request {
-  const url = new URL(requestUrl);
-  url.pathname = "/__calendar";
-  url.search = "";
-  url.searchParams.set("start", range.start);
-  url.searchParams.set("end", range.end);
-  return new Request(url.toString(), { method: "GET" });
-}
-
-export function getCalendarCacheState(
-  createdAt: string | null,
-  now = Date.now(),
-): CalendarCacheState {
-  const timestamp = Number(createdAt);
-  if (!Number.isFinite(timestamp)) return "expired";
-
-  const age = Math.max(0, now - timestamp);
-  if (age < CALENDAR_CACHE_FRESH_SECONDS * 1000) return "fresh";
-  if (age < CALENDAR_CACHE_STALE_SECONDS * 1000) return "stale";
-  return "expired";
+  return { start: startValue, end: endValue };
 }
