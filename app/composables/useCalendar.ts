@@ -117,9 +117,27 @@ export function getJstDaysInMonth(year: number, month: number): number {
   return new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
 }
 
-export function getCurrentJstYearMonth() {
-  const { year, month } = getJstDateParts(new Date());
+export function getCurrentJstYearMonth(date = new Date()) {
+  const { year, month } = getJstDateParts(date);
   return { year, month };
+}
+
+export function clampCalendarMonth(
+  year: number,
+  month: number,
+  now = new Date(),
+) {
+  const current = getCurrentJstYearMonth(now);
+  const currentIndex = current.year * 12 + current.month;
+  const requestedIndex = year * 12 + month;
+  const normalizedIndex = Number.isSafeInteger(requestedIndex)
+    ? Math.min(currentIndex + 1, Math.max(currentIndex, requestedIndex))
+    : currentIndex;
+
+  return {
+    year: Math.floor(normalizedIndex / 12),
+    month: normalizedIndex % 12,
+  };
 }
 
 export function getJstDateNumber(date: Date): number {
