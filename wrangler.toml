@@ -1,5 +1,5 @@
 name = "page"
-compatibility_date = "2026-06-18"
+compatibility_date = "2026-07-19"
 compatibility_flags = ["global_fetch_strictly_public", "nodejs_compat"]
 
 main = ".output/server/index.mjs"
@@ -10,6 +10,9 @@ custom_domain = true
 
 [placement]
 mode = "smart"
+
+[cache]
+enabled = true
 
 [assets]
 directory = ".output/public"
