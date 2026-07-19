@@ -4,23 +4,25 @@ definePageMeta({
   description: "月ごとの稽古予定",
   key: (route) => route.fullPath,
 });
+
 const route = useRoute();
-const current = getCurrentJstYearMonth();
+const now = new Date();
+const current = getCurrentJstYearMonth(now);
 const requestedYear = Number.parseInt(
   String(route.query.year ?? current.year),
   10,
 );
 const requestedMonth =
   Number.parseInt(String(route.query.month ?? current.month + 1), 10) - 1;
-const normalized = new Date(requestedYear, requestedMonth, 1);
-const year = normalized.getFullYear();
-const month = normalized.getMonth();
+const { year, month } = clampCalendarMonth(requestedYear, requestedMonth, now);
+const selectedIndex = year * 12 + month;
+const currentIndex = current.year * 12 + current.month;
 const href = (date: Date) =>
   `/calendar/monthly?year=${date.getFullYear()}&month=${date.getMonth() + 1}`;
 const prev = new Date(year, month - 1, 1);
 const next = new Date(year, month + 1, 1);
-const canPrev = year > current.year || month > current.month;
-const canNext = year < current.year || month < current.month + 1;
+const canPrev = selectedIndex > currentIndex;
+const canNext = selectedIndex < currentIndex + 1;
 </script>
 
 <template>
