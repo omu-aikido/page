@@ -12,6 +12,8 @@ const staticRoutes = [
   "/sitemap-index.xml",
 ];
 
+const csrRoutes = ["/calendar", "/calendar/monthly", "/apps/lotAikido"];
+
 const securityHeaders = {
   "Content-Security-Policy": [
     "default-src 'self'",
@@ -35,7 +37,7 @@ const securityHeaders = {
 };
 
 export default defineNuxtConfig({
-  compatibilityDate: "2026-07-17",
+  compatibilityDate: "2026-07-19",
   devtools: { enabled: false },
   modules: ["@unocss/nuxt", "@nuxtjs/sitemap"],
   css: ["~/assets/global.css"],
@@ -87,30 +89,21 @@ export default defineNuxtConfig({
     ...Object.fromEntries(
       staticRoutes.map((route) => [route, { prerender: true }]),
     ),
-    "/calendar": {
-      ssr: true,
-      prerender: false,
-      headers: { "Cache-Control": "no-store" },
-    },
-    "/calendar/monthly": {
-      ssr: true,
-      prerender: false,
-      headers: { "Cache-Control": "no-store" },
-    },
-    "/apps/lotAikido": { ssr: false, prerender: true },
+    ...Object.fromEntries(
+      csrRoutes.map((route) => [route, { ssr: false, prerender: true }]),
+    ),
     "/api/**": {
       cors: false,
       headers: { "Cache-Control": "no-store" },
     },
-    "/__calendar": { headers: { "Cache-Control": "no-store" } },
     "/**": { headers: securityHeaders },
   },
   nitro: {
     preset: "cloudflare_module",
     prerender: {
       crawlLinks: true,
-      routes: staticRoutes,
-      ignore: ["/calendar", "/calendar/monthly", "/__calendar"],
+      routes: [...staticRoutes, ...csrRoutes],
+      ignore: ["/__calendar"],
       failOnError: true,
     },
   },
