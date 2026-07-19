@@ -11,19 +11,19 @@ import {
   getJstDaysInMonth,
 } from "../app/composables/useCalendar";
 import {
+  CALENDAR_BROWSER_CACHE_CONTROL,
   CALENDAR_CACHE_FRESH_SECONDS,
-  CALENDAR_CACHE_STALE_SECONDS,
-  createCalendarCacheKey,
-  getCalendarCacheState,
-  parseCalendarRangeQuery,
+  CALENDAR_CACHE_TOTAL_SECONDS,
+  CALENDAR_EDGE_CACHE_CONTROL,
+  parseCalendarRequestUrl,
 } from "../server/services/calendar-policy";
 import { parseCalendarEvents } from "../server/services/calendar";
 
 const JULY_2026 = new Date("2026-07-19T12:00:00+09:00");
 
-function expectInvalidCalendarRange(query: Record<string, unknown>) {
+function expectInvalidCalendarRequest(url: string) {
   try {
-    parseCalendarRangeQuery(query, JULY_2026);
+    parseCalendarRequestUrl(url, JULY_2026);
     throw new Error("expected calendar range validation to fail");
   } catch (error) {
     expect((error as { statusCode?: number }).statusCode).toBe(400);
@@ -58,52 +58,48 @@ describe("calendar JST helpers", () => {
 });
 
 describe("calendar request policy", () => {
-  it("当月から翌月までの正規化された範囲を許可する", () => {
+  it("当月から翌月までの正規URLを許可する", () => {
     expect(
-      parseCalendarRangeQuery(
-        { start: "2026-07-01", end: "2026-08-31" },
+      parseCalendarRequestUrl(
+        "https://omu-aikido.com/__calendar?start=2026-07-01&end=2026-08-31",
         JULY_2026,
       ),
     ).toEqual({ start: "2026-07-01", end: "2026-08-31" });
   });
 
   it("無効日付、過去月、遠未来を拒否する", () => {
-    expectInvalidCalendarRange({ start: "2026-02-31", end: "2026-03-01" });
-    expectInvalidCalendarRange({ start: "2026-06-01", end: "2026-06-30" });
-    expectInvalidCalendarRange({ start: "9999-01-01", end: "9999-01-31" });
-  });
-
-  it("キャッシュキーから未使用のクエリを除外する", () => {
-    const key = createCalendarCacheKey(
-      "https://omu-aikido.com/__calendar?start=bad&extra=cache-buster",
-      { start: "2026-07-19", end: "2026-08-09" },
+    expectInvalidCalendarRequest(
+      "https://omu-aikido.com/__calendar?start=2026-02-31&end=2026-03-01",
     );
-    expect(key.url).toBe(
-      "https://omu-aikido.com/__calendar?start=2026-07-19&end=2026-08-09",
+    expectInvalidCalendarRequest(
+      "https://omu-aikido.com/__calendar?start=2026-06-01&end=2026-06-30",
+    );
+    expectInvalidCalendarRequest(
+      "https://omu-aikido.com/__calendar?start=9999-01-01&end=9999-01-31",
     );
   });
 
-  it("15分までは fresh、その後24時間までは stale と判定する", () => {
-    const now = Date.now();
-    expect(
-      getCalendarCacheState(
-        String(now - CALENDAR_CACHE_FRESH_SECONDS * 1000 + 1),
-        now,
-      ),
-    ).toBe("fresh");
-    expect(
-      getCalendarCacheState(
-        String(now - CALENDAR_CACHE_FRESH_SECONDS * 1000),
-        now,
-      ),
-    ).toBe("stale");
-    expect(
-      getCalendarCacheState(
-        String(now - CALENDAR_CACHE_STALE_SECONDS * 1000),
-        now,
-      ),
-    ).toBe("expired");
-    expect(getCalendarCacheState("invalid", now)).toBe("expired");
+  it("キャッシュを分断する非正規クエリを拒否する", () => {
+    expectInvalidCalendarRequest(
+      "https://omu-aikido.com/__calendar?start=2026-07-01&end=2026-07-31&extra=1",
+    );
+    expectInvalidCalendarRequest(
+      "https://omu-aikido.com/__calendar?end=2026-07-31&start=2026-07-01",
+    );
+    expectInvalidCalendarRequest(
+      "https://omu-aikido.com/__calendar?start=2026-07-01&start=2026-07-02&end=2026-07-31",
+    );
+  });
+
+  it("ブラウザとWorkers CacheのTTLを分離する", () => {
+    const staleSeconds =
+      CALENDAR_CACHE_TOTAL_SECONDS - CALENDAR_CACHE_FRESH_SECONDS;
+
+    expect(CALENDAR_BROWSER_CACHE_CONTROL).toBe("public, max-age=60");
+    expect(CALENDAR_EDGE_CACHE_CONTROL).toBe(
+      `public, max-age=${CALENDAR_CACHE_FRESH_SECONDS}, stale-while-revalidate=${staleSeconds}, stale-if-error=${staleSeconds}`,
+    );
+    expect(CALENDAR_EDGE_CACHE_CONTROL).not.toContain("s-maxage");
   });
 });
 
