@@ -21,6 +21,13 @@ const apps = computed(() =>
 <template>
   <section class="mx-auto max-w-3xl py-8">
     <h1 class="h1">アプリ</h1>
+    <p class="mt-2 fg-muted">
+      稽古に役立つかもしれないツールを公開しています。
+      予告なく提供を取りやめる場合があります。
+      <br />
+      ご利用の際は<a class="link" href="/terms-of-service">利用規約</a
+      >をご一読下さい
+    </p>
     <nav class="mt-6 grid gap-3 md:grid-cols-2" aria-label="アプリ一覧">
       <NuxtLink
         v-for="app in apps"
