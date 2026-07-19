@@ -18,7 +18,7 @@ html_handling = "drop-trailing-slash"
 
 [observability.logs]
 enabled = true
-invocation_logs = true
+invocation_logs = false
 
 [observability.traces]
 enabled = true
