@@ -32,6 +32,21 @@ jobs:
           path: formatter.patch
       - run: vp lint
       - run: vp run generate-types
-      - run: vp run typecheck
+      - name: Capture typecheck output
+        run: |
+          set +e
+          vp run typecheck > typecheck.log 2>&1
+          echo $? > typecheck.exit
+      - name: Upload typecheck output
+        uses: actions/upload-artifact@v4
+        with:
+          name: typecheck-output
+          path: |
+            typecheck.log
+            typecheck.exit
+      - name: Verify typecheck
+        run: |
+          cat typecheck.log
+          test "$(cat typecheck.exit)" = "0"
       - run: vp run build
       - run: vp test
