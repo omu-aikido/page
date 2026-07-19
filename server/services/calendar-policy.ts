@@ -66,17 +66,21 @@ export function parseCalendarRequestUrl(
 ): CalendarRange {
   const url = new URL(requestUrl);
   const entries = [...url.searchParams.entries()];
+  const startEntry = entries[0];
+  const endEntry = entries[1];
 
   if (
     entries.length !== 2 ||
-    entries[0]?.[0] !== "start" ||
-    entries[1]?.[0] !== "end"
+    !startEntry ||
+    !endEntry ||
+    startEntry[0] !== "start" ||
+    endEntry[0] !== "end"
   ) {
     invalidCalendarRange();
   }
 
-  const startValue = entries[0][1];
-  const endValue = entries[1][1];
+  const startValue = startEntry[1];
+  const endValue = endEntry[1];
   const start = parseDateQuery(startValue);
   const end = parseDateQuery(endValue, true);
 
