@@ -1,6 +1,6 @@
 # 大阪公立大学合氣道部 website
 
-Nuxt 4 / Nitro で構築し、Cloudflare Workers に `cloudflare_module` preset で配置するウェブサイトです。公開情報と問い合わせページは PreRender、カレンダーは request-time SSR、`/api/contact` は Hono が処理します。
+Nuxt 4 / Nitro で構築し、Cloudflare Workers に `cloudflare_module` preset で配置するウェブサイトです。公開情報と問い合わせページは PreRender、カレンダー画面は CSR + PreRender、`/__calendar` は Workers Cache、`/api/contact` は Hono が処理します。
 
 ## Commands
 
@@ -25,6 +25,7 @@ vp exec wrangler deploy --dry-run
 - `app/`: Vue pages、layout、components
 - `content/pages/`: 公開 Markdown の source of truth
 - `server/api/`: Hono 問い合わせ API
+- `server/routes/`: カレンダーJSONなどのNitro routes
 - `server/services/`: カレンダー、問い合わせ配送処理
 - `shared/schemas/`: client/server 共有 ArkType validator
 - `scripts/generate-site-content.ts`: Markdown HTML と llms ファイルの build-time 生成
