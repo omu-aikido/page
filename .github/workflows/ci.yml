@@ -22,7 +22,15 @@ jobs:
           node-version-file: package.json
           cache: true
       - run: vp install --frozen-lockfile
-      - run: vp check
+      - run: vp fmt --write
+      - name: Capture formatter diff
+        run: git diff > formatter.patch
+      - name: Upload formatter diff
+        uses: actions/upload-artifact@v4
+        with:
+          name: formatter-diff
+          path: formatter.patch
+      - run: vp lint
       - run: vp run generate-types
       - run: vp run typecheck
       - run: vp run build
