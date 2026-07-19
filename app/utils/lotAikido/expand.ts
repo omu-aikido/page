@@ -1,8 +1,40 @@
-import { 体勢, type WazaType, type 級段位別, type 技組み合わせ } from "./types";
+import {
+  体勢,
+  type WazaType,
+  type 技指定,
+  type 級段位別,
+  type 技組み合わせ,
+  type 技名,
+} from "./types";
 
 type WazaTuple = Omit<WazaType, "id">;
+type 展開済み組み合わせ = Exclude<技組み合わせ, { 基本動作: string }> & {
+  技: 技名;
+};
 
-function toTuple(級段位: number, 組み合わせ: 技組み合わせ): WazaTuple {
+function expandTechniques(技: 技指定): 技名[] {
+  if (typeof 技 === "string") return [技];
+
+  return Object.values(技).flatMap((value) =>
+    expandTechniques(value as 技指定),
+  );
+}
+
+function expandCombination(
+  組み合わせ: 技組み合わせ,
+): (展開済み組み合わせ | Extract<技組み合わせ, { 基本動作: string }>)[] {
+  if ("基本動作" in 組み合わせ) return [組み合わせ];
+
+  return expandTechniques(組み合わせ.技).map((技) => ({
+    ...組み合わせ,
+    技,
+  }));
+}
+
+function toTuple(
+  級段位: number,
+  組み合わせ: 展開済み組み合わせ | Extract<技組み合わせ, { 基本動作: string }>,
+): WazaTuple {
   if ("基本動作" in 組み合わせ) {
     return {
       waza_in: "",
@@ -22,21 +54,43 @@ function toTuple(級段位: number, 組み合わせ: 技組み合わせ): WazaTu
 
 export function expandWazaRules(級段位別: readonly 級段位別[]): WazaType[] {
   const unique = new Map<string, WazaTuple>();
+  const definedRanks = new Set<number>();
 
   for (const { 級段位, 技一覧: 一覧 } of 級段位別) {
+    if (definedRanks.has(級段位)) {
+      throw new Error(`級段位 ${級段位} が複数定義されています`);
+    }
+    definedRanks.add(級段位);
+
+    const keysInRank = new Set<string>();
+
     for (const rule of 一覧) {
       const 組み合わせ =
-        rule.組み合わせ ??
-        rule.攻め.flatMap((攻め) =>
+        rule.組み合わせ?.flatMap(expandCombination) ??
+        rule.攻め!.flatMap((攻め) =>
           (rule.体勢 ?? [体勢.立ち技]).flatMap((指定体勢) =>
-            rule.技.map((技) => ({ 攻め, 体勢: 指定体勢, 技 })),
+            rule.技!.flatMap((技) =>
+              expandTechniques(技).map((展開技) => ({
+                攻め,
+                体勢: 指定体勢,
+                技: 展開技,
+              })),
+            ),
           ),
         );
 
       for (const item of 組み合わせ) {
         const tuple = toTuple(級段位, item);
         const key = `${tuple.waza_in}\u0000${tuple.waza_out}`;
-        if (!unique.has(key)) unique.set(key, tuple);
+        if (keysInRank.has(key)) {
+          throw new Error(
+            `級段位 ${級段位} 内で重複しています: ${tuple.waza_in} ${tuple.waza_out}`,
+          );
+        }
+        keysInRank.add(key);
+
+        const existing = unique.get(key);
+        if (!existing || tuple.rank > existing.rank) unique.set(key, tuple);
       }
     }
   }

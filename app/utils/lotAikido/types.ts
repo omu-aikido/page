@@ -34,7 +34,7 @@ export const 体勢 = {
 } as const;
 
 export const 技 = {
-  四方: { 表: "四方投げ（表）", 裏: "四方投げ（裏）" },
+  四方: "四方投げ",
   小手: "小手返し",
   入り身: "入り身投げ",
   回転: { 内: "内回転投げ", 外: "外回転投げ" },
@@ -44,38 +44,40 @@ export const 技 = {
     二: { 表: "二教（表）", 裏: "二教（裏）" },
     三: { 表: "三教（表）", 裏: "三教（裏）" },
     四: { 表: "四教（表）", 裏: "四教（裏）" },
-    五: { 表: "五教（表）", 裏: "五教（裏）" },
   },
+  五教: { 表: "五教（表）", 裏: "五教（裏）" },
   側方入り身: "側方入り身投げ",
   天秤: "天秤投げ",
   十字: "十字投げ",
   天地: "天地投げ",
   腰投げ: "腰投げ",
   腕絡み: "腕絡み",
+  隅: "隅落とし",
 } as const;
 
 type ValueOf<T> = T[keyof T];
 
+type 末端値<T> = T extends string
+  ? T
+  : T extends Record<string, unknown>
+    ? 末端値<ValueOf<T>>
+    : never;
+
+type 技の束<T> = T extends string
+  ? never
+  : T extends Record<string, unknown>
+    ? T | 技の束<ValueOf<T>>
+    : never;
+
 export type 攻め方 = ValueOf<typeof 攻め>;
 export type 体勢名 = ValueOf<typeof 体勢>;
-export type 技名 = {
-  [K in keyof typeof 技]: (typeof 技)[K] extends string
-    ? (typeof 技)[K]
-    : (typeof 技)[K] extends Record<string, infer V>
-      ? V extends string
-        ? V
-        : V extends Record<string, infer W>
-          ? W extends string
-            ? W
-            : never
-          : never
-      : never;
-}[keyof typeof 技];
+export type 技名 = 末端値<typeof 技>;
+export type 技指定 = 技名 | 技の束<typeof 技>;
 
 export type 技組み合わせ =
   | {
       攻め: 攻め方;
-      技: 技名;
+      技: 技指定;
       体勢?: 体勢名;
     }
   | {
@@ -84,7 +86,7 @@ export type 技組み合わせ =
 
 export type 直積合成 = {
   攻め: readonly 攻め方[];
-  技: readonly 技名[];
+  技: readonly 技指定[];
   体勢?: readonly 体勢名[];
   組み合わせ?: never;
 };
