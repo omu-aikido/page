@@ -73,9 +73,11 @@ function scheduleRefresh(
   context: Record<string, unknown>,
   refresh: Promise<Response>,
 ): void {
-  const task = refresh.then(() => undefined).catch((error) => {
-    console.error("Failed to refresh stale calendar response", error);
-  });
+  const task = refresh
+    .then(() => undefined)
+    .catch((error) => {
+      console.error("Failed to refresh stale calendar response", error);
+    });
 
   try {
     const executionContext = getCloudflareRuntime(context).context;
