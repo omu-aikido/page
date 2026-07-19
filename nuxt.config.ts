@@ -37,7 +37,7 @@ const securityHeaders = {
 };
 
 export default defineNuxtConfig({
-  compatibilityDate: "2026-07-17",
+  compatibilityDate: "2026-07-19",
   devtools: { enabled: false },
   modules: ["@unocss/nuxt", "@nuxtjs/sitemap"],
   css: ["~/assets/global.css"],
