@@ -42,6 +42,29 @@ describe("lotAikido rule expansion", () => {
     ).toEqual([{ id: 1, waza_in: "突き", waza_out: "小手返し", rank: 5 }]);
   });
 
+  it("直積から除外条件に一致する組み合わせを除く", () => {
+    expect(
+      expandWazaRules([
+        {
+          級段位: 5,
+          技一覧: [
+            {
+              攻め: [攻め.諸手, 攻め.両手],
+              体勢: [体勢.座技],
+              技: [技.回転, 技.小手],
+              除外: [{ 攻め: 攻め.諸手, 技: 技.回転 }],
+            },
+          ],
+        },
+      ]),
+    ).toEqual([
+      { id: 1, waza_in: "座技諸手取り", waza_out: "小手返し", rank: 5 },
+      { id: 2, waza_in: "座技両手取り", waza_out: "内回転投げ", rank: 5 },
+      { id: 3, waza_in: "座技両手取り", waza_out: "外回転投げ", rank: 5 },
+      { id: 4, waza_in: "座技両手取り", waza_out: "小手返し", rank: 5 },
+    ]);
+  });
+
   it("列挙でも技の束を展開する", () => {
     expect(
       expandWazaRules([

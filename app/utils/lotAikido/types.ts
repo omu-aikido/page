@@ -84,10 +84,17 @@ export type 技組み合わせ =
       基本動作: "座技呼吸法" | "体の転換";
     };
 
+export type 除外条件 = {
+  攻め?: 攻め方;
+  技?: 技指定;
+  体勢?: 体勢名;
+};
+
 export type 直積合成 = {
   攻め: readonly 攻め方[];
   技: readonly 技指定[];
   体勢?: readonly 体勢名[];
+  除外?: readonly 除外条件[];
   組み合わせ?: never;
 };
 
