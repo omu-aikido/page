@@ -12,24 +12,24 @@
     "generate-content": "bun scripts/generate-site-content.ts"
   },
   "dependencies": {
-    "@nuxtjs/sitemap": "^8.2.2",
+    "@nuxtjs/sitemap": "^8.3.0",
     "@unocss/nuxt": "^66.7.5",
-    "@unocss/preset-attributify": "^66.7.4",
+    "@unocss/preset-attributify": "^66.7.5",
     "arktype": "^2.2.3",
-    "hono": "^4.12.30",
-    "marked": "^18.0.5",
-    "nuxt": "^4.0.0",
+    "hono": "^4.12.31",
+    "marked": "^18.0.7",
+    "nuxt": "^4.5.0",
     "ts-ics": "^2.4.6",
-    "unocss": "^66.7.4",
-    "vue": "^3.5.39",
-    "wrangler": "^4.107.0"
+    "unocss": "^66.7.5",
+    "vue": "^3.5.40",
+    "wrangler": "^4.114.0"
   },
   "devDependencies": {
     "@iconify-json/ri": "^1.2.10",
-    "@types/node": "^26.1.0",
+    "@types/node": "^26.1.1",
     "typescript": "5.9.3",
     "vite-plus": "0.2.2",
-    "vue-tsc": "^3.3.7"
+    "vue-tsc": "^3.3.8"
   },
   "devEngines": {
     "packageManager": {

@@ -2,9 +2,11 @@ import {
   体勢,
   type WazaType,
   type 技指定,
+  type 除外条件,
   type 級段位別,
   type 技組み合わせ,
   type 技名,
+  type 直積合成,
 } from "./types";
 
 type WazaTuple = Omit<WazaType, "id">;
@@ -20,6 +22,17 @@ function expandTechniques(技: 技指定): 技名[] {
   );
 }
 
+function matchesExclusion(
+  組み合わせ: 展開済み組み合わせ,
+  除外: 除外条件,
+): boolean {
+  return (
+    (除外.攻め === undefined || 除外.攻め === 組み合わせ.攻め) &&
+    (除外.体勢 === undefined || 除外.体勢 === 組み合わせ.体勢) &&
+    (除外.技 === undefined || expandTechniques(除外.技).includes(組み合わせ.技))
+  );
+}
+
 function expandCombination(
   組み合わせ: 技組み合わせ,
 ): (展開済み組み合わせ | Extract<技組み合わせ, { 基本動作: string }>)[] {
@@ -29,6 +42,25 @@ function expandCombination(
     ...組み合わせ,
     技,
   }));
+}
+
+function expandCartesian(rule: 直積合成): 展開済み組み合わせ[] {
+  return rule.攻め.flatMap((攻め) =>
+    (rule.体勢 ?? [体勢.立ち技]).flatMap((指定体勢) =>
+      rule.技.flatMap((技) =>
+        expandTechniques(技)
+          .map((展開技) => ({
+            攻め,
+            体勢: 指定体勢,
+            技: 展開技,
+          }))
+          .filter(
+            (組み合わせ) =>
+              !rule.除外?.some((除外) => matchesExclusion(組み合わせ, 除外)),
+          ),
+      ),
+    ),
+  );
 }
 
 function toTuple(
@@ -66,18 +98,9 @@ export function expandWazaRules(級段位別: readonly 級段位別[]): WazaType
 
     for (const rule of 一覧) {
       const 組み合わせ =
-        rule.組み合わせ?.flatMap(expandCombination) ??
-        rule.攻め!.flatMap((攻め) =>
-          (rule.体勢 ?? [体勢.立ち技]).flatMap((指定体勢) =>
-            rule.技!.flatMap((技) =>
-              expandTechniques(技).map((展開技) => ({
-                攻め,
-                体勢: 指定体勢,
-                技: 展開技,
-              })),
-            ),
-          ),
-        );
+        rule.攻め !== undefined
+          ? expandCartesian(rule)
+          : rule.組み合わせ.flatMap(expandCombination);
 
       for (const item of 組み合わせ) {
         const tuple = toTuple(級段位, item);
