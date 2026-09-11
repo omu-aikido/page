@@ -4,13 +4,14 @@ import {
   getEventEnd,
 } from "ts-ics";
 import type { IcsEvent, IcsDateObject } from "ts-ics";
+import type { CalendarEvent } from "../../shared/utils/calendar";
 import {
   createJstDate,
   getCurrentJstYearMonth,
   formatJstDateTime,
   formatLocalDate,
   parseLocalDate,
-} from "../../app/composables/useCalendar";
+} from "../../shared/utils/calendar";
 
 /**
  * Configuration
@@ -69,15 +70,7 @@ function getWindow(monthsBefore = 2, monthsAfter = 3) {
   return { start, end };
 }
 
-export type CalendarEvent = {
-  id: string;
-  start: string; // ISO 8601 for timed events, yyyy-mm-dd for all-day
-  end: string; // ISO 8601 for timed events, yyyy-mm-dd for all-day
-  title: string;
-  isAllDay: boolean;
-  location?: string;
-  description?: string;
-};
+export type { CalendarEvent };
 
 type ExpandedIcsEvent = Omit<IcsEvent, "duration" | "end"> & {
   end: IcsDateObject;

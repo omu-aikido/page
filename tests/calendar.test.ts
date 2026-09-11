@@ -9,7 +9,7 @@ import {
   formatMonthlyEventTime,
   formatLocalDate,
   getJstDaysInMonth,
-} from "../app/composables/useCalendar";
+} from "../shared/utils/calendar";
 import {
   CALENDAR_BROWSER_CACHE_CONTROL,
   CALENDAR_CACHE_FRESH_SECONDS,
