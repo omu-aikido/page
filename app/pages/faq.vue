@@ -6,72 +6,82 @@ definePageMeta({
 });
 const groups = [
   {
-    group: "活動",
-    items: [
-      [
-        "週１参加でも良いですか？",
-        [
+    title: "活動",
+    faqs: [
+      {
+        question: "週１参加でも良いですか？",
+        answers: [
           "大丈夫です。",
           "キャンパス間移動は負担になりますので、可能な範囲の参加でOKです！",
         ],
-      ],
-      [
-        "ピアスって大丈夫ですか？",
-        [
+      },
+      {
+        question: "ピアスって大丈夫ですか？",
+        answers: [
           "外れたら危険なため、活動時は外してください。ネイルも危ないのでなしでお願いしています。髪染めは全然オッケーです。",
         ],
-      ],
-      [
-        "先輩後輩の上下関係は厳しいですか？",
-        [
+      },
+      {
+        question: "先輩後輩の上下関係は厳しいですか？",
+        answers: [
           "厳しくはないと思います。学年関係なく仲良くしています。",
           "武道ですので、最低限の礼儀は身につけて欲しくはあります。",
         ],
-      ],
-      [
-        "他の合気道部との違いってなんですか？",
-        [
+      },
+      {
+        question: "他の合気道部との違いってなんですか？",
+        answers: [
           "女子合気道部さんは大阪女子大学からの歴史を持つ団体で、同じ合気会の会派です。",
           "体育会合気道部さんは競技合気道という別の流派を稽古されています。",
         ],
-      ],
+      },
+      {
+        question: "夏休みなど長期休暇の活動はどのような感じですか？",
+        answers: [
+          "夏休みなど長期休暇の活動は、通常の稽古と同じです。",
+          "それにプラスして合宿などがあります。",
+        ],
+      },
     ],
   },
   {
-    group: "新歓",
-    items: [
-      [
-        "今日体験行っていいですか？",
-        ["いつでもお越しください！ 稽古予定をご確認ください。"],
-      ],
-      ["新歓はいつまでですか？", ["見学・体験・入部に期限はありません。"]],
-      [
-        "入部したい場合はどうすればいいですか？",
-        [
+    title: "新歓",
+    faqs: [
+      {
+        question: "今日体験行っていいですか？",
+        answers: ["いつでもお越しください！ 稽古予定をご確認ください。"],
+      },
+      {
+        question: "新歓はいつまでですか？",
+        answers: ["見学・体験・入部に期限はありません。"],
+      },
+      {
+        question: "入部したい場合はどうすればいいですか？",
+        answers: [
           "先輩に直接、またはLINEなどで入部したいと伝えていただければ案内します。",
         ],
-      ],
+      },
     ],
   },
   {
-    group: "稽古",
-    items: [
-      [
-        "師範などはいますか？",
-        [
+    title: "稽古",
+    faqs: [
+      {
+        question: "師範などはいますか？",
+        answers: [
           "天之武産合氣塾道場に属し、道場へ教わりに行ったり、師範に大学へ来ていただいたりしています。",
         ],
-      ],
-      [
-        "初心者でもついていけますか？",
-        ["はい。ほとんどの部員は大学から合気道を始めています。"],
-      ],
-      [
-        "合気道って強くなれますか？",
-        [
+      },
+      {
+        question: "初心者でもついていけますか？",
+        answers: ["はい。ほとんどの部員は大学から合気道を始めています。"],
+      },
+      {
+        question: "合気道って強くなれますか？",
+        answers: [
           "何を強さとするか次第ですが、殴り合いを避けられる落ち着きも立派な強さです。",
         ],
-      ],
+      },
     ],
   },
 ];
@@ -80,24 +90,24 @@ const groups = [
 <template>
   <h1 class="h1" id="faq">よくある質問</h1>
   <article class="my-4" aria-labelledby="faq">
-    <section v-for="group in groups" :key="group.group">
-      <h2 class="h2 mb-2 mt-6">{{ group.group }}</h2>
+    <section v-for="group in groups" :key="group.title">
+      <h2 class="h2 mb-2 mt-6">{{ group.title }}</h2>
       <ul class="grid grid-cols-1 gap-4 p-0 md:grid-cols-2">
         <li
-          v-for="item in group.items"
-          :key="item[0] as string"
+          v-for="faq in group.faqs"
+          :key="faq.question"
           class="card list-none bg-opacity-60"
         >
           <h3 class="h4 inline-flex items-center gap-2">
             <span class="i-ri:questionnaire-line" aria-hidden="true" />{{
-              item[0]
+              faq.question
             }}
           </h3>
           <hr class="my-2 opacity-50 fg-accent" />
           <p
-            v-for="answer in item[1]"
+            v-for="answer in faq.answers"
             :key="answer"
-            class="m-0 indent-1em text-sm fg-muted"
+            class="m-0 indent-1em text-sm fg-base"
           >
             {{ answer }}
           </p>
