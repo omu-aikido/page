@@ -2,7 +2,8 @@
 const images = [
   { src: "/images/hero/a899c25a.jpg", alt: "2025年度集合写真" },
   { src: "/images/hero/a61baa65.jpg", alt: "2026年度の新歓の様子です" },
-  { src: "/images/hero/a2007d4a.jpg", alt: "普段の稽古の様子" },
+  { src: "/images/hero/a2007d4a.jpg", alt: "普段の稽古の様子1" },
+  { src: "/images/hero/bea041cf.png", alt: "普段の稽古の様子2" },
 ];
 const current = ref(0);
 let timer: ReturnType<typeof setInterval> | undefined;
