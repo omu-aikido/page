@@ -5,7 +5,7 @@ import {
   formatLocalDate,
   getCurrentJstYearMonth,
   parseLocalDate,
-} from "../../app/composables/useCalendar";
+} from "../../shared/utils/calendar";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const MAX_RANGE_MS = 62 * DAY_MS;
