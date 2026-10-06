@@ -1,4 +1,4 @@
-import { dependencyLicenseListPlugin } from "./vite/plugins/license-list";
+import { bundledLicenseListPlugin } from "./vite/plugins/license-list";
 
 const staticRoutes = [
   "/",
@@ -117,7 +117,13 @@ export default defineNuxtConfig({
     viewTransition: true,
   },
   vite: {
-    plugins: [dependencyLicenseListPlugin()],
+    $client: {
+      build: { license: { fileName: ".license-report.json" } },
+    },
+    $server: {
+      build: { license: { fileName: ".license-report.json" } },
+    },
+    plugins: [bundledLicenseListPlugin()],
     optimizeDeps: {
       include: ["arktype"],
     },
