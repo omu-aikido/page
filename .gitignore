@@ -3,6 +3,7 @@
 .nuxt/
 app/generated/
 public/llms*.txt
+public/licenses.txt
 
 # dependencies
 node_modules/
